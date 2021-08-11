@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-
+import 'firebase/firestore';
 var firebaseConfig = {
   apiKey: 'AIzaSyCgaebHPnEizpmup_nOA29cV9WDKMWKHNM',
   authDomain: 'todo-test-7dc8f.firebaseapp.com',
