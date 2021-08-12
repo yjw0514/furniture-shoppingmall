@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-var firebaseConfig = {
+import 'firebase/auth';
+
+const firebaseConfig = {
   apiKey: 'AIzaSyCgaebHPnEizpmup_nOA29cV9WDKMWKHNM',
   authDomain: 'todo-test-7dc8f.firebaseapp.com',
   projectId: 'todo-test-7dc8f',
@@ -13,3 +15,4 @@ firebase.initializeApp(firebaseConfig);
 
 export const firebaseInstance = firebase;
 export const dbService = firebase.firestore();
+export const authService = firebase.auth();

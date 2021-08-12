@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useAuth } from '../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
 
+  const { currentUser } = useAuth();
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -57,7 +60,8 @@ export default function Header() {
             LOGO
           </Typography>
           <NavLink
-            to='/products'
+            to='/'
+            exact
             className={classes.navLink}
             activeStyle={{
               fontWeight: 'bold',
@@ -68,17 +72,29 @@ export default function Header() {
               모든제품
             </Button>
           </NavLink>
-          <NavLink
-            to='/'
-            exact
-            className={classes.navLink}
-            activeStyle={{
-              fontWeight: 'bold',
-              color: 'dodgerblue',
-            }}
-          >
-            <Button color='inherit'>로그인</Button>
-          </NavLink>
+          {currentUser ? (
+            <NavLink
+              to='/users/profile'
+              className={classes.navLink}
+              activeStyle={{
+                fontWeight: 'bold',
+                color: 'dodgerblue',
+              }}
+            >
+              <Button color='inherit'>마이페이지</Button>
+            </NavLink>
+          ) : (
+            <NavLink
+              to='/auth'
+              className={classes.navLink}
+              activeStyle={{
+                fontWeight: 'bold',
+                color: 'dodgerblue',
+              }}
+            >
+              <Button color='inherit'>로그인</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </div>
