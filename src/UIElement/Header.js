@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    marginTop: 10,
   },
 
   navLink: {
@@ -57,7 +58,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title}>
-            LOGO
+            <img src='https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg' />
           </Typography>
           <NavLink
             to='/'

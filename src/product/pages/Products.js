@@ -1,7 +1,59 @@
-import React from 'react';
-import { useAuth } from '../../context/auth-context';
+import React, { useEffect, useState } from 'react';
+import { dbService } from '../../firebase';
+
+import Container from '@material-ui/core/Container';
+import { Grid, makeStyles, Paper } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 340,
+    width: 300,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 
 export default function Products() {
-  const { currentUser } = useAuth();
-  return <h1>Products</h1>;
+  const [products, setProducts] = useState();
+
+  useEffect(() => {
+    let loadedProducts;
+    // dbService
+    //   .collection('products')
+    //   .get()
+    //   .then((data) => {
+    //     data.forEach((doc) => {
+    //       console.log(doc.data());
+    //     });
+    //   });
+    dbService.collection('products').onSnapshot((snapshot) => {
+      const loadedProducts = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+    });
+  }, []);
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <Container maxWidth='lg'>
+        <h1>Product</h1>
+        <Grid item xs={12}>
+          <Grid container justifyContent='center' spacing={8}>
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((value) => (
+              <Grid key={value} item>
+                <Paper className={classes.paper} />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Container>
+    </React.Fragment>
+  );
 }

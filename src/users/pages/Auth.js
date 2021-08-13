@@ -6,6 +6,7 @@ import { useAuth } from '../../context/auth-context';
 import { Card } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
+import { dbService } from '../../firebase';
 
 const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -16,6 +17,7 @@ const Auth = (props) => {
     email: '',
     password: '',
     passwordConfirm: '',
+    nickName: '',
   });
   const { signup, login } = useAuth();
 
@@ -41,9 +43,27 @@ const Auth = (props) => {
       try {
         setLoading(true);
         setError('');
-        await signup(inputs.email, inputs.password);
+        const result = await dbService.doc(`/users/${inputs.nickName}`).get();
+
+        if (result.exists) {
+          setLoading(false);
+          return setError('이미 사용중인 닉네임입니다');
+        }
+        const data = await signup(inputs.email, inputs.password);
+        console.log(data);
+        const userId = data.user.uid;
+        const newUser = {
+          userId,
+          email: inputs.email,
+          imageUrl: '',
+          nickName: inputs.nickName,
+        };
+        dbService.doc(`/users/${newUser.nickName}`).set(newUser);
+        setLoading(false);
+        history.push('/');
       } catch (error) {
-        setError('회원가입 실패 최소 6자리 입력해주세요');
+        const errorMsg = error.message;
+        setError(errorMsg);
       }
       setLoading(false);
     } else {
@@ -86,10 +106,21 @@ const Auth = (props) => {
           {!isLoginMode && (
             <div className='form__control'>
               <TextField
-                id='standard-basic'
                 type='password'
                 name='passwordConfirm'
                 label='Password Confirm'
+                size='medium'
+                fullWidth={true}
+                onChange={changeHandler}
+              />
+            </div>
+          )}
+          {!isLoginMode && (
+            <div className='form__control'>
+              <TextField
+                type='text'
+                name='nickName'
+                label='NickName'
                 size='medium'
                 fullWidth={true}
                 onChange={changeHandler}
