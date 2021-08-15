@@ -1,14 +1,14 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { useAuth } from '../context/auth-context';
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { useAuth } from "../context/auth-context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   navLink: {
-    color: 'black',
-    textDecoration: 'none',
+    color: "black",
+    textDecoration: "none",
     paddingTop: 3,
     marginRight: 30,
   },
   active: {
-    borderColor: 'black',
+    borderColor: "black",
   },
 }));
 
@@ -45,57 +45,68 @@ export default function Header() {
   return (
     <div className={classes.root}>
       <AppBar
-        position='static'
-        style={{ backgroundColor: 'rgb(248, 249, 250)', color: 'black' }}
+        position="static"
+        style={{ backgroundColor: "rgb(248, 249, 250)", color: "black" }}
       >
         <Toolbar className={classes.toolBar}>
           <IconButton
-            edge='start'
+            edge="start"
             className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
+            color="inherit"
+            aria-label="menu"
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' className={classes.title}>
-            <img src='https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg' />
+          <Typography variant="h6" className={classes.title}>
+            <img src="https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg" />
           </Typography>
           <NavLink
-            to='/'
+            to="/"
             exact
             className={classes.navLink}
             activeStyle={{
-              fontWeight: 'bold',
-              color: 'dodgerblue',
+              fontWeight: "bold",
+              color: "dodgerblue",
             }}
           >
-            <Button color='inherit' className={classes.myPage}>
+            <Button color="inherit" className={classes.myPage}>
               모든제품
             </Button>
           </NavLink>
           {currentUser ? (
             <NavLink
-              to='/users/profile'
+              to="/users/profile"
               className={classes.navLink}
               activeStyle={{
-                fontWeight: 'bold',
-                color: 'dodgerblue',
+                fontWeight: "bold",
+                color: "dodgerblue",
               }}
             >
-              <Button color='inherit'>마이페이지</Button>
+              <Button color="inherit">마이페이지</Button>
             </NavLink>
           ) : (
             <NavLink
-              to='/auth'
+              to="/auth"
               className={classes.navLink}
               activeStyle={{
-                fontWeight: 'bold',
-                color: 'dodgerblue',
+                fontWeight: "bold",
+                color: "dodgerblue",
               }}
             >
-              <Button color='inherit'>로그인</Button>
+              <Button color="inherit">로그인</Button>
             </NavLink>
           )}
+          <NavLink
+            to="/new"
+            exact
+            className={classes.navLink}
+            activeStyle={{
+              fontWeight: "bold",
+              color: "dodgerblue",
+            }}
+          >
+            업로드
+          </NavLink>
         </Toolbar>
       </AppBar>
     </div>
