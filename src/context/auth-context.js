@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { createContext } from 'react';
-import { authService } from '../firebase';
+import { authService, dbService } from '../firebase';
 
 const AuthContext = createContext();
 
@@ -26,7 +26,18 @@ export function AuthProvider(props) {
 
   useEffect(() => {
     const unsubscribe = authService.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      dbService
+        .collection('users')
+        .where('userId', '==', user.uid)
+        .get()
+        .then((docs) => {
+          docs.forEach((doc) => {
+            setCurrentUser({ ...doc.data() });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setLoading(false);
     });
     return unsubscribe;

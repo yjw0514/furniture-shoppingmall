@@ -80,11 +80,11 @@ const Auth = (props) => {
     }
   };
   return (
-    <>
+    <div className='auth'>
       <Card className='auth__container'>
         <h2 className='auth__title'>{isLoginMode ? '로그인' : '회원가입'}</h2>
         <form onSubmit={submitHandler}>
-          <div className='form__control'>
+          <div className='auth-form__control'>
             <TextField
               name='email'
               label='Email'
@@ -93,7 +93,7 @@ const Auth = (props) => {
               onChange={changeHandler}
             />
           </div>
-          <div className='form__control'>
+          <div className='auth-form__control'>
             <TextField
               type='password'
               name='password'
@@ -104,7 +104,7 @@ const Auth = (props) => {
             />
           </div>
           {!isLoginMode && (
-            <div className='form__control'>
+            <div className='auth-form__control'>
               <TextField
                 type='password'
                 name='passwordConfirm'
@@ -116,7 +116,7 @@ const Auth = (props) => {
             </div>
           )}
           {!isLoginMode && (
-            <div className='form__control'>
+            <div className='auth-form__control'>
               <TextField
                 type='text'
                 name='nickName'
@@ -128,7 +128,7 @@ const Auth = (props) => {
             </div>
           )}
           {error && <Alert severity='error'>{error}</Alert>}
-          <div className='form__control-btn'>
+          <div className='auth-form__control-btn'>
             <Button
               variant='contained'
               color='primary'
@@ -148,7 +148,7 @@ const Auth = (props) => {
           </span>
         </p>
       </Card>
-    </>
+    </div>
   );
 };
 

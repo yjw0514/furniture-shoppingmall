@@ -1,31 +1,43 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from '../context/auth-context';
-import Products from '../product/pages/Products';
-import Header from '../UIElement/Header';
+import Header from '../shared/UIElement/Header';
+import Footer from '../shared/UIElement/Footer';
 import Auth from '../users/pages/Auth';
 import Profile from '../users/pages/Profile';
+import NewProduct from '../products/pages/NewProduct';
 
 import './AppRouter.css';
+import Category from '../products/pages/Category';
+import ProductList from '../products/pages/ProductList';
+import ProductDetail from '../products/components/ProductDetail';
 export default function AppRouter() {
   return (
     <>
       <Router>
         <AuthProvider>
           <Header />
-          <main>
-            <Switch>
-              <Route path='/' exact>
-                <Products />
-              </Route>
-              <Route path='/auth'>
-                <Auth />
-              </Route>
-              <Route path='/users/profile'>
-                <Profile />
-              </Route>
-            </Switch>
-          </main>
+          <Switch>
+            <Route path='/' exact>
+              <ProductList />
+            </Route>
+            <Route path='/category' exact>
+              <Category />
+            </Route>
+            <Route path='/auth'>
+              <Auth />
+            </Route>
+            <Route path='/new'>
+              <NewProduct />
+            </Route>
+            <Route path='/products/:productId'>
+              <ProductDetail />
+            </Route>
+            <Route path='/users/profile'>
+              <Profile />
+            </Route>
+          </Switch>
+          <Footer />
         </AuthProvider>
       </Router>
     </>

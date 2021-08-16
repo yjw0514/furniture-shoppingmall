@@ -6,9 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { useAuth } from '../context/auth-context';
+import { useAuth } from '../../context/auth-context';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    marginTop: 10,
+    marginLeft: 30,
   },
 
   navLink: {
@@ -46,22 +44,34 @@ export default function Header() {
     <div className={classes.root}>
       <AppBar
         position='static'
-        style={{ backgroundColor: 'rgb(248, 249, 250)', color: 'black' }}
+        style={{
+          backgroundColor: 'rgb(248, 249, 250)',
+          color: 'black',
+        }}
+        elevation={2}
       >
         <Toolbar className={classes.toolBar}>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
-          >
-            <MenuIcon />
-          </IconButton>
+          <Typography>
+            <img
+              src='https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg'
+              alt='logo'
+            />
+          </Typography>
           <Typography variant='h6' className={classes.title}>
-            <img src='https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg' />
+            <NavLink
+              to='/'
+              exact
+              className={classes.navLink}
+              activeStyle={{
+                fontWeight: 'bold',
+                color: 'dodgerblue',
+              }}
+            >
+              FUTURELIFE
+            </NavLink>
           </Typography>
           <NavLink
-            to='/'
+            to='/category'
             exact
             className={classes.navLink}
             activeStyle={{
@@ -96,6 +106,16 @@ export default function Header() {
               <Button color='inherit'>로그인</Button>
             </NavLink>
           )}
+          <NavLink
+            to='/new'
+            className={classes.navLink}
+            activeStyle={{
+              fontWeight: 'bold',
+              color: 'dodgerblue',
+            }}
+          >
+            <Button color='inherit'>업로드</Button>
+          </NavLink>
         </Toolbar>
       </AppBar>
     </div>
