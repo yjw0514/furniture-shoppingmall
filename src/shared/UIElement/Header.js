@@ -50,20 +50,15 @@ export default function Header() {
         elevation={2}
       >
         <Toolbar className={classes.toolBar}>
-          <Typography>
-            <img
-              src='https://www.ikea.com/kr/ko/static/ikea-logo.f7d9229f806b59ec64cb.svg'
-              alt='logo'
-            />
-          </Typography>
           <Typography variant='h6' className={classes.title}>
             <NavLink
               to='/'
               exact
               className={classes.navLink}
-              activeStyle={{
+              style={{
                 fontWeight: 'bold',
-                color: 'dodgerblue',
+                color: 'rgb(150, 183, 108)',
+                fontSize: '28px',
               }}
             >
               FUTURELIFE
@@ -114,6 +109,16 @@ export default function Header() {
             }}
           >
             <Button color='inherit'>업로드</Button>
+          </NavLink>
+          <NavLink
+            to='/users/cart'
+            className={classes.navLink}
+            activeStyle={{
+              fontWeight: 'bold',
+              color: 'dodgerblue',
+            }}
+          >
+            <Button color='inherit'>Cart</Button>
           </NavLink>
         </Toolbar>
       </AppBar>

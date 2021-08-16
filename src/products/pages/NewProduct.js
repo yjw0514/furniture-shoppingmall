@@ -86,7 +86,7 @@ export default function NewProduct() {
   };
 
   return (
-    <Container maxWidth='lg' style={{ height: '100vh' }}>
+    <Container maxWidth='lg' style={{ height: '100vh', marginTop: '60px' }}>
       <Paper className='upload__form-container' elevation={0}>
         <h2>제품 업로드</h2>
         <form onSubmit={handleUpload} className='upload__form'>

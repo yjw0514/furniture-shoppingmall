@@ -6,13 +6,12 @@ import Footer from '../shared/UIElement/Footer';
 import Auth from '../users/pages/Auth';
 import Profile from '../users/pages/Profile';
 import NewProduct from '../products/pages/NewProduct';
+
+import './AppRouter.css';
 import Category from '../products/pages/Category';
 import ProductList from '../products/pages/ProductList';
 import ProductDetail from '../products/components/ProductDetail';
 import ShoppingCart from '../users/ShoppingCart';
-import './AppRouter.css';
-
-import './AppRouter.css';
 export default function AppRouter() {
   return (
     <>
@@ -38,7 +37,7 @@ export default function AppRouter() {
             <Route path='/users/profile'>
               <Profile />
             </Route>
-            <Route path='/cart'>
+            <Route path='/users/cart'>
               <ShoppingCart />
             </Route>
           </Switch>

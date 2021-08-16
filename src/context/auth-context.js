@@ -26,18 +26,7 @@ export function AuthProvider(props) {
 
   useEffect(() => {
     const unsubscribe = authService.onAuthStateChanged((user) => {
-      dbService
-        .collection('users')
-        .where('userId', '==', user.uid)
-        .get()
-        .then((docs) => {
-          docs.forEach((doc) => {
-            setCurrentUser({ ...doc.data() });
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      setCurrentUser(user);
       setLoading(false);
     });
     return unsubscribe;
