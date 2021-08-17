@@ -5,24 +5,20 @@
   text-align: center;
   margin: 0 auto;
   margin-top: 100px;
-  width: 350px;
+  width: 450px;
   padding: 50px;
   border: 1px solid lightgray;
   border-radius: 4px;
+  position: relative;
 }
 
 .auth-form__control {
   margin: 10px 0 20px;
 }
 
-.form__control-btn {
-  margin-top: 30px;
+.auth-form__control-btn {
+  margin-top: 60px;
 }
-
-.auth__submitBtn {
-  margin-bottom: 20px;
-}
-
 .authMode-btn {
   color: dodgerblue;
   cursor: pointer;

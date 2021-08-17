@@ -13,13 +13,13 @@ const Auth = (props) => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const { signup, login } = useAuth();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
     passwordConfirm: '',
     nickName: '',
   });
-  const { signup, login } = useAuth();
 
   const toggleAuthHandler = () => {
     setIsLoginMode((prev) => !prev);
@@ -81,7 +81,10 @@ const Auth = (props) => {
   };
   return (
     <div className='auth'>
-      <Card className='auth__container'>
+      <Card
+        className='auth__container'
+        style={isLoginMode ? { height: 400 } : { height: 600 }}
+      >
         <h2 className='auth__title'>{isLoginMode ? '로그인' : '회원가입'}</h2>
         <form onSubmit={submitHandler}>
           <div className='auth-form__control'>
@@ -132,21 +135,23 @@ const Auth = (props) => {
             <Button
               variant='contained'
               color='primary'
-              style={{ marginBottom: '20px', height: 50 }}
+              style={{ marginBottom: '20px', height: 50, width: '100%' }}
               fullWidth
               type='submit'
               disabled={loading}
             >
               {isLoginMode ? 'Log in' : 'Sign up'}
             </Button>
+            <p>
+              {isLoginMode
+                ? "don't have an account?"
+                : 'Already have an account?'}
+              <span className='authMode-btn' onClick={toggleAuthHandler}>
+                {isLoginMode ? 'Sign up' : ' Log in'}
+              </span>
+            </p>
           </div>
         </form>
-        <p>
-          {isLoginMode ? "don't have an account?" : 'Already have an account?'}
-          <span className='authMode-btn' onClick={toggleAuthHandler}>
-            {isLoginMode ? 'Sign up' : ' Log in'}
-          </span>
-        </p>
       </Card>
     </div>
   );

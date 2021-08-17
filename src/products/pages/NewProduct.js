@@ -169,7 +169,7 @@ export default function NewProduct() {
               onChange={inputHandler}
               style={{ width: '200px' }}
             >
-              <MenuItem value='table'>책상</MenuItem>
+              <MenuItem value='desk'>책상</MenuItem>
               <MenuItem value='bed'>침대</MenuItem>
               <MenuItem value='chair'>의자</MenuItem>
               <MenuItem value='sofa'>소파</MenuItem>

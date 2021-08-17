@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,9 +36,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
+  const [userRole, setUserRole] = useState();
   const classes = useStyles();
-
   const { currentUser } = useAuth();
+
+  if (currentUser) {
+    dbService
+      .collection('users')
+      .where('userId', '==', currentUser.uid)
+      .get()
+      .then((data) => {
+        return setUserRole(data.docs[0].id);
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <div className={classes.root}>
@@ -77,7 +89,7 @@ export default function Header() {
               모든제품
             </Button>
           </NavLink>
-          {currentUser ? (
+          {currentUser && (
             <NavLink
               to='/users/profile'
               className={classes.navLink}
@@ -88,7 +100,8 @@ export default function Header() {
             >
               <Button color='inherit'>마이페이지</Button>
             </NavLink>
-          ) : (
+          )}
+          {!currentUser && (
             <NavLink
               to='/auth'
               className={classes.navLink}
@@ -100,26 +113,32 @@ export default function Header() {
               <Button color='inherit'>로그인</Button>
             </NavLink>
           )}
-          <NavLink
-            to='/new'
-            className={classes.navLink}
-            activeStyle={{
-              fontWeight: 'bold',
-              color: 'dodgerblue',
-            }}
-          >
-            <Button color='inherit'>업로드</Button>
-          </NavLink>
-          <NavLink
-            to='/users/cart'
-            className={classes.navLink}
-            activeStyle={{
-              fontWeight: 'bold',
-              color: 'dodgerblue',
-            }}
-          >
-            <Button color='inherit'>Cart</Button>
-          </NavLink>
+
+          {userRole === 'admin' && (
+            <NavLink
+              to='/new'
+              className={classes.navLink}
+              activeStyle={{
+                fontWeight: 'bold',
+                color: 'dodgerblue',
+              }}
+            >
+              <Button color='inherit'>업로드</Button>
+            </NavLink>
+          )}
+
+          {currentUser && (
+            <NavLink
+              to='/users/cart'
+              className={classes.navLink}
+              activeStyle={{
+                fontWeight: 'bold',
+                color: 'dodgerblue',
+              }}
+            >
+              <Button color='inherit'>Cart</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </div>
