@@ -1,0 +1,59 @@
+th > input,
+td > input {
+  cursor: pointer;
+}
+
+td {
+  height: 100px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  padding: 20px 10px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  text-align: left;
+}
+
+.cart_img {
+  width: 160px;
+  height: 100px;
+  /* object-fit: contain; */
+  margin-right: 20px;
+}
+
+.cart_name {
+  font-weight: 600;
+}
+
+.minus,
+.plus {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: white;
+  background-color: rgb(150, 183, 108);
+  border: 1px solid rgb(221, 221, 221);
+  margin: 0 6px;
+  line-height: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.deleteBtn {
+  width: 16px;
+  height: 16px;
+  font-size: 1.5rem;
+  line-height: 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid rgb(200, 200, 200);
+  background-color: rgb(240, 240, 240);
+  color: rgba(0, 0, 0, 0.7);
+}

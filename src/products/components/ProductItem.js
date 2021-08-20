@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../context/auth-context';
-import { dbService } from '../../firebase';
-import Modal from '../../shared/UIElement/Modal';
-import './ProductItem.css';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
+import { dbService } from "../../firebase";
+import Modal from "../../shared/UIElement/Modal";
+import "./ProductItem.css";
 
 export default function ProductItem(props) {
   const { currentUser } = useAuth();
@@ -27,6 +27,8 @@ export default function ProductItem(props) {
         category: props.category,
         quantity: 1,
         price: props.price,
+
+        image: props.image,
       };
       const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
 
@@ -69,20 +71,25 @@ export default function ProductItem(props) {
       <Modal
         open={modalOpen}
         close={closeModal}
-        header='Notice'
-        footer={<button onClick={() => history.push('/auth')}>Log In</button>}
+        header="Notice"
+        footer={<button onClick={() => history.push("/auth")}>Log In</button>}
       >
         로그인이 필요합니다.
       </Modal>
-      <li className='product_card'>
-        <div className='img_wrap'>
-          <img src={props.image} className='product_image' alt='productImage' />
+      <li className="product_card">
+        <div className="img_wrap">
+          <img src={props.image} className="product_image" alt="product" />
         </div>
-        <div className='product_content'>
-          <p className='product_category'>{props.category}</p>
-          <h3 className='product_name'>{props.name}</h3>
-          <p className='product_price'>{props.price}원</p>
-          <button className='cart_btn' onClick={addCartHandler}>
+        <div className="product_content">
+          <p className="product_category">{props.category}</p>
+          <h3 className="product_name">{props.name}</h3>
+          <p className="product_price">
+            {props.price
+              .toString()
+              .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+            원
+          </p>
+          <button className="cart_btn" onClick={addCartHandler}>
             <span>ADD TO CART</span>
           </button>
         </div>
