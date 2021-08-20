@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
+import AdminDrawer from './AdminDrawer';
+import DropdownMenu from './DropdownMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,18 +91,7 @@ export default function Header() {
               모든제품
             </Button>
           </NavLink>
-          {currentUser && (
-            <NavLink
-              to='/users/profile'
-              className={classes.navLink}
-              activeStyle={{
-                fontWeight: 'bold',
-                color: 'dodgerblue',
-              }}
-            >
-              <Button color='inherit'>마이페이지</Button>
-            </NavLink>
-          )}
+
           {!currentUser && (
             <NavLink
               to='/auth'
@@ -111,19 +102,6 @@ export default function Header() {
               }}
             >
               <Button color='inherit'>로그인</Button>
-            </NavLink>
-          )}
-
-          {userRole === 'admin' && (
-            <NavLink
-              to='/new'
-              className={classes.navLink}
-              activeStyle={{
-                fontWeight: 'bold',
-                color: 'dodgerblue',
-              }}
-            >
-              <Button color='inherit'>업로드</Button>
             </NavLink>
           )}
 
@@ -139,6 +117,8 @@ export default function Header() {
               <Button color='inherit'>Cart</Button>
             </NavLink>
           )}
+          {currentUser && <DropdownMenu />}
+          {currentUser && userRole === 'admin' ? <AdminDrawer /> : null}
         </Toolbar>
       </AppBar>
     </div>

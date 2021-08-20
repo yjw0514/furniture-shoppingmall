@@ -31,7 +31,11 @@ export default function ShoppingCart() {
                   <input type='checkbox' name='checkbox'></input>
                 </td>
                 <td>
-                  <img src='image/bed_3.jpg' className='cart_img' />
+                  <img
+                    src='image/bed_3.jpg'
+                    className='cart_img'
+                    alt='cart-img'
+                  />
                 </td>
                 <td>
                   <p className='cart_name'>Bed</p>

@@ -18,3 +18,4 @@ export const firebaseInstance = firebase;
 export const dbService = firebase.firestore();
 export const authService = firebase.auth();
 export const storage = firebase.storage();
+export const config = firebaseConfig;

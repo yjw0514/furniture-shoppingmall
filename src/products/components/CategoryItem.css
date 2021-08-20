@@ -6,7 +6,6 @@
 
 .category_card {
   width: 250px;
-  height: 430px;
   border: 1px solid rgb(230, 228, 228);
   border-radius: 3%;
   overflow: hidden;
@@ -38,8 +37,16 @@
   width: 100%;
 }
 
-.product_category {
+.product_content-header {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  justify-content: space-between;
+}
+
+.product_review {
   font-size: 14px;
+  cursor: pointer;
   color: rgb(85, 85, 85);
   line-height: 24px;
   text-align: right;
@@ -60,10 +67,10 @@
   margin-bottom: 10px;
 }
 
-.cart_btn {
+.category-cart_btn {
   width: 65%;
-  height: 40px;
-  padding: 11px 25px;
+  height: 45px;
+  padding: 6px 25px;
   border: 1px solid rgb(221, 221, 221);
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0);
@@ -72,12 +79,12 @@
   cursor: pointer;
 }
 
-.cart_btn > span {
+.category-cart_btn > span {
   font-size: 13px;
   font-weight: 700;
 }
 
-.cart_btn:hover {
+.category-cart_btn:hover {
   border: 1px solid rgb(150, 183, 108);
   background-color: rgba(150, 183, 108);
   color: white;

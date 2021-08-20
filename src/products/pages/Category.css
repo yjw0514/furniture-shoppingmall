@@ -53,6 +53,9 @@
 .category__title {
   font-size: 50px;
 }
+.search {
+  margin-top: 40px;
+}
 .category__filter {
   display: flex;
   list-style: none;

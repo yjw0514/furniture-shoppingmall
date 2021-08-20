@@ -22,7 +22,6 @@ export default function ProductList() {
 
   const sliderArr = products;
   const [x, setX] = useState(0);
-  console.log(x);
 
   const prevSlide = () => {
     x === 0 ? setX(0) : setX(x + 13);
@@ -38,7 +37,7 @@ export default function ProductList() {
   return (
     <div>
       <section className='hero'>
-        <img src='image/main.jpg' />
+        <img src='image/main.jpg' alt='main-img' />
       </section>
 
       <Container maxWidth='lg'>
@@ -51,6 +50,7 @@ export default function ProductList() {
             >
               {products.map((product) => (
                 <ProductItem
+                  id={product.id}
                   key={product.id}
                   name={product.name}
                   price={product.price}

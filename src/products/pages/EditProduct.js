@@ -1,19 +1,33 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { dbService, storage } from '../../firebase';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { Container, MenuItem, Paper, Select } from '@material-ui/core';
 
+import './NewProduct.css';
 import { validateUploadProduct } from '../../shared/util/validators';
 import { Alert } from '@material-ui/lab';
 import { useAuth } from '../../context/auth-context';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
-import './NewProduct.css';
-export default function NewProduct() {
+export default function EditProduct() {
   const [userRole, setUserRole] = useState();
+  const [loadedProduct, setLoadedProduct] = useState();
   const history = useHistory();
   const { currentUser } = useAuth();
+  const productId = useParams().productId;
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [inputs, setInputs] = useState({
+    name: '',
+    category: '',
+    price: '',
+    description: '',
+  });
+  const fileInput = useRef();
+
   if (currentUser) {
     dbService
       .collection('users')
@@ -28,17 +42,20 @@ export default function NewProduct() {
     history.push('/auth');
   }
 
-  const [image, setImage] = useState(null);
-  const [url, setUrl] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
-  const [inputs, setInputs] = useState({
-    name: '',
-    category: '',
-    price: '',
-    description: '',
-  });
-  const fileInput = useRef();
+  useEffect(() => {
+    dbService
+      .doc(`product/${productId}`)
+      .get()
+      .then((doc) => {
+        setLoadedProduct(doc.data());
+        setInputs({
+          name: doc.data().name,
+          category: doc.data().category,
+          price: doc.data().price,
+          description: doc.data().description,
+        });
+      });
+  }, [productId]);
 
   const handleUpload = (e) => {
     e.preventDefault();
@@ -50,7 +67,8 @@ export default function NewProduct() {
     const target = e.target;
     dbService
       .collection('product')
-      .add({
+      .doc(productId)
+      .set({
         name: target.name.value,
         category: inputs.category,
         price: inputs.price,
@@ -141,7 +159,13 @@ export default function NewProduct() {
               <span>*</span>
               <label>상품명</label>
             </div>
-            <input type='text' name='name' required onChange={inputHandler} />
+            <input
+              type='text'
+              name='name'
+              required
+              onChange={inputHandler}
+              value={inputs.name}
+            />
           </div>
           <div className='form__control'>
             <div className='form__control-label'>
@@ -153,6 +177,7 @@ export default function NewProduct() {
               name='price'
               required
               onChange={inputHandler}
+              value={inputs.price}
               style={{ width: '200px' }}
             />
           </div>
@@ -166,6 +191,7 @@ export default function NewProduct() {
               name='description'
               required
               rows={5}
+              value={inputs.description}
               onChange={inputHandler}
             />
           </div>
@@ -197,7 +223,7 @@ export default function NewProduct() {
           </div>
           <div className='uploadBtn'>
             <Button type='submit' variant='contained' color='primary'>
-              상품등록
+              수정하기
             </Button>
           </div>
         </form>
