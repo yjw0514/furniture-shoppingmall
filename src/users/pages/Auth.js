@@ -7,19 +7,20 @@ import { Card } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
 import { dbService } from '../../firebase';
+import { config } from '../../firebase';
 
 const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const { signup, login } = useAuth();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
     passwordConfirm: '',
     nickName: '',
   });
-  const { signup, login } = useAuth();
 
   const toggleAuthHandler = () => {
     setIsLoginMode((prev) => !prev);
@@ -40,6 +41,7 @@ const Auth = (props) => {
         return setError('비밀번호가 다릅니다');
       }
       //회원가입
+      const noImg = 'no-image.png';
       try {
         setLoading(true);
         setError('');
@@ -50,12 +52,11 @@ const Auth = (props) => {
           return setError('이미 사용중인 닉네임입니다');
         }
         const data = await signup(inputs.email, inputs.password);
-        console.log(data);
         const userId = data.user.uid;
         const newUser = {
           userId,
           email: inputs.email,
-          imageUrl: '',
+          imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
           nickName: inputs.nickName,
         };
         dbService.doc(`/users/${newUser.nickName}`).set(newUser);
@@ -81,7 +82,10 @@ const Auth = (props) => {
   };
   return (
     <div className='auth'>
-      <Card className='auth__container'>
+      <Card
+        className='auth__container'
+        style={isLoginMode ? { height: 500 } : { height: 600 }}
+      >
         <h2 className='auth__title'>{isLoginMode ? '로그인' : '회원가입'}</h2>
         <form onSubmit={submitHandler}>
           <div className='auth-form__control'>
@@ -132,21 +136,23 @@ const Auth = (props) => {
             <Button
               variant='contained'
               color='primary'
-              style={{ marginBottom: '20px', height: 50 }}
+              style={{ marginBottom: '20px', height: 50, width: '100%' }}
               fullWidth
               type='submit'
               disabled={loading}
             >
               {isLoginMode ? 'Log in' : 'Sign up'}
             </Button>
+            <p>
+              {isLoginMode
+                ? "don't have an account?"
+                : 'Already have an account?'}
+              <span className='authMode-btn' onClick={toggleAuthHandler}>
+                {isLoginMode ? 'Sign up' : ' Log in'}
+              </span>
+            </p>
           </div>
         </form>
-        <p>
-          {isLoginMode ? "don't have an account?" : 'Already have an account?'}
-          <span className='authMode-btn' onClick={toggleAuthHandler}>
-            {isLoginMode ? 'Sign up' : ' Log in'}
-          </span>
-        </p>
       </Card>
     </div>
   );

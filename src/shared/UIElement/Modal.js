@@ -8,18 +8,18 @@ export default function Modal(props) {
   if (!open) {
     return null;
   }
+
   let content = (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
         <section>
           <header>
             {header}
-            <button className="close" onClick={close}>
-              &times;
-            </button>
+
+            <button className="close" onClick={close}></button>
           </header>
-          <main>{props.children}</main>
-          <footer>
+          <main className={props.mainClass}>{props.children}</main>
+          <footer className="modal__footer">
             {props.footer}
             <button className="close" onClick={close}>
               close

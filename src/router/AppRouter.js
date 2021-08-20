@@ -12,6 +12,9 @@ import Category from '../products/pages/Category';
 import ProductList from '../products/pages/ProductList';
 import ProductDetail from '../products/components/ProductDetail';
 import ShoppingCart from '../users/ShoppingCart';
+import PrivateRoute from './PrivateRoute';
+import AdminProduct from '../products/pages/AdminProduct';
+import EditProduct from '../products/pages/EditProduct';
 export default function AppRouter() {
   return (
     <>
@@ -28,18 +31,18 @@ export default function AppRouter() {
             <Route path='/auth'>
               <Auth />
             </Route>
-            <Route path='/new'>
-              <NewProduct />
-            </Route>
+            {/* admin 체크해서 privateRoute 설정해주어야함 */}
+            <PrivateRoute path='/admin/new' component={NewProduct} />
+            <PrivateRoute path='/admin/products' component={AdminProduct} />
+            <PrivateRoute
+              path='/admin/edit/:productId'
+              component={EditProduct}
+            />
             <Route path='/products/:productId'>
               <ProductDetail />
             </Route>
-            <Route path='/users/profile'>
-              <Profile />
-            </Route>
-            <Route path='/users/cart'>
-              <ShoppingCart />
-            </Route>
+            <PrivateRoute path='/users/profile' component={Profile} />
+            <PrivateRoute path='/users/cart' component={ShoppingCart} />
           </Switch>
           <Footer />
         </AuthProvider>

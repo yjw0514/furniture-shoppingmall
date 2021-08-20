@@ -4,11 +4,30 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import { Container, MenuItem, Paper, Select } from "@material-ui/core";
 
-import "./NewProduct.css";
 import { validateUploadProduct } from "../../shared/util/validators";
 import { Alert } from "@material-ui/lab";
+import { useAuth } from "../../context/auth-context";
+import { useHistory } from "react-router-dom";
 
+import "./NewProduct.css";
 export default function NewProduct() {
+  const [userRole, setUserRole] = useState();
+  const history = useHistory();
+  const { currentUser } = useAuth();
+  if (currentUser) {
+    dbService
+      .collection("users")
+      .where("userId", "==", currentUser.uid)
+      .get()
+      .then((data) => {
+        return setUserRole(data.docs[0].id);
+      })
+      .catch((err) => console.log(err));
+  }
+  if (userRole && userRole !== "admin") {
+    history.push("/auth");
+  }
+
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,9 +42,7 @@ export default function NewProduct() {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    console.log(inputs);
     const { errors, valid } = validateUploadProduct(inputs);
-    console.log(errors);
     if (!valid) {
       return setError(errors);
     }
@@ -40,9 +57,12 @@ export default function NewProduct() {
         description: inputs.description,
         imageUrl: url,
         date: new Date(),
+        avgRating: 0,
+        rateScore: 0,
+        scoreCount: 0,
       })
       .then((result) => {
-        window.location.href = "./new";
+        history.push("/admin/products");
       })
       .catch((err) => {
         console.error(err);
@@ -174,14 +194,6 @@ export default function NewProduct() {
               <MenuItem value="chair">의자</MenuItem>
               <MenuItem value="sofa">소파</MenuItem>
             </Select>
-            {/* <label>상품 카테고리</label>
-            <select name='category'>
-              <option value='none'>=== 선택 ===</option>
-              <option value='table'>책상</option>
-              <option value='bed'>침대</option>
-              <option value='chair'>의자</option>
-              <option value='sofa'>소파</option>
-            </select> */}
           </div>
           <div className="uploadBtn">
             <Button type="submit" variant="contained" color="primary">

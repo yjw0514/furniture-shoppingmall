@@ -1,0 +1,35 @@
+.user-container {
+  display: flex;
+  align-items: center;
+}
+
+.user__avatar {
+  width: 150px;
+  height: 150px;
+  margin-right: 50px;
+}
+
+.user__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.user-nickName {
+  margin-bottom: 20px;
+}
+
+.user-nickName p:nth-child(1),
+.user-email p:nth-child(1) {
+  font-size: 13px;
+}
+
+.user-nickName p:nth-child(2),
+.user-email p:nth-child(2) {
+  font-size: 23px;
+}
+
+.editBtn {
+  margin-top: 30px;
+  margin-left: 10px;
+}

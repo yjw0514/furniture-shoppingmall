@@ -27,6 +27,7 @@ export default function ProductItem(props) {
         category: props.category,
         quantity: 1,
         price: props.price,
+
         image: props.image,
       };
       const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
