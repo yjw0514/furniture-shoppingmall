@@ -6,7 +6,7 @@ import "./CartItem.css";
 export default function CartItem(props) {
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
-
+  // console.log(props.price);
   const deleteHandler = () => {
     cartRef
       .get()
@@ -14,8 +14,7 @@ export default function CartItem(props) {
         let newProducts = [];
         newProducts = doc
           .data()
-          .products.filter((el) => el.productId != props.id);
-        console.log(newProducts);
+          .products.filter((el) => el.productId !== props.id);
 
         cartRef.update({ products: newProducts });
       })
@@ -32,8 +31,12 @@ export default function CartItem(props) {
           .data()
           .products.findIndex((el) => el.productId === props.id);
 
-        newProducts[sameIndex].quantity--;
-        cartRef.update({ products: newProducts });
+        if (newProducts[sameIndex].quantity > 0) {
+          newProducts[sameIndex].quantity--;
+          cartRef.update({ products: newProducts });
+        } else {
+          return;
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -47,7 +50,7 @@ export default function CartItem(props) {
         const sameIndex = doc
           .data()
           .products.findIndex((el) => el.productId === props.id);
-        console.log(sameIndex);
+
         newProducts[sameIndex].quantity++;
         cartRef.update({ products: newProducts });
       })
@@ -69,11 +72,7 @@ export default function CartItem(props) {
           />
         </td>
         <td>
-          <img
-            src={props.image}
-            className="cart_img"
-            alt="cart-product-image"
-          />
+          <img src={props.image} className="cart_img" alt="cart-product" />
         </td>
         <td>
           <p className="cart_name">{props.name}</p>
@@ -87,7 +86,13 @@ export default function CartItem(props) {
             +
           </button>
         </td>
-        <td>₩{props.price}원</td>
+        <td>
+          ₩
+          {(props.price * props.quantity)
+            .toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+          원
+        </td>
         <td>
           <button className="deleteBtn" onClick={deleteHandler}>
             ×

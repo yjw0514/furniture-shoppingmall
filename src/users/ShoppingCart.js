@@ -9,9 +9,11 @@ export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
   const { currentUser } = useAuth();
   const [checkItems, setCheckItems] = useState([]);
+  // const [buyItems, setBuyItems] = useState([]);
+  const cartRef = dbService.collection("cart").doc(currentUser.uid);
+  const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
   useEffect(() => {
-    const cartRef = dbService.collection("cart").doc(currentUser.uid);
     cartRef.onSnapshot((doc) => {
       if (doc.exists) {
         setCartProducts(doc.data().products);
@@ -20,6 +22,46 @@ export default function ShoppingCart() {
       }
     });
   }, []);
+
+  // console.log(checkItems);
+
+  const checkoutHandler = () => {
+    cartRef
+      .get()
+      .then((doc) => {
+        let newProducts = [];
+        newProducts = doc.data().products.filter((el) => {
+          return !checkItems.includes(el.productId);
+        });
+
+        cartRef.update({ products: newProducts });
+
+        const items = doc.data().products.filter((el) => {
+          return checkItems.includes(el.productId);
+        }); //구매한 상품
+
+        const itemsWithDate = [{ ...items, date: new Date() }];
+        return itemsWithDate;
+        // setBuyItems({ ...items, date: new Date() });
+      })
+      .then((itemsWithDate) => {
+        buyRef.get().then((doc) => {
+          if (doc.exists) {
+            let buyProducts = [];
+            buyProducts = doc.data().itemsWithDate;
+            itemsWithDate.forEach((el) => buyProducts.push(el));
+            // buyProducts.push(itemsWithDate);
+
+            buyRef.update({ itemsWithDate: buyProducts });
+          } else {
+            buyRef.set({
+              itemsWithDate,
+            });
+          }
+        });
+      })
+      .catch((err) => console.error(err));
+  };
 
   const handleSingleCheck = (checked, id) => {
     if (checked) {
@@ -33,9 +75,10 @@ export default function ShoppingCart() {
   const checkAllHandler = (checked) => {
     if (checked) {
       const idArray = [];
-      cartProducts.forEach((el, id) => idArray.push(el.productId));
+      cartProducts.forEach((el, id) => {
+        idArray.push(el.productId);
+      });
       setCheckItems(idArray);
-      console.log(idArray);
     } else {
       setCheckItems([]);
     }
@@ -90,23 +133,15 @@ export default function ShoppingCart() {
           </table>
           {/* total */}
           <div className="checkout">
-            <ul className="total">
-              <li>
-                <p>Itemtotal:</p>
-                <p>₩ 2,000원</p>
-              </li>
-              <li>
-                <p>Estimated Shipping:</p>
-                <p>₩ 2,000원</p>
-              </li>
-              <li>
+            <div className="total">
+              <div className="total_inner">
                 <p>Total :</p>
-                <p>₩ 1000,000원</p>
-              </li>
-              <button className="total_btn">
+                <p>₩ 원</p>
+              </div>
+              <button className="total_btn" onClick={checkoutHandler}>
                 <span>Secure Checkout</span>
               </button>
-            </ul>
+            </div>
           </div>
         </section>
       </Container>

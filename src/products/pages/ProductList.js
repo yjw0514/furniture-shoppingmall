@@ -38,7 +38,7 @@ export default function ProductList() {
   return (
     <div>
       <section className="hero">
-        <img src="image/main.jpg" alt="main-image" />
+        <img src="image/main.jpg" alt="main" />
       </section>
 
       <Container maxWidth="lg">
