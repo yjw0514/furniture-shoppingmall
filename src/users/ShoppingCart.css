@@ -43,7 +43,7 @@ td > input {
 }
 
 th:last-child {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 thead th:nth-child(1) {
@@ -55,73 +55,20 @@ thead th:nth-child(2) {
 }
 
 thead th:nth-child(3) {
-  width: 10%;
+  width: 20%;
 }
 
 thead th:nth-child(4) {
   width: 20%;
 }
 
-thead th:nth-child(5) {
-  width: 20%;
-}
 thead th:nth-child(6) {
   width: 10%;
-}
-
-td {
-  border-bottom: 1px solid rgb(221, 221, 221);
-  padding: 20px 10px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 14px;
 }
 
 th:nth-child(1),
 td:nth-child(1) {
   text-align: left;
-}
-
-.cart_img {
-  width: 160px;
-  height: 100px;
-  /* object-fit: contain; */
-  margin-right: 20px;
-}
-
-.cart_name {
-  font-weight: 600;
-}
-
-.minus,
-.plus {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  color: white;
-  background-color: rgb(150, 183, 108);
-  border: 1px solid rgb(221, 221, 221);
-  margin: 0 6px;
-  line-height: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
-}
-
-.deleteBtn {
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid rgb(200, 200, 200);
-  background-color: rgb(221, 221, 221);
-  box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* Total button */
