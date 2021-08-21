@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from '../../shared/UIElement/Modal';
 import Rating from '@material-ui/lab/Rating';
 
+import { addCartHandler } from '../../shared/util/addCart';
 import { useAuth } from '../../context/auth-context';
 import { useHistory } from 'react-router-dom';
 import { dbService } from '../../firebase';
@@ -12,6 +13,7 @@ export default function CategoryItem(props) {
   const [value, setValue] = useState(0);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [cartModalOpen, setCartModalOpen] = useState(false);
   const { currentUser } = useAuth();
   const [user, setUser] = useState();
   const history = useHistory();
@@ -45,6 +47,9 @@ export default function CategoryItem(props) {
     setLoginModalOpen(false);
   };
 
+  const closeCartModal = () => {
+    setCartModalOpen(false);
+  };
   const ratingSubmitHandler = () => {
     const productDocument = dbService.doc(`/product/${props.id}`);
     const ratingDocument = dbService
@@ -118,15 +123,30 @@ export default function CategoryItem(props) {
     setRatingModalOpen(false);
   };
 
-  const addCartHandler = () => {
+  const onAddCart = () => {
     if (!currentUser) {
       setLoginModalOpen(true);
     } else {
+      const newProduct = {
+        productId: props.id,
+        productName: props.name,
+        category: props.category,
+        quantity: 1,
+        price: props.price,
+        image: props.image,
+        isChecked: false,
+      };
+      addCartHandler(newProduct, currentUser);
+      setCartModalOpen(true);
     }
   };
 
   const onAuthRedirect = (e) => {
     history.push('/auth');
+  };
+
+  const onCartRedirect = () => {
+    history.push('/users/cart');
   };
 
   return (
@@ -155,6 +175,15 @@ export default function CategoryItem(props) {
       >
         {'로그인 페이지로 이동하시겠습니까?'}
       </Modal>
+      <Modal
+        open={cartModalOpen}
+        close={closeCartModal}
+        header='상품이 장바구니에 담겼습니다'
+        mainClass='rating__main'
+        footer={<button onClick={onCartRedirect}>confirm</button>}
+      >
+        {'장바구니로 이동하시겠습니까?'}
+      </Modal>
       <li className='category_card'>
         <div className='img_wrap'>
           <img src={props.image} className='product_image' alt='productImg' />
@@ -179,7 +208,7 @@ export default function CategoryItem(props) {
           <p className='product_price'>
             {props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
           </p>
-          <button className='category-cart_btn' onClick={addCartHandler}>
+          <button className='category-cart_btn' onClick={onAddCart}>
             <span>ADD TO CART</span>
           </button>
         </div>

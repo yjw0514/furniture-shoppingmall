@@ -6,6 +6,7 @@
 
 .category_card {
   width: 250px;
+  height: 450px;
   border: 1px solid rgb(230, 228, 228);
   border-radius: 3%;
   overflow: hidden;

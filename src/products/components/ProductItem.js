@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
-import { dbService } from '../../firebase';
+import { addCartHandler } from '../../shared/util/addCart';
 import Modal from '../../shared/UIElement/Modal';
 import './ProductItem.css';
 
@@ -17,84 +17,18 @@ export default function ProductItem(props) {
     setModalOpen(false);
   };
 
-  const addCartHandler = () => {
-    if (!currentUser) {
-      openModal();
-    } else {
-      const newProduct = {
-        productId: props.id,
-        productName: props.name,
-        category: props.category,
-        quantity: 1,
-        price: props.price,
-        image: props.image,
-        isChecked: false,
-      };
-      const cartRef = dbService
-        .collection('cart')
-        .doc(currentUser.uid)
-        .collection('products')
-        .doc(props.id);
-
-      let productData;
-
-      cartRef.get().then((doc) => {
-        if (!doc.exists) {
-          console.log('cart doesnt exists');
-          // dbService.doc(`/cart/${currentUser.uid}`).set({
-          //   products: [newProduct],
-          // });
-          dbService
-            .collection('cart')
-            .doc(currentUser.uid)
-            .collection('products')
-            .doc(props.id)
-            .set({
-              products: newProduct,
-            });
-        } else {
-          console.log('cart does exists');
-          dbService
-            .collection('cart')
-            .doc(currentUser.uid)
-            .collection('products')
-            .doc(props.id)
-            .get()
-            .then((doc) => {
-              if (doc.exists) {
-                productData = doc.data();
-                productData.products.quantity++;
-                console.log(productData.quantity);
-                cartRef.update({
-                  'products.quantity': productData.products.quantity,
-                });
-              }
-            });
-          // .doc(`/cart/${currentUser.uid}`)
-          // .get()
-          // .then((doc) => {
-          //   let newProducts = [];
-          //   newProducts = doc.data().products;
-
-          //   const sameIndex = doc
-          //     .data()
-          //     .products.findIndex(
-          //       (e) => e.productId === newProduct.productId
-          //     );
-
-          //   if (sameIndex >= 0) {
-          //     newProducts[sameIndex].quantity++;
-          //     cartRef.update({ products: newProducts });
-          //   } else {
-          //     newProducts.push(newProduct);
-          //     cartRef.update({ products: newProducts });
-          //   }
-          // })
-          // .then(() => {})
-          // .catch((err) => console.log(err));
-        }
-      });
-    }
+  const onAddCart = () => {
+    if (!currentUser) openModal();
+    const newProduct = {
+      productId: props.id,
+      productName: props.name,
+      category: props.category,
+      quantity: 1,
+      price: props.price,
+      image: props.image,
+      isChecked: false,
+    };
+    addCartHandler(newProduct, currentUser);
   };
 
   return (
@@ -120,7 +54,7 @@ export default function ProductItem(props) {
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
             원
           </p>
-          <button className='cart_btn' onClick={addCartHandler}>
+          <button className='cart_btn' onClick={onAddCart}>
             <span>ADD TO CART</span>
           </button>
         </div>

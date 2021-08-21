@@ -29,15 +29,30 @@ export default function Cart() {
       .collection('products');
     cartRef.onSnapshot((snapshot) => {
       let loadedCarts = [];
-      //   let checkItems = [];
       snapshot.forEach((doc) => {
         loadedCarts.push(doc.data().products);
-        // checkItems.push(doc.data().products.productId);
       });
       setCartProducts(loadedCarts);
-      //   setCheckItems(checkItems);
+
       setLoading(false);
     });
+  }, [currentUser.uid]);
+
+  useEffect(() => {
+    const cartRef = dbService
+      .collection('cart')
+      .doc(currentUser.uid)
+      .collection('products');
+    cartRef
+      .where('products.isChecked', '==', true)
+      .get()
+      .then((docs) => {
+        let loadCheckItems = [];
+        docs.forEach((doc) => {
+          loadCheckItems.push(doc.data().products.productId);
+        });
+        setCheckItems(loadCheckItems);
+      });
   }, [currentUser.uid]);
 
   useEffect(() => {
@@ -49,7 +64,6 @@ export default function Cart() {
         docs.forEach((doc) => {
           sum += doc.data().products.price * doc.data().products.quantity;
         });
-
         setTotalMoney(sum);
       });
   });
@@ -66,6 +80,7 @@ export default function Cart() {
   };
 
   const checkAllHandler = (checked) => {
+    console.log(checked);
     if (checked) {
       const idArray = [];
       cartProducts.forEach((el, id) => {
@@ -150,7 +165,7 @@ export default function Cart() {
             </thead>
             {/* table content */}
             <tbody>
-              {!loading &&
+              {checkItems &&
                 cartProducts &&
                 cartProducts.map((product, index) => (
                   <CartItemTest
@@ -173,7 +188,14 @@ export default function Cart() {
             <div className='total'>
               <div className='total_inner'>
                 <p>Total :</p>
-                <p>₩ {totalMoney}원</p>
+                <p>
+                  ₩
+                  {totalMoney &&
+                    totalMoney
+                      .toString()
+                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+                  원
+                </p>
               </div>
               <button className='total_btn' onClick={checkoutHandler}>
                 <span>Secure Checkout</span>
