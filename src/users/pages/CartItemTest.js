@@ -5,56 +5,41 @@ import './CartItem.css';
 
 export default function CartItem(props) {
   const { currentUser } = useAuth();
-  const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
-  // console.log(props.price);
-  const deleteHandler = () => {
-    cartRef
-      .get()
-      .then((doc) => {
-        let newProducts = [];
-        newProducts = doc
-          .data()
-          .products.filter((el) => el.productId !== props.id);
 
-        cartRef.update({ products: newProducts });
-      })
-      .catch((err) => console.log(err));
+  const cartRef = dbService
+    .doc(`/cart/${currentUser.uid}`)
+    .collection('products')
+    .doc(props.id);
+
+  const deleteHandler = () => {
+    cartRef.delete().catch((err) => console.log(err));
   };
 
+  let productData;
   const minusHnadler = () => {
-    cartRef
-      .get()
-      .then((doc) => {
-        let newProducts = [];
-        newProducts = doc.data().products;
-        const sameIndex = doc
-          .data()
-          .products.findIndex((el) => el.productId === props.id);
-
-        if (newProducts[sameIndex].quantity > 0) {
-          newProducts[sameIndex].quantity--;
-          cartRef.update({ products: newProducts });
-        } else {
-          return;
-        }
-      })
-      .catch((err) => console.log(err));
+    cartRef.get().then((doc) => {
+      if (doc.exists) {
+        console.log(doc.data());
+        productData = doc.data();
+        if (productData.products.quantity < 1) return;
+        productData.products.quantity--;
+        cartRef.update({
+          'products.quantity': productData.products.quantity,
+        });
+      }
+    });
   };
 
   const plusHnadler = () => {
-    cartRef
-      .get()
-      .then((doc) => {
-        let newProducts = [];
-        newProducts = doc.data().products;
-        const sameIndex = doc
-          .data()
-          .products.findIndex((el) => el.productId === props.id);
-
-        newProducts[sameIndex].quantity++;
-        cartRef.update({ products: newProducts });
-      })
-      .catch((err) => console.log(err));
+    cartRef.get().then((doc) => {
+      if (doc.exists) {
+        productData = doc.data();
+        productData.products.quantity++;
+        cartRef.update({
+          'products.quantity': productData.products.quantity,
+        });
+      }
+    });
   };
 
   return (

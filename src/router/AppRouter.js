@@ -11,10 +11,11 @@ import './AppRouter.css';
 import Category from '../products/pages/Category';
 import ProductList from '../products/pages/ProductList';
 import ProductDetail from '../products/components/ProductDetail';
-import ShoppingCart from '../users/ShoppingCart';
+// import ShoppingCart from '../users/ShoppingCart';
 import PrivateRoute from './PrivateRoute';
 import AdminProduct from '../products/pages/AdminProduct';
 import EditProduct from '../products/pages/EditProduct';
+import Cart from '../users/Cart';
 export default function AppRouter() {
   return (
     <>
@@ -42,7 +43,7 @@ export default function AppRouter() {
               <ProductDetail />
             </Route>
             <PrivateRoute path='/users/profile' component={Profile} />
-            <PrivateRoute path='/users/cart' component={ShoppingCart} />
+            <PrivateRoute path='/users/cart' component={Cart} />
           </Switch>
           <Footer />
         </AuthProvider>

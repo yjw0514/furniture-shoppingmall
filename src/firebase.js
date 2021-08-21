@@ -1,15 +1,15 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
-import "firebase/storage";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 
 var firebaseConfig = {
-  apiKey: "AIzaSyCFxVyrYa4rmliSyxjxXtyNR_wWwRu6NBg",
-  authDomain: "todo-28bff.firebaseapp.com",
-  projectId: "todo-28bff",
-  storageBucket: "todo-28bff.appspot.com",
-  messagingSenderId: "459795021713",
-  appId: "1:459795021713:web:1fae88ad278ffed386a430",
+  apiKey: 'AIzaSyCgaebHPnEizpmup_nOA29cV9WDKMWKHNM',
+  authDomain: 'todo-test-7dc8f.firebaseapp.com',
+  projectId: 'todo-test-7dc8f',
+  storageBucket: 'todo-test-7dc8f.appspot.com',
+  messagingSenderId: '317153175859',
+  appId: '1:317153175859:web:e38cb89d8991f010c1b646',
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

@@ -4,12 +4,12 @@ import CategoryItem from './CategoryItem';
 import { Container, Divider, TextField } from '@material-ui/core';
 import { FaBed, FaChair, FaAddressCard } from 'react-icons/fa';
 import { GiDesk, GiSofa } from 'react-icons/gi';
-
+import '../pages/Category.css';
 export default function CategoryList(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermHandler = (e) => {
     setSearchTerm(e.target.value);
-    console.log(searchTerm);
+    // console.log(searchTerm);
     // onSearchFilter()
   };
   return (

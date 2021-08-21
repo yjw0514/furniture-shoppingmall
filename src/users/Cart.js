@@ -3,72 +3,65 @@ import './ShoppingCart.css';
 import Container from '@material-ui/core/Container';
 import { useAuth } from '../context/auth-context';
 import { dbService } from '../firebase';
-import CartItem from './pages/CartItem';
+import CircularProgress from '@material-ui/core/CircularProgress';
+// import CartItem from './pages/CartItem';
+import CartItemTest from './pages/CartItemTest';
 
-export default function ShoppingCart() {
+export default function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
   const [checkItems, setCheckItems] = useState([]);
-  // const [buyItems, setBuyItems] = useState([]);
-  const cartRef = dbService.collection('cart').doc(currentUser.uid);
+  const [totalMoney, setTotalMoney] = useState();
+
+  const cartRef = dbService
+    .collection('cart')
+    .doc(currentUser.uid)
+    .collection('products');
+
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
   useEffect(() => {
-    cartRef.onSnapshot((doc) => {
-      if (doc.exists) {
-        setCartProducts(doc.data().products);
-      } else if (cartProducts.length === 0) {
-        return <div>장바구니가 비어있습니다.</div>;
-      }
+    setLoading(true);
+    const cartRef = dbService
+      .collection('cart')
+      .doc(currentUser.uid)
+      .collection('products');
+    cartRef.onSnapshot((snapshot) => {
+      let loadedCarts = [];
+      //   let checkItems = [];
+      snapshot.forEach((doc) => {
+        loadedCarts.push(doc.data().products);
+        // checkItems.push(doc.data().products.productId);
+      });
+      setCartProducts(loadedCarts);
+      //   setCheckItems(checkItems);
+      setLoading(false);
     });
-  }, [cartRef, cartProducts]);
+  }, [currentUser.uid]);
 
-  // console.log(checkItems);
-
-  const checkoutHandler = () => {
+  useEffect(() => {
     cartRef
+      .where('products.isChecked', '==', true)
       .get()
-      .then((doc) => {
-        let newProducts = [];
-        newProducts = doc.data().products.filter((el) => {
-          return !checkItems.includes(el.productId);
+      .then((docs) => {
+        let sum = 0;
+        docs.forEach((doc) => {
+          sum += doc.data().products.price * doc.data().products.quantity;
         });
 
-        cartRef.update({ products: newProducts });
-
-        const items = doc.data().products.filter((el) => {
-          return checkItems.includes(el.productId);
-        }); //구매한 상품
-
-        const itemsWithDate = [{ ...items, date: new Date() }];
-        return itemsWithDate;
-        // setBuyItems({ ...items, date: new Date() });
-      })
-      .then((itemsWithDate) => {
-        buyRef.get().then((doc) => {
-          if (doc.exists) {
-            let buyProducts = [];
-            buyProducts = doc.data().itemsWithDate;
-            itemsWithDate.forEach((el) => buyProducts.push(el));
-            // buyProducts.push(itemsWithDate);
-
-            buyRef.update({ itemsWithDate: buyProducts });
-          } else {
-            buyRef.set({
-              itemsWithDate,
-            });
-          }
-        });
-      })
-      .catch((err) => console.error(err));
-  };
+        setTotalMoney(sum);
+      });
+  });
 
   const handleSingleCheck = (checked, id) => {
     if (checked) {
+      cartRef.doc(id).update({ 'products.isChecked': true });
       setCheckItems([...checkItems, id]);
     } else {
       // 체크 해제
       setCheckItems(checkItems.filter((el) => el !== id));
+      cartRef.doc(id).update({ 'products.isChecked': false });
     }
   };
 
@@ -78,14 +71,55 @@ export default function ShoppingCart() {
       cartProducts.forEach((el, id) => {
         idArray.push(el.productId);
       });
+      cartRef.get().then((docs) =>
+        docs.forEach((doc) => {
+          doc.ref.update({ 'products.isChecked': true });
+        })
+      );
       setCheckItems(idArray);
     } else {
       setCheckItems([]);
+      cartRef.get().then((docs) =>
+        docs.forEach((doc) => {
+          doc.ref.update({ 'products.isChecked': false });
+        })
+      );
     }
+    setLoading(false);
+  };
+
+  const checkoutHandler = () => {
+    cartRef
+      .where('products.isChecked', '==', true)
+      .get()
+      .then((docs) => {
+        let buyHistory = [];
+        let buyItems = [];
+        docs.forEach((doc) => {
+          buyItems.push({ ...doc.data().products });
+        });
+        buyHistory.push({ products: [...buyItems], date: new Date() });
+        return buyHistory;
+      })
+      .then((buyHistory) => {
+        buyRef.get().then((doc) => {
+          if (doc.exists) {
+            let oldHistory;
+            oldHistory = doc.data().buyHistory;
+            oldHistory.forEach((history, i) => {
+              buyHistory.push(oldHistory[i]);
+            });
+            buyRef.update({ buyHistory });
+          } else {
+            buyRef.set({ buyHistory: buyHistory });
+          }
+        });
+      });
   };
 
   return (
     <div>
+      {loading && <CircularProgress />}
       <Container maxWidth='lg'>
         <section className='shopping_cart'>
           <h2>Your Shopping Bag</h2>
@@ -100,7 +134,9 @@ export default function ShoppingCart() {
                     id='checkAll'
                     onChange={(e) => checkAllHandler(e.target.checked)}
                     checked={
-                      checkItems.length === cartProducts.length ? true : false
+                      checkItems && checkItems.length === cartProducts.length
+                        ? true
+                        : false
                     }
                   />
                   <label htmlFor='checkAll'>전체 선택</label>
@@ -114,9 +150,10 @@ export default function ShoppingCart() {
             </thead>
             {/* table content */}
             <tbody>
-              {cartProducts &&
+              {!loading &&
+                cartProducts &&
                 cartProducts.map((product, index) => (
-                  <CartItem
+                  <CartItemTest
                     key={product.productId}
                     id={product.productId}
                     name={product.productName}
@@ -136,7 +173,7 @@ export default function ShoppingCart() {
             <div className='total'>
               <div className='total_inner'>
                 <p>Total :</p>
-                <p>₩ 원</p>
+                <p>₩ {totalMoney}원</p>
               </div>
               <button className='total_btn' onClick={checkoutHandler}>
                 <span>Secure Checkout</span>

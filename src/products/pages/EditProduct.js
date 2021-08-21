@@ -27,7 +27,7 @@ export default function EditProduct() {
     description: '',
   });
   const fileInput = useRef();
-
+  console.log(loadedProduct);
   if (currentUser) {
     dbService
       .collection('users')

@@ -1,21 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import { Container, Divider, TextField } from "@material-ui/core";
-import { FaBed, FaChair, FaAddressCard } from "react-icons/fa";
-import { GiDesk, GiSofa } from "react-icons/gi";
-
-import CategoryItem from "../components/CategoryItem";
-import { dbService } from "../../firebase";
-import "./Category.css";
-import CategoryList from "../components/CategoryList";
+import React, { useEffect, useState } from 'react';
+import { dbService } from '../../firebase';
+import './Category.css';
+import CategoryList from '../components/CategoryList';
 
 export default function Category() {
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
-  const [selecteCategory, setSelecteCategory] = useState("All Products");
+  const [selecteCategory, setSelecteCategory] = useState('All Products');
 
   useEffect(() => {
-    dbService.collection("product").onSnapshot((snapshot) => {
+    dbService.collection('product').onSnapshot((snapshot) => {
       setLoadedProducts(
         snapshot.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
@@ -30,13 +24,13 @@ export default function Category() {
   }, []);
 
   const productFilter = (filter) => {
-    if (filter === "desc") {
+    if (filter === 'desc') {
       const newArr = [...filterProducts];
       const filteredArr = newArr.sort((a, b) => {
         return a.price - b.price;
       });
       setFilterProducts(filteredArr);
-    } else if (filter === "asce") {
+    } else if (filter === 'asce') {
       const newArr = [...filterProducts];
       const filteredArr = newArr.sort((a, b) => {
         return b.price - a.price;
@@ -53,7 +47,7 @@ export default function Category() {
 
   const categorySelectHandler = (name) => {
     setSelecteCategory(name.toUpperCase());
-    if (name === "all") {
+    if (name === 'all') {
       return setFilterProducts(loadedProducts);
     }
     setFilterProducts(
