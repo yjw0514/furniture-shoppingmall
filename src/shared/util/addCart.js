@@ -10,30 +10,19 @@ export const addCartHandler = (newProduct, currentUser) => {
 
   cartRef.get().then((doc) => {
     if (!doc.exists) {
-      dbService
-        .collection('cart')
-        .doc(currentUser.uid)
-        .collection('products')
-        .doc(newProduct.productId)
-        .set({
-          products: newProduct,
-        });
+      cartRef.set({
+        products: newProduct,
+      });
     } else {
-      dbService
-        .collection('cart')
-        .doc(currentUser.uid)
-        .collection('products')
-        .doc(newProduct.productId)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            productData = doc.data();
-            productData.products.quantity++;
-            cartRef.update({
-              'products.quantity': productData.products.quantity,
-            });
-          }
-        });
+      cartRef.then((doc) => {
+        if (doc.exists) {
+          productData = doc.data();
+          productData.products.quantity++;
+          cartRef.update({
+            'products.quantity': productData.products.quantity,
+          });
+        }
+      });
     }
   });
 };
