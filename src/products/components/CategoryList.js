@@ -9,9 +9,9 @@ export default function CategoryList(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermHandler = (e) => {
     setSearchTerm(e.target.value);
-    // console.log(searchTerm);
-    // onSearchFilter()
+    props.onSearchFilter(e.target.value);
   };
+
   return (
     <section className='category'>
       <div className='category__main'>
@@ -122,21 +122,25 @@ export default function CategoryList(props) {
             value={searchTerm}
           />
         </div>
-        <ul className='category-list'>
-          {props.filterProducts &&
-            props.filterProducts.map((product) => (
-              <CategoryItem
-                id={product.id}
-                key={product.id}
-                name={product.name}
-                price={product.price}
-                image={product.imageUrl}
-                category={product.category}
-                avgRating={product.avgRating}
-                reviewCount={product.scoreCount}
-              />
-            ))}
-        </ul>
+        {props.filterProducts.length > 0 ? (
+          <ul className='category-list'>
+            {props.filterProducts &&
+              props.filterProducts.map((product) => (
+                <CategoryItem
+                  id={product.id}
+                  key={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.imageUrl}
+                  category={product.category}
+                  avgRating={product.avgRating}
+                  reviewCount={product.scoreCount}
+                />
+              ))}
+          </ul>
+        ) : (
+          <h1 className='no-result'>검색결과가 없습니다.</h1>
+        )}
       </Container>
     </section>
   );

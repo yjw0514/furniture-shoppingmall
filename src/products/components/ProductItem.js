@@ -27,8 +27,8 @@ export default function ProductItem(props) {
         category: props.category,
         quantity: 1,
         price: props.price,
-
         image: props.image,
+        isChecked: false,
       };
       const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
 

@@ -14,7 +14,7 @@ export const addCartHandler = (newProduct, currentUser) => {
         products: newProduct,
       });
     } else {
-      cartRef.then((doc) => {
+      cartRef.get().then((doc) => {
         if (doc.exists) {
           productData = doc.data();
           productData.products.quantity++;

@@ -55,12 +55,21 @@ export default function Category() {
     );
   };
 
+  const onSearchFilter = (searchTerm) => {
+    const newArr = [...loadedProducts];
+    const filteredArr = newArr.filter((el) => {
+      return el.name.includes(searchTerm);
+    });
+    setFilterProducts(filteredArr);
+  };
+
   return (
     <CategoryList
       filterProducts={filterProducts}
       categorySelectHandler={categorySelectHandler}
       selecteCategory={selecteCategory}
       productFilter={productFilter}
+      onSearchFilter={onSearchFilter}
     />
   );
 }

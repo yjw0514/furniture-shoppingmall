@@ -9,11 +9,11 @@ export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
   const { currentUser } = useAuth();
   const [checkItems, setCheckItems] = useState([]);
-  // const [buyItems, setBuyItems] = useState([]);
-  const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
+  const cartRef = dbService.collection('cart').doc(currentUser.uid);
 
   useEffect(() => {
+    const cartRef = dbService.collection('cart').doc(currentUser.uid);
     cartRef.onSnapshot((doc) => {
       if (doc.exists) {
         setCartProducts(doc.data().products);
@@ -21,9 +21,7 @@ export default function ShoppingCart() {
         return <div>장바구니가 비어있습니다.</div>;
       }
     });
-  }, [cartRef, cartProducts]);
-
-  // console.log(checkItems);
+  }, [currentUser.uid, cartProducts.length]);
 
   const checkoutHandler = () => {
     cartRef
@@ -50,7 +48,6 @@ export default function ShoppingCart() {
             let buyProducts = [];
             buyProducts = doc.data().itemsWithDate;
             itemsWithDate.forEach((el) => buyProducts.push(el));
-            // buyProducts.push(itemsWithDate);
 
             buyRef.update({ itemsWithDate: buyProducts });
           } else {
@@ -65,9 +62,26 @@ export default function ShoppingCart() {
 
   const handleSingleCheck = (checked, id) => {
     if (checked) {
+      cartRef.get().then((doc) => {
+        let newCart = doc.data().products;
+        const sameIndex = doc
+          .data()
+          .products.findIndex((e) => e.productId === id);
+
+        newCart[sameIndex].isChecked = true;
+        cartRef.update({ products: newCart });
+      });
       setCheckItems([...checkItems, id]);
     } else {
       // 체크 해제
+      cartRef.get().then((doc) => {
+        let newCart = doc.data().products;
+        const sameIndex = doc
+          .data()
+          .products.findIndex((e) => e.productId === id);
+        newCart[sameIndex].isChecked = false;
+        cartRef.update({ products: newCart });
+      });
       setCheckItems(checkItems.filter((el) => el !== id));
     }
   };
@@ -83,6 +97,7 @@ export default function ShoppingCart() {
       setCheckItems([]);
     }
   };
+  // console.log(checkItems);
 
   return (
     <div>

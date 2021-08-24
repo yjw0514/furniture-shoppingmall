@@ -13,7 +13,7 @@ export default function Profile() {
   const { currentUser } = useAuth();
   const fileInput = useRef();
   const [loading, setLoading] = useState(false);
-
+  console.log(image);
   useEffect(() => {
     if (currentUser) {
       setLoading(true);

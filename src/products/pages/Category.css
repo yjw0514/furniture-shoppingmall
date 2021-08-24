@@ -19,8 +19,13 @@
   padding-left: 0;
   border-bottom: 1px solid lightgray;
   padding: 0 10px 0;
-  /* flex-wrap: wrap; */
   overflow: hidden;
+}
+
+.no-result {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
 }
 
 .category__list p {

@@ -8,12 +8,13 @@ import { useAuth } from '../../context/auth-context';
 import { useHistory } from 'react-router-dom';
 import { dbService } from '../../firebase';
 import './CategoryItem.css';
+import CommentList from '../../users/pages/CommentList';
 
 export default function CategoryItem(props) {
-  const [value, setValue] = useState(0);
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [value, setValue] = useState(0);
   const { currentUser } = useAuth();
   const [user, setUser] = useState();
   const history = useHistory();
@@ -50,13 +51,15 @@ export default function CategoryItem(props) {
   const closeCartModal = () => {
     setCartModalOpen(false);
   };
-  const ratingSubmitHandler = () => {
+  const ratingSubmitHandler = (comment) => {
     const productDocument = dbService.doc(`/product/${props.id}`);
     const ratingDocument = dbService
       .collection('rating')
-      .where('productId', '==', props.id)
-      .where('userId', '==', currentUser.uid)
-      .limit(1);
+      .doc(`${props.name}_${user.nickName}`);
+
+    // .where('productId', '==', props.id)
+    // .where('userId', '==', user.nickName)
+    // .limit(1);
 
     const rateValue = value;
 
@@ -73,15 +76,18 @@ export default function CategoryItem(props) {
       })
       .then((data) => {
         //유저가 별점을 주지않은 제품
-        if (data.empty) {
+        if (!data.exists) {
           console.log('처음 별점주는 제품');
           return dbService
             .collection('rating')
             .doc(`${props.name}_${user.nickName}`)
             .set({
-              userId: currentUser.uid,
+              nickName: user.nickName,
               productId: props.id,
               rateValue,
+              comment,
+              avatar: user.imageUrl,
+              createdAt: new Date().toISOString(),
             })
             .then(() => {
               productData.scoreCount++;
@@ -97,17 +103,20 @@ export default function CategoryItem(props) {
           console.log('이미별점있는 제품');
           ratingDocument
             .get()
-            .then((data) => {
-              prevScore = data.docs[0].data().rateValue;
+            .then((doc) => {
+              prevScore = doc.data().rateValue;
             })
             .then(() => {
               return dbService
                 .collection('rating')
                 .doc(`${props.name}_${user.nickName}`)
                 .set({
-                  userId: currentUser.uid,
+                  nickName: user.nickName,
                   productId: props.id,
                   rateValue,
+                  comment,
+                  avatar: user.imageUrl,
+                  createdAt: new Date().toISOString(),
                 });
             })
             .then(() => {
@@ -151,7 +160,7 @@ export default function CategoryItem(props) {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         open={ratingModalOpen}
         close={closeRatingModal}
         header='제품에 만족하셨나요?'
@@ -165,7 +174,24 @@ export default function CategoryItem(props) {
             setValue(newValue);
           }}
         />
-      </Modal>
+        </Modal> */}
+      {ratingModalOpen && (
+        <CommentList
+          open={ratingModalOpen}
+          handleClose={closeRatingModal}
+          onReviewSubmit={ratingSubmitHandler}
+          id={props.id}
+        >
+          <Rating
+            name='simple-controlled'
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          />
+        </CommentList>
+      )}
+
       <Modal
         open={loginModalOpen}
         close={closeLoginModal}
