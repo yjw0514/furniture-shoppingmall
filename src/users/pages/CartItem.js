@@ -4,6 +4,7 @@ import { dbService } from "../../firebase";
 import "./CartItem.css";
 
 export default function CartItem(props) {
+  // console.log(props.checkItems);
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
   // console.log(props.price);
@@ -95,7 +96,7 @@ export default function CartItem(props) {
         </td>
         <td>
           <button className="deleteBtn" onClick={deleteHandler}>
-            ×
+            <span>×</span>
           </button>
         </td>
       </tr>

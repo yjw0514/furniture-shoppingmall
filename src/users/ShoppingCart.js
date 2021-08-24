@@ -9,7 +9,8 @@ export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
   const { currentUser } = useAuth();
   const [checkItems, setCheckItems] = useState([]);
-  // const [buyItems, setBuyItems] = useState([]);
+  const [total, setTotal] = useState(0);
+
   const cartRef = dbService.collection("cart").doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
@@ -21,9 +22,7 @@ export default function ShoppingCart() {
         return <div>장바구니가 비어있습니다.</div>;
       }
     });
-  }, []);
-
-  // console.log(checkItems);
+  }, [cartProducts.length, cartRef]);
 
   const checkoutHandler = () => {
     cartRef
@@ -40,7 +39,7 @@ export default function ShoppingCart() {
           return checkItems.includes(el.productId);
         }); //구매한 상품
 
-        const itemsWithDate = [{ ...items, date: new Date() }];
+        let itemsWithDate = [{ ...items, date: new Date() }];
         return itemsWithDate;
         // setBuyItems({ ...items, date: new Date() });
       })
@@ -51,7 +50,6 @@ export default function ShoppingCart() {
             buyProducts = doc.data().itemsWithDate;
             itemsWithDate.forEach((el) => buyProducts.push(el));
             // buyProducts.push(itemsWithDate);
-
             buyRef.update({ itemsWithDate: buyProducts });
           } else {
             buyRef.set({
@@ -66,9 +64,22 @@ export default function ShoppingCart() {
   const handleSingleCheck = (checked, id) => {
     if (checked) {
       setCheckItems([...checkItems, id]);
+
+      cartRef.get().then((doc) => {
+        let cartProducts = doc.data().products;
+        const sameIndex = cartProducts.findIndex((el) => el.productId === id);
+        cartProducts[sameIndex].isChecked = true;
+        cartRef.update({ products: cartProducts });
+      });
     } else {
       // 체크 해제
       setCheckItems(checkItems.filter((el) => el !== id));
+      cartRef.get().then((doc) => {
+        let cartProducts = doc.data().products;
+        const sameIndex = cartProducts.findIndex((el) => el.productId === id);
+        cartProducts[sameIndex].isChecked = false;
+        cartRef.update({ products: cartProducts });
+      });
     }
   };
 
@@ -78,11 +89,32 @@ export default function ShoppingCart() {
       cartProducts.forEach((el, id) => {
         idArray.push(el.productId);
       });
+      cartRef.get().then((doc) => {
+        let cartProducts = doc.data().products;
+        cartProducts.forEach((el) => (el.isChecked = true));
+        cartRef.update({ products: cartProducts });
+      });
+
       setCheckItems(idArray);
     } else {
       setCheckItems([]);
+      cartRef.get().then((doc) => {
+        let cartProducts = doc.data().products;
+        cartProducts.forEach((el) => (el.isChecked = false));
+        cartRef.update({ products: cartProducts });
+      });
     }
   };
+
+  useEffect(() => {
+    let total = 0;
+    for (let i = 0; i < cartProducts.length; i++) {
+      if (cartProducts[i].isChecked === true) {
+        total += cartProducts[i].price * cartProducts[i].quantity;
+        setTotal(total);
+      }
+    }
+  }, [cartProducts]);
 
   return (
     <div>
@@ -136,7 +168,7 @@ export default function ShoppingCart() {
             <div className="total">
               <div className="total_inner">
                 <p>Total :</p>
-                <p>₩ 원</p>
+                <p>₩ {total}원</p>
               </div>
               <button className="total_btn" onClick={checkoutHandler}>
                 <span>Secure Checkout</span>

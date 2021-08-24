@@ -51,7 +51,6 @@ export default function ProductList() {
             >
               {products.map((product) => (
                 <ProductItem
-                  id={product.id}
                   key={product.id}
                   id={product.id}
                   name={product.name}

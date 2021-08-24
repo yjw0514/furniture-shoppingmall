@@ -4,8 +4,21 @@ import { useAuth } from "../../context/auth-context";
 import { dbService } from "../../firebase";
 import Modal from "../../shared/UIElement/Modal";
 import "./ProductItem.css";
+import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 export default function ProductItem(props) {
+  const classes = useStyles();
+
   const { currentUser } = useAuth();
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,8 +40,8 @@ export default function ProductItem(props) {
         category: props.category,
         quantity: 1,
         price: props.price,
-
         image: props.image,
+        isChecked: false,
       };
       const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
 
@@ -59,7 +72,15 @@ export default function ProductItem(props) {
                 cartRef.update({ products: newProducts });
               }
             })
-            .then(() => {})
+            .then((result) => {
+              return (
+                <div className={classes.root}>
+                  <Alert severity="success">
+                    This is a success alert — check it out!
+                  </Alert>
+                </div>
+              );
+            })
             .catch((err) => console.log(err));
         }
       });

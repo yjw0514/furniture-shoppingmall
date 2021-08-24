@@ -49,11 +49,15 @@ td:nth-child(1) {
 .deleteBtn {
   width: 16px;
   height: 16px;
-  font-size: 1.5rem;
-  line-height: 1rem;
   cursor: pointer;
   border-radius: 3px;
   border: 1px solid rgb(200, 200, 200);
   background-color: rgb(240, 240, 240);
+}
+
+.deleteBtn > span {
+  font-size: 1.5rem;
+  line-height: 1rem;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
 }
