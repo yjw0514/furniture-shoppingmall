@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./ShoppingCart.css";
 import Container from "@material-ui/core/Container";
-import { useAuth } from "../context/auth-context";
-import { dbService } from "../firebase";
-import CartItem from "./pages/CartItem";
+import { useAuth } from "../../context/auth-context";
+import { dbService } from "../../firebase";
+import CartItem from "./CartItem";
 
 export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -39,7 +39,9 @@ export default function ShoppingCart() {
           return checkItems.includes(el.productId);
         }); //구매한 상품
 
-        let itemsWithDate = [{ ...items, date: new Date() }];
+        let itemsWithDate = [
+          { products: [...items], date: new Date().toISOString() },
+        ];
         return itemsWithDate;
         // setBuyItems({ ...items, date: new Date() });
       })
@@ -168,7 +170,7 @@ export default function ShoppingCart() {
             <div className="total">
               <div className="total_inner">
                 <p>Total :</p>
-                <p>₩ {total}원</p>
+                <p>₩ {total}</p>
               </div>
               <button className="total_btn" onClick={checkoutHandler}>
                 <span>Secure Checkout</span>

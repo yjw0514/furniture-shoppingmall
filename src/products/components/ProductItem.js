@@ -5,19 +5,24 @@ import { dbService } from "../../firebase";
 import Modal from "../../shared/UIElement/Modal";
 import "./ProductItem.css";
 import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 export default function ProductItem(props) {
-  const classes = useStyles();
+  // const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const { currentUser } = useAuth();
   const history = useHistory();
@@ -73,13 +78,7 @@ export default function ProductItem(props) {
               }
             })
             .then((result) => {
-              return (
-                <div className={classes.root}>
-                  <Alert severity="success">
-                    This is a success alert — check it out!
-                  </Alert>
-                </div>
-              );
+              setOpen(true);
             })
             .catch((err) => console.log(err));
         }
@@ -115,6 +114,7 @@ export default function ProductItem(props) {
           </button>
         </div>
       </li>
+      <Snackbar open={open} close={handleClose} />
     </>
   );
 }

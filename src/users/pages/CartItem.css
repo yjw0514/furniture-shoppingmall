@@ -46,18 +46,18 @@ td:nth-child(1) {
   -moz-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
-.deleteBtn {
-  width: 16px;
-  height: 16px;
+/* .deleteBtn {
+  width: 12px;
+  height: 12px;
   cursor: pointer;
   border-radius: 3px;
   border: 1px solid rgb(200, 200, 200);
   background-color: rgb(240, 240, 240);
-}
+} */
 
-.deleteBtn > span {
+/* .deleteBtn > span {
   font-size: 1.5rem;
   line-height: 1rem;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
-}
+} */

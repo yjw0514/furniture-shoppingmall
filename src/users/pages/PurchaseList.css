@@ -1,0 +1,56 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.purchaselist {
+  width: 100%;
+  margin-top: 5rem;
+}
+
+.purchaselist > h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: rgb(51, 51, 51);
+  margin-bottom: 80px;
+}
+
+.list_table {
+  width: 100%;
+  border-collapse: collapse;
+  padding: 4px;
+}
+
+.list_th {
+  padding: 0 10px 10px;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgb(100, 100, 100);
+  border-bottom: 1px solid rgb(221, 221, 221);
+  vertical-align: middle;
+}
+
+.list_th:last-child {
+  font-size: 16px;
+}
+
+.list_th:nth-child(1) {
+  width: 20%;
+}
+
+.list_th:nth-child(2) {
+  width: 20%;
+}
+
+.list_th:nth-child(3) {
+  width: 20%;
+}
+
+.list_th:nth-child(4) {
+  width: 10%;
+}
+
+.list_th:nth-child(5) {
+  width: 20%;
+}
