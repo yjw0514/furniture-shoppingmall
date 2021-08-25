@@ -37,10 +37,12 @@ export default function ShoppingCart() {
         const items = doc.data().products.filter((el) => {
           return checkItems.includes(el.productId);
         }); //구매한 상품
-
-        const itemsWithDate = [{ ...items, date: new Date() }];
+        console.log(items);
+        const itemsWithDate = [
+          { products: [...items], date: new Date().toISOString() },
+        ];
+        console.log(itemsWithDate);
         return itemsWithDate;
-        // setBuyItems({ ...items, date: new Date() });
       })
       .then((itemsWithDate) => {
         buyRef.get().then((doc) => {
@@ -73,7 +75,6 @@ export default function ShoppingCart() {
       });
       setCheckItems([...checkItems, id]);
     } else {
-      // 체크 해제
       cartRef.get().then((doc) => {
         let newCart = doc.data().products;
         const sameIndex = doc
@@ -97,7 +98,6 @@ export default function ShoppingCart() {
       setCheckItems([]);
     }
   };
-  // console.log(checkItems);
 
   return (
     <div>

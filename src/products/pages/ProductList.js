@@ -3,12 +3,15 @@ import { useState } from 'react';
 import { dbService } from '../../firebase';
 import ProductItem from '../components/ProductItem';
 import Container from '@material-ui/core/Container';
-import './ProductList.css';
+import SnackBar from '../../shared/UIElement/SnackBar';
 import { FaAngleLeft } from 'react-icons/fa';
 import { FaAngleRight } from 'react-icons/fa';
+import './ProductList.css';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const [sccessModalOpen, setSuccessModalOpen] = useState(false);
+
   useEffect(() => {
     dbService
       .collection('product')
@@ -23,6 +26,14 @@ export default function ProductList() {
       });
   }, []);
 
+  const openSuccessModal = () => {
+    setSuccessModalOpen(true);
+  };
+
+  const closeSuccessModal = () => {
+    setSuccessModalOpen(false);
+  };
+
   const sliderArr = products;
   const [x, setX] = useState(0);
 
@@ -36,7 +47,11 @@ export default function ProductList() {
   };
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      <SnackBar
+        sccessModalOpen={sccessModalOpen}
+        closeSuccessModal={closeSuccessModal}
+      />
       <section className='hero'>
         <img src='image/main.jpg' alt='main' />
       </section>
@@ -57,6 +72,7 @@ export default function ProductList() {
                   price={product.price}
                   image={product.imageUrl}
                   category={product.category}
+                  openSuccessModal={openSuccessModal}
                 />
               ))}
             </ul>

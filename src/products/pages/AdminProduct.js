@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { dbService } from '../../firebase';
+// import { fetchProducts } from '../../shared/util/fetchAdminProducts';
 import AdminProductList from '../components/AdminProductList';
 export default function AdminProduct() {
   const [productList, setProductList] = useState([]);
   const [limit] = useState(3);
   const [currentPage, setCurrntPage] = useState(1);
+  // const [lastDoc, setLastDoc] = useState(null);
+  // const [count, setCount] = useState();
 
   useEffect(() => {
-    dbService.collection('product').onSnapshot((snapshot) => {
-      setProductList(
-        snapshot.docs.map((doc) => {
-          return { productId: doc.id, ...doc.data() };
-        })
-      );
-    });
+    console.log('useEffect from admin productlist');
+    dbService
+      .collection('product')
+      .orderBy('date')
+      // .limit(3)
+      .get()
+      .then((docs) => {
+        let loadedProducts = [];
+        docs.forEach((doc) => {
+          loadedProducts.push(doc.data());
+        });
+
+        setProductList(loadedProducts);
+      });
   }, []);
 
   const setCurrentPage = (number) => {
     setCurrntPage(number);
+    // const { lastVisible, products } = fetchProducts(lastDoc);
   };
 
   const lastIndex = currentPage * limit;
@@ -28,6 +39,7 @@ export default function AdminProduct() {
   return (
     <AdminProductList
       currentProducts={currentProducts}
+      // count={count / 3}
       count={Math.ceil(productList.length / limit)}
       setCurrentPage={setCurrentPage}
     />

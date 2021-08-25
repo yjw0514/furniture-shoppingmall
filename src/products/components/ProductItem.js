@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
 import Modal from '../../shared/UIElement/Modal';
+
 import './ProductItem.css';
 
 export default function ProductItem(props) {
@@ -18,6 +19,7 @@ export default function ProductItem(props) {
   };
 
   const addCartHandler = () => {
+    console.log('d');
     if (!currentUser) {
       openModal();
     } else {
@@ -58,8 +60,8 @@ export default function ProductItem(props) {
                 newProducts.push(newProduct);
                 cartRef.update({ products: newProducts });
               }
+              props.openSuccessModal();
             })
-            .then(() => {})
             .catch((err) => console.log(err));
         }
       });

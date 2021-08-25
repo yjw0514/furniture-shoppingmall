@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './ShoppingCart.css';
 import Container from '@material-ui/core/Container';
-import { useAuth } from '../context/auth-context';
-import { dbService } from '../firebase';
+import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
 import CircularProgress from '@material-ui/core/CircularProgress';
 // import CartItem from './pages/CartItem';
 import CartItemTest from './pages/CartItemTest';

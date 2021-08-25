@@ -11,9 +11,11 @@ export default function CategoryList(props) {
     setSearchTerm(e.target.value);
     props.onSearchFilter(e.target.value);
   };
-
   return (
-    <section className='category'>
+    <section
+      className='category'
+      style={props.filterProducts.length > 0 ? null : { height: '150vh' }}
+    >
       <div className='category__main'>
         <div className='main__img'>
           <img src='image/main.jpg' alt='category-main-img' />

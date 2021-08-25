@@ -13,7 +13,7 @@ export default function Profile() {
   const { currentUser } = useAuth();
   const fileInput = useRef();
   const [loading, setLoading] = useState(false);
-  console.log(image);
+
   useEffect(() => {
     if (currentUser) {
       setLoading(true);
@@ -22,21 +22,20 @@ export default function Profile() {
         .where('userId', '==', currentUser.uid)
         .limit(1)
         .onSnapshot((sanpshot) => {
-          console.log('snapshot listening...');
           setUser(sanpshot.docs[0].data());
-          console.log(sanpshot.docs[0].data());
+
           setLoading(false);
         });
     }
   }, [currentUser]);
 
+  console.log(image);
   const handleChange = (e) => {
     const image = e.target.files[0];
 
     if (image) {
       setImage(image);
     }
-
     setLoading(true);
     const uploadImage = storage.ref(`images/avatar/${image.name}`).put(image);
     uploadImage.on(
@@ -68,7 +67,8 @@ export default function Profile() {
       {!loading && user && (
         <Container maxWidth='md' style={{ height: '80vh' }}>
           <Card
-            style={{ maxWidth: '450px', marginTop: '150px', padding: '10px' }}
+            elevation={4}
+            style={{ maxWidth: '500px', marginTop: '150px', padding: '30px' }}
           >
             <div className='user-container'>
               <div className='user__avatar'>

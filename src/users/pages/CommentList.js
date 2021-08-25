@@ -89,12 +89,13 @@ export default function Comments(props) {
     (node) => {
       if (observer.current) observer.current.disconnect();
       let options = {
-        rootMargin: '0px 0px 0px 0px',
-        threshold: 0,
+        rootMargin: '0px',
+        threshold: 1,
       };
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
+          console.log('bottom');
           fetchNextComments();
         }
       }, options);
@@ -145,9 +146,8 @@ export default function Comments(props) {
               {commentList.map((comment, index) => {
                 if (commentList.length === index + 1) {
                   return (
-                    <div ref={lastCommentElement} id='lastComment'>
+                    <div ref={lastCommentElement} key={comment.id}>
                       <CommentItem
-                        key={comment.id}
                         createdAt={comment.createdAt}
                         comment={comment.comment}
                         avatar={comment.avatar}
