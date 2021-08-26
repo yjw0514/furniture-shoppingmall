@@ -6,6 +6,8 @@ import Footer from '../shared/UIElement/Footer';
 import Auth from '../users/pages/Auth';
 import Profile from '../users/pages/Profile';
 import NewProduct from '../products/pages/NewProduct';
+
+import './AppRouter.css';
 import Category from '../products/pages/Category';
 import ProductList from '../products/pages/ProductList';
 import ProductDetail from '../products/components/ProductDetail';
@@ -13,8 +15,8 @@ import ShoppingCart from '../users/pages/ShoppingCart';
 import PrivateRoute from './PrivateRoute';
 import AdminProduct from '../products/pages/AdminProduct';
 import EditProduct from '../products/pages/EditProduct';
+import PurchaseList from '../users/pages/PurchaseList';
 
-import './AppRouter.css';
 export default function AppRouter() {
   return (
     <>
@@ -43,6 +45,7 @@ export default function AppRouter() {
             </Route>
             <PrivateRoute path='/users/profile' component={Profile} />
             <PrivateRoute path='/users/cart' component={ShoppingCart} />
+            <PrivateRoute path='/users/purchaselist' component={PurchaseList} />
           </Switch>
           <Footer />
         </AuthProvider>

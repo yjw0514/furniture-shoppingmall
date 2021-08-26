@@ -2,8 +2,12 @@ import React from 'react';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
 import './CartItem.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default function CartItem(props) {
+  // console.log(props.checkItems);
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
   // console.log(props.price);
@@ -91,12 +95,20 @@ export default function CartItem(props) {
           {(props.price * props.quantity)
             .toString()
             .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
-          원
         </td>
         <td>
-          <button className='deleteBtn' onClick={deleteHandler}>
-            ×
-          </button>
+          {/* <button className="deleteBtn" onClick={deleteHandler}>
+            <span>×</span>
+          </button> */}
+          <Tooltip title='Delete'>
+            <IconButton
+              aria-label='delete'
+              className='deleteBtn'
+              onClick={deleteHandler}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </td>
       </tr>
     </>

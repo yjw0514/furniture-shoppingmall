@@ -3,16 +3,26 @@ import { useState } from 'react';
 import { dbService } from '../../firebase';
 import ProductItem from '../components/ProductItem';
 import Container from '@material-ui/core/Container';
-import SnackBar from '../../shared/UIElement/SnackBar';
+import './ProductList.css';
 import { FaAngleLeft } from 'react-icons/fa';
 import { FaAngleRight } from 'react-icons/fa';
-import './ProductList.css';
+import SnackBar from '../../shared/UIElement/SnackBar';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-  const [sccessModalOpen, setSuccessModalOpen] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   useEffect(() => {
+    console.log('useeffect productlist');
     dbService
       .collection('product')
       .orderBy('date', 'desc')
@@ -25,14 +35,6 @@ export default function ProductList() {
         );
       });
   }, []);
-
-  const openSuccessModal = () => {
-    setSuccessModalOpen(true);
-  };
-
-  const closeSuccessModal = () => {
-    setSuccessModalOpen(false);
-  };
 
   const sliderArr = products;
   const [x, setX] = useState(0);
@@ -48,16 +50,15 @@ export default function ProductList() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <SnackBar
-        sccessModalOpen={sccessModalOpen}
-        closeSuccessModal={closeSuccessModal}
-      />
       <section className='hero'>
         <img src='image/main.jpg' alt='main' />
       </section>
 
       <Container maxWidth='lg'>
         <section className='latest'>
+          <SnackBar open={open} close={handleClose}>
+            장바구니에 담겼습니다.
+          </SnackBar>
           <h2 className='title'>Latest Products</h2>
           <div className='productlist_wrap'>
             <ul
@@ -66,13 +67,12 @@ export default function ProductList() {
             >
               {products.map((product) => (
                 <ProductItem
-                  id={product.id}
                   key={product.id}
                   name={product.name}
                   price={product.price}
                   image={product.imageUrl}
                   category={product.category}
-                  openSuccessModal={openSuccessModal}
+                  handleClick={handleClick}
                 />
               ))}
             </ul>

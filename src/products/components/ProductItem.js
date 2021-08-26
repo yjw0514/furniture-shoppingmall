@@ -3,10 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
 import Modal from '../../shared/UIElement/Modal';
-
 import './ProductItem.css';
 
 export default function ProductItem(props) {
+  // const classes = useStyles();
+
   const { currentUser } = useAuth();
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,7 +61,9 @@ export default function ProductItem(props) {
                 newProducts.push(newProduct);
                 cartRef.update({ products: newProducts });
               }
-              props.openSuccessModal();
+            })
+            .then((result) => {
+              props.handleClick();
             })
             .catch((err) => console.log(err));
         }
