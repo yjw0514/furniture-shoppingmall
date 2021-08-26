@@ -15,14 +15,14 @@ export default function ShoppingCart() {
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
   useEffect(() => {
+    console.log("g");
+    const cartRef = dbService.collection("cart").doc(currentUser.uid);
     cartRef.onSnapshot((doc) => {
       if (doc.exists) {
         setCartProducts(doc.data().products);
-      } else if (cartProducts.length === 0) {
-        return <div>장바구니가 비어있습니다.</div>;
       }
     });
-  }, [cartProducts.length, cartRef]);
+  }, [currentUser.uid]);
 
   const checkoutHandler = () => {
     cartRef
@@ -72,6 +72,13 @@ export default function ShoppingCart() {
         const sameIndex = cartProducts.findIndex((el) => el.productId === id);
         cartProducts[sameIndex].isChecked = true;
         cartRef.update({ products: cartProducts });
+        let total = 0;
+        cartProducts.forEach((el, i) => {
+          if (cartProducts[i].isChecked === true) {
+            total += cartProducts[i].price * cartProducts[i].quantity;
+          }
+        });
+        setTotal(total);
       });
     } else {
       // 체크 해제
@@ -81,6 +88,13 @@ export default function ShoppingCart() {
         const sameIndex = cartProducts.findIndex((el) => el.productId === id);
         cartProducts[sameIndex].isChecked = false;
         cartRef.update({ products: cartProducts });
+        let total = 0;
+        cartProducts.forEach((el, i) => {
+          if (cartProducts[i].isChecked === true) {
+            total += cartProducts[i].price * cartProducts[i].quantity;
+          }
+        });
+        setTotal(total);
       });
     }
   };
@@ -95,6 +109,11 @@ export default function ShoppingCart() {
         let cartProducts = doc.data().products;
         cartProducts.forEach((el) => (el.isChecked = true));
         cartRef.update({ products: cartProducts });
+        let total = 0;
+        cartProducts.forEach(
+          (el, i) => (total += cartProducts[i].price * cartProducts[i].quantity)
+        );
+        setTotal(total);
       });
 
       setCheckItems(idArray);
@@ -104,19 +123,14 @@ export default function ShoppingCart() {
         let cartProducts = doc.data().products;
         cartProducts.forEach((el) => (el.isChecked = false));
         cartRef.update({ products: cartProducts });
+        let total = 0;
+        cartProducts.forEach(
+          (el, i) => (total += cartProducts[i].price * cartProducts[i].quantity)
+        );
+        setTotal(total);
       });
     }
   };
-
-  useEffect(() => {
-    let total = 0;
-    for (let i = 0; i < cartProducts.length; i++) {
-      if (cartProducts[i].isChecked === true) {
-        total += cartProducts[i].price * cartProducts[i].quantity;
-        setTotal(total);
-      }
-    }
-  }, [cartProducts]);
 
   return (
     <div>

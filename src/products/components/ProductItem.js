@@ -4,25 +4,9 @@ import { useAuth } from "../../context/auth-context";
 import { dbService } from "../../firebase";
 import Modal from "../../shared/UIElement/Modal";
 import "./ProductItem.css";
-import { makeStyles } from "@material-ui/core/styles";
-import MuiAlert from "@material-ui/lab/Alert";
-import SnackBar from "../../shared/UIElement/SnackBar";
 
 export default function ProductItem(props) {
   // const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  // const handleClick = () => {
-  //   setOpen(true);
-  // };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const { currentUser } = useAuth();
   const history = useHistory();
@@ -78,7 +62,7 @@ export default function ProductItem(props) {
               }
             })
             .then((result) => {
-              setOpen(true);
+              props.handleClick();
             })
             .catch((err) => console.log(err));
         }
@@ -114,9 +98,6 @@ export default function ProductItem(props) {
           </button>
         </div>
       </li>
-      <SnackBar open={open} close={handleClose}>
-        장바구니에 담겼습니다.
-      </SnackBar>
     </>
   );
 }

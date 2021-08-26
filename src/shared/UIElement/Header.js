@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -67,12 +67,21 @@ export default function Header() {
       .catch((err) => console.log(err));
   }
 
-  const cartRef = dbService.collection("cart").doc(currentUser.uid);
+  useEffect(() => {
+    console.log("useeffect header");
+    if (currentUser) {
+      const cartRef = dbService.collection("cart").doc(currentUser.uid);
 
-  cartRef.onSnapshot((doc) => {
-    let cartNum = doc.data().products.length;
-    setCartNum(cartNum);
-  });
+      cartRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          let cartNum = doc.data().products.length;
+          setCartNum(cartNum);
+        } else {
+          return;
+        }
+      });
+    }
+  }, []);
 
   return (
     <div className={classes.root}>

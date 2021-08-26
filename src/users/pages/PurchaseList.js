@@ -11,6 +11,9 @@ export default function PurchaseList() {
   const [buyProducts, setBuyProducts] = useState([]);
 
   useEffect(() => {
+    console.log("useeffect purchaselist");
+    const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
+
     buyRef.onSnapshot((doc) => {
       if (doc.exists) {
         setBuyProducts(doc.data().itemsWithDate);
@@ -19,7 +22,7 @@ export default function PurchaseList() {
         return <div>구매한 상품이 없습니다.</div>;
       }
     });
-  }, []);
+  }, [buyProducts.length, currentUser.uid]);
 
   return (
     <div>

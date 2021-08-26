@@ -8,7 +8,7 @@ import Profile from "../users/pages/Profile";
 import NewProduct from "../products/pages/NewProduct";
 
 import "./AppRouter.css";
-import Category from "../products/pages/Category";
+// import Category from "../products/pages/Category";
 import ProductList from "../products/pages/ProductList";
 import ProductDetail from "../products/components/ProductDetail";
 import ShoppingCart from "../users/pages/ShoppingCart";
@@ -26,9 +26,9 @@ export default function AppRouter() {
             <Route path="/" exact>
               <ProductList />
             </Route>
-            <Route path="/category" exact>
+            {/* <Route path="/category" exact>
               <Category />
-            </Route>
+            </Route> */}
             <Route path="/auth">
               <Auth />
             </Route>

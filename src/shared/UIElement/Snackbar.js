@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SnackBar(props) {
   const classes = useStyles();
 
-  let content = (
+  return (
     <Snackbar
       open={props.open}
       autoHideDuration={6000}
@@ -29,10 +29,5 @@ export default function SnackBar(props) {
         {props.children}
       </Alert>
     </Snackbar>
-  );
-
-  return reactDom.createPortal(
-    content,
-    document.getElementById("snackbar-hook")
   );
 }

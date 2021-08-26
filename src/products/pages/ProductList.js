@@ -6,10 +6,23 @@ import Container from "@material-ui/core/Container";
 import "./ProductList.css";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
+import SnackBar from "../../shared/UIElement/SnackBar";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
+
   useEffect(() => {
+    console.log("useeffect productlist");
     dbService
       .collection("product")
       .orderBy("date", "desc")
@@ -43,6 +56,9 @@ export default function ProductList() {
 
       <Container maxWidth="lg">
         <section className="latest">
+          <SnackBar open={open} close={handleClose}>
+            장바구니에 담겼습니다.
+          </SnackBar>
           <h2 className="title">Latest Products</h2>
           <div className="productlist_wrap">
             <ul
@@ -57,6 +73,7 @@ export default function ProductList() {
                   price={product.price}
                   image={product.imageUrl}
                   category={product.category}
+                  handleClick={handleClick}
                 />
               ))}
             </ul>
