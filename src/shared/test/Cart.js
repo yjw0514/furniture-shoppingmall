@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ShoppingCart.css';
+// import './ShoppingCart.css';
 import Container from '@material-ui/core/Container';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';

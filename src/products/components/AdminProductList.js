@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Container from '@material-ui/core/Container';
-import '../../users/ShoppingCart.css';
+import '../../users/pages/ShoppingCart.css';
 import { Pagination } from '@material-ui/lab';
 
 import './AdminProductList.css';

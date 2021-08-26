@@ -9,7 +9,7 @@ import NewProduct from '../products/pages/NewProduct';
 import Category from '../products/pages/Category';
 import ProductList from '../products/pages/ProductList';
 import ProductDetail from '../products/components/ProductDetail';
-import ShoppingCart from '../users/ShoppingCart';
+import ShoppingCart from '../users/pages/ShoppingCart';
 import PrivateRoute from './PrivateRoute';
 import AdminProduct from '../products/pages/AdminProduct';
 import EditProduct from '../products/pages/EditProduct';
