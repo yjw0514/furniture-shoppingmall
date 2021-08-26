@@ -1,11 +1,10 @@
 import React from 'react';
-
 import Container from '@material-ui/core/Container';
 import '../../users/pages/ShoppingCart.css';
 import { Pagination } from '@material-ui/lab';
+import AdminProductItem from './AdminProductItem';
 
 import './AdminProductList.css';
-import AdminProductItem from './AdminProductItem';
 
 export default function AdminProductList({
   loading,
