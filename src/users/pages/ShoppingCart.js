@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import "./ShoppingCart.css";
-import Container from "@material-ui/core/Container";
-import { useAuth } from "../../context/auth-context";
-import { dbService } from "../../firebase";
-import CartItem from "./CartItem";
+import React, { useEffect, useState } from 'react';
+import './ShoppingCart.css';
+import Container from '@material-ui/core/Container';
+import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
+import CartItem from './CartItem';
 
 export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -11,14 +11,15 @@ export default function ShoppingCart() {
   const [checkItems, setCheckItems] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const cartRef = dbService.collection("cart").doc(currentUser.uid);
+  const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
   useEffect(() => {
-    console.log("g");
-    const cartRef = dbService.collection("cart").doc(currentUser.uid);
+    console.log('g');
+    const cartRef = dbService.collection('cart').doc(currentUser.uid);
     cartRef.onSnapshot((doc) => {
       if (doc.exists) {
+        console.log(doc.data().products);
         setCartProducts(doc.data().products);
       }
     });
@@ -134,24 +135,24 @@ export default function ShoppingCart() {
 
   return (
     <div>
-      <Container maxWidth="lg">
-        <section className="shopping_cart">
+      <Container maxWidth='lg'>
+        <section className='shopping_cart'>
           <h2>Your Shopping Bag</h2>
-          <table className="cart_table">
+          <table className='cart_table'>
             {/* table title */}
             <thead>
               <tr>
-                <th className="checkboxAll">
+                <th className='checkboxAll'>
                   <input
-                    type="checkbox"
-                    name="checkboxAll"
-                    id="checkAll"
+                    type='checkbox'
+                    name='checkboxAll'
+                    id='checkAll'
                     onChange={(e) => checkAllHandler(e.target.checked)}
                     checked={
                       checkItems.length === cartProducts.length ? true : false
                     }
                   />
-                  <label htmlFor="checkAll">전체 선택</label>
+                  <label htmlFor='checkAll'>전체 선택</label>
                 </th>
                 <th>Item</th>
                 <th></th>
@@ -180,18 +181,18 @@ export default function ShoppingCart() {
             </tbody>
           </table>
           {/* total */}
-          <div className="checkout">
-            <div className="total">
-              <div className="total_inner">
+          <div className='checkout'>
+            <div className='total'>
+              <div className='total_inner'>
                 <p>Total :</p>
                 <p>
-                  ₩{" "}
+                  ₩{' '}
                   {total
                     .toString()
-                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
                 </p>
               </div>
-              <button className="total_btn" onClick={checkoutHandler}>
+              <button className='total_btn' onClick={checkoutHandler}>
                 <span>Secure Checkout</span>
               </button>
             </div>

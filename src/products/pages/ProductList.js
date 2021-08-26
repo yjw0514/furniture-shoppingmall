@@ -9,10 +9,10 @@ import { FaAngleRight } from 'react-icons/fa';
 import SnackBar from '../../shared/UIElement/SnackBar';
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
+    console.log('ddd');
     setOpen(true);
   };
 
@@ -66,6 +66,7 @@ export default function ProductList() {
             >
               {products.map((product) => (
                 <ProductItem
+                  id={product.id}
                   key={product.id}
                   name={product.name}
                   price={product.price}

@@ -34,7 +34,7 @@ export default function ProductItem(props) {
         isChecked: false,
       };
       const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
-
+      console.log(currentUser.uid);
       cartRef.get().then((doc) => {
         if (!doc.exists) {
           dbService.doc(`/cart/${currentUser.uid}`).set({

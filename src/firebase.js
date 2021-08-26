@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyCgaebHPnEizpmup_nOA29cV9WDKMWKHNM',
   authDomain: 'todo-test-7dc8f.firebaseapp.com',
   projectId: 'todo-test-7dc8f',
