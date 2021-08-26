@@ -5,12 +5,12 @@ import { dbService } from "../../firebase";
 import Modal from "../../shared/UIElement/Modal";
 import "./ProductItem.css";
 import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import SnackBar from "../../shared/UIElement/SnackBar";
 
 export default function ProductItem(props) {
   // const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // const handleClick = () => {
   //   setOpen(true);
@@ -114,7 +114,9 @@ export default function ProductItem(props) {
           </button>
         </div>
       </li>
-      <Snackbar open={open} close={handleClose} />
+      <SnackBar open={open} close={handleClose}>
+        장바구니에 담겼습니다.
+      </SnackBar>
     </>
   );
 }

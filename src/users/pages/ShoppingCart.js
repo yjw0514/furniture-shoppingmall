@@ -170,7 +170,12 @@ export default function ShoppingCart() {
             <div className="total">
               <div className="total_inner">
                 <p>Total :</p>
-                <p>₩ {total}</p>
+                <p>
+                  ₩{" "}
+                  {total
+                    .toString()
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                </p>
               </div>
               <button className="total_btn" onClick={checkoutHandler}>
                 <span>Secure Checkout</span>
