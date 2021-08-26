@@ -7,7 +7,6 @@ import './ProductList.css';
 import { FaAngleLeft } from 'react-icons/fa';
 import { FaAngleRight } from 'react-icons/fa';
 import SnackBar from '../../shared/UIElement/SnackBar';
-
 export default function ProductList() {
   const [products, setProducts] = useState([]);
 
