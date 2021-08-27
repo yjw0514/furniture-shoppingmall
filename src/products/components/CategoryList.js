@@ -1,32 +1,45 @@
-import React, { useState } from 'react';
-import CategoryItem from './CategoryItem';
+import React, { useState } from "react";
+import CategoryItem from "./CategoryItem";
 
-import { Container, Divider, TextField } from '@material-ui/core';
-import { FaBed, FaChair, FaAddressCard } from 'react-icons/fa';
-import { GiDesk, GiSofa } from 'react-icons/gi';
-import '../pages/Category.css';
+import { Container, Divider, TextField } from "@material-ui/core";
+import { FaBed, FaChair, FaAddressCard } from "react-icons/fa";
+import { GiDesk, GiSofa } from "react-icons/gi";
+import "../pages/Category.css";
+import SnackBar from "../../shared/UIElement/SnackBar";
+
 export default function CategoryList(props) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    // console.log("ddd");
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
+
+  const [searchTerm, setSearchTerm] = useState("");
   const searchTermHandler = (e) => {
     setSearchTerm(e.target.value);
     props.onSearchFilter(e.target.value);
   };
   return (
     <section
-      className='category'
-      style={props.filterProducts.length > 0 ? null : { height: '150vh' }}
+      className="category"
+      style={props.filterProducts.length > 0 ? null : { height: "150vh" }}
     >
-      <div className='category__main'>
-        <div className='main__img'>
-          <img src='image/main.jpg' alt='category-main-img' />
+      <div className="category__main">
+        <div className="main__img">
+          <img src="image/main.jpg" alt="category-main-img" />
         </div>
       </div>
-      <ul className='category__list'>
-        <Divider orientation='vertical' flexItem />
+      <ul className="category__list">
+        <Divider orientation="vertical" flexItem />
         <li
-          className='list-item'
+          className="list-item"
           onClick={() => {
-            props.categorySelectHandler('all');
+            props.categorySelectHandler("all");
           }}
         >
           <span>
@@ -34,11 +47,11 @@ export default function CategoryList(props) {
           </span>
           <p>ALL</p>
         </li>
-        <Divider orientation='vertical' flexItem />
+        <Divider orientation="vertical" flexItem />
         <li
-          className='list-item'
+          className="list-item"
           onClick={() => {
-            props.categorySelectHandler('sofa');
+            props.categorySelectHandler("sofa");
           }}
         >
           <span>
@@ -46,11 +59,11 @@ export default function CategoryList(props) {
           </span>
           <p>SOFA</p>
         </li>
-        <Divider orientation='vertical' flexItem />
+        <Divider orientation="vertical" flexItem />
         <li
-          className='list-item'
+          className="list-item"
           onClick={() => {
-            props.categorySelectHandler('bed');
+            props.categorySelectHandler("bed");
           }}
         >
           <span>
@@ -58,12 +71,12 @@ export default function CategoryList(props) {
           </span>
           <p>BED</p>
         </li>
-        <Divider orientation='vertical' flexItem />
+        <Divider orientation="vertical" flexItem />
 
         <li
-          className='list-item'
+          className="list-item"
           onClick={() => {
-            props.categorySelectHandler('chair');
+            props.categorySelectHandler("chair");
           }}
         >
           <span>
@@ -71,11 +84,11 @@ export default function CategoryList(props) {
           </span>
           <p>CHIAR</p>
         </li>
-        <Divider orientation='vertical' flexItem />
+        <Divider orientation="vertical" flexItem />
         <li
-          className='list-item'
+          className="list-item"
           onClick={() => {
-            props.categorySelectHandler('desk');
+            props.categorySelectHandler("desk");
           }}
         >
           <span>
@@ -83,49 +96,52 @@ export default function CategoryList(props) {
           </span>
           <p>DESK</p>
         </li>
-        <Divider orientation='vertical' flexItem />
+        <Divider orientation="vertical" flexItem />
       </ul>
-      <Container maxWidth='lg'>
-        <div className='category__list-header'>
-          <h1 className='category__title'>{props.selecteCategory}</h1>
+      <Container maxWidth="lg">
+        <div className="category__list-header">
+          <h1 className="category__title">{props.selecteCategory}</h1>
 
-          <ul className='category__filter'>
+          <ul className="category__filter">
             <li
-              className='filter-item'
+              className="filter-item"
               onClick={() => {
-                props.productFilter('desc');
+                props.productFilter("desc");
               }}
             >
               낮은가격순
             </li>
             <li
-              className='filter-item'
+              className="filter-item"
               onClick={() => {
-                props.productFilter('asce');
+                props.productFilter("asce");
               }}
             >
               높은가격순
             </li>
             <li
-              className='filter-item'
+              className="filter-item"
               onClick={() => {
-                props.productFilter('register');
+                props.productFilter("register");
               }}
             >
               최근제품순
             </li>
           </ul>
         </div>
-        <div className='search'>
+        <div className="search">
           <TextField
-            id='standard-basic'
-            label='검색어'
+            id="standard-basic"
+            label="검색어"
             onChange={searchTermHandler}
             value={searchTerm}
           />
         </div>
         {props.filterProducts.length > 0 ? (
-          <ul className='category-list'>
+          <ul className="category-list">
+            <SnackBar open={open} close={handleClose}>
+              장바구니에 담겼습니다.
+            </SnackBar>
             {props.filterProducts &&
               props.filterProducts.map((product) => (
                 <CategoryItem
@@ -137,11 +153,12 @@ export default function CategoryList(props) {
                   category={product.category}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
+                  handleClick={handleClick}
                 />
               ))}
           </ul>
         ) : (
-          <h1 className='no-result'>검색결과가 없습니다.</h1>
+          <h1 className="no-result">검색결과가 없습니다.</h1>
         )}
       </Container>
     </section>

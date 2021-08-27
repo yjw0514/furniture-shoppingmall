@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import Modal from '../../shared/UIElement/Modal';
-import Rating from '@material-ui/lab/Rating';
+import Modal from "../../shared/UIElement/Modal";
+import Rating from "@material-ui/lab/Rating";
 
-import { useAuth } from '../../context/auth-context';
-import { useHistory } from 'react-router-dom';
-import { dbService } from '../../firebase';
-import './CategoryItem.css';
-import CommentList from '../../users/pages/CommentList';
-import { addComment } from '../../shared/util/rating';
+import { useAuth } from "../../context/auth-context";
+import { useHistory } from "react-router-dom";
+import { dbService } from "../../firebase";
+import "./CategoryItem.css";
+import CommentList from "../../users/pages/CommentList";
+import { addComment } from "../../shared/util/rating";
+import { addToCart } from "../../shared/util/addCart";
 
 export default function CategoryItem(props) {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -21,8 +22,8 @@ export default function CategoryItem(props) {
   useEffect(() => {
     if (currentUser) {
       dbService
-        .collection('users')
-        .where('userId', '==', currentUser.uid)
+        .collection("users")
+        .where("userId", "==", currentUser.uid)
         .limit(1)
         .get()
         .then((data) => {
@@ -47,6 +48,10 @@ export default function CategoryItem(props) {
     setLoginModalOpen(false);
   };
 
+  const openLoginModal = () => {
+    setLoginModalOpen(true);
+  };
+
   const ratingSubmitHandler = (comment) => {
     addComment(
       props.id,
@@ -60,7 +65,15 @@ export default function CategoryItem(props) {
   };
 
   const onAuthRedirect = (e) => {
-    history.push('/auth');
+    history.push("/auth");
+  };
+
+  const addCartHandler = () => {
+    if (!currentUser) {
+      openLoginModal();
+    } else {
+      addToCart(currentUser.uid, props);
+    }
   };
 
   return (
@@ -73,7 +86,7 @@ export default function CategoryItem(props) {
           id={props.id}
         >
           <Rating
-            name='simple-controlled'
+            name="simple-controlled"
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
@@ -85,37 +98,37 @@ export default function CategoryItem(props) {
       <Modal
         open={loginModalOpen}
         close={closeLoginModal}
-        header='로그인이 필요합니다'
-        mainClass='rating__main'
+        header="로그인이 필요합니다"
+        mainClass="rating__main"
         footer={<button onClick={onAuthRedirect}>confirm</button>}
       >
-        {'로그인 페이지로 이동하시겠습니까?'}
+        {"로그인 페이지로 이동하시겠습니까?"}
       </Modal>
-      <li className='category_card'>
-        <div className='img_wrap'>
-          <img src={props.image} className='product_image' alt='productImg' />
+      <li className="category_card">
+        <div className="img_wrap">
+          <img src={props.image} className="product_image" alt="productImg" />
         </div>
-        <div className='product_content'>
-          <div className='product_content-header'>
-            <div className='span'>
-              <div className='rating'>
-                <Rating name='read-only' value={props.avgRating} readOnly />
+        <div className="product_content">
+          <div className="product_content-header">
+            <div className="span">
+              <div className="rating">
+                <Rating name="read-only" value={props.avgRating} readOnly />
               </div>
             </div>
-            <p className='product_review' onClick={openRatingModal}>
+            <p className="product_review" onClick={openRatingModal}>
               별점주기({props.reviewCount})
             </p>
           </div>
-          <h3 className='product_name'>
+          <h3 className="product_name">
             {props.name.length > 10
               ? `${props.name.slice(0, 11)}..`
               : props.name}
           </h3>
 
-          <p className='product_price'>
-            {props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+          <p className="product_price">
+            {props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
           </p>
-          <button className='category-cart_btn'>
+          <button className="category-cart_btn" onClick={addCartHandler}>
             <span>ADD TO CART</span>
           </button>
         </div>
