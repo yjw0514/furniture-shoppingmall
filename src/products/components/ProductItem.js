@@ -3,15 +3,26 @@ import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import { dbService } from "../../firebase";
 import Modal from "../../shared/UIElement/Modal";
+import Rating from "@material-ui/lab/Rating";
 import "./ProductItem.css";
 import { addToCart } from "../../shared/util/addCart";
+import CommentList from "../../users/pages/CommentList";
+import { addComment } from "../../shared/util/rating";
 
 export default function ProductItem(props) {
-  // const classes = useStyles();
-
+  const [ratingModalOpen, setRatingModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [value, setValue] = useState(0);
   const { currentUser } = useAuth();
   const history = useHistory();
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [user, setUser] = useState();
+
+  const openRatingModal = () => {
+    if (!currentUser) {
+      return setLoginModalOpen(true);
+    }
+    setRatingModalOpen(true);
+  };
 
   const openLoginModal = () => {
     setLoginModalOpen(true);
@@ -19,6 +30,22 @@ export default function ProductItem(props) {
 
   const closeLoginModal = () => {
     setLoginModalOpen(false);
+  };
+
+  const closeRatingModal = () => {
+    setRatingModalOpen(false);
+  };
+
+  const ratingSubmitHandler = (comment) => {
+    addComment(
+      props.id,
+      props.name,
+      user.nickName,
+      value,
+      comment,
+      user.imageUrl
+    );
+    setRatingModalOpen(false);
   };
 
   const addCartHandler = () => {
@@ -31,6 +58,23 @@ export default function ProductItem(props) {
 
   return (
     <>
+      {ratingModalOpen && (
+        <CommentList
+          open={ratingModalOpen}
+          handleClose={closeRatingModal}
+          onReviewSubmit={ratingSubmitHandler}
+          id={props.id}
+        >
+          <Rating
+            name="simple-controlled"
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+          />
+        </CommentList>
+      )}
+
       <Modal
         open={loginModalOpen}
         close={closeLoginModal}
@@ -44,8 +88,21 @@ export default function ProductItem(props) {
           <img src={props.image} className="product_image" alt="product" />
         </div>
         <div className="product_content">
-          <p className="product_category">{props.category}</p>
-          <h3 className="product_name">{props.name}</h3>
+          <div className="product_content-header">
+            <div className="span">
+              <div className="rating">
+                <Rating name="read-only" value={props.avgRating} readOnly />
+              </div>
+            </div>
+            <p className="product_review" onClick={openRatingModal}>
+              별점주기({props.reviewCount})
+            </p>
+          </div>
+          <h3 className="product_name">
+            {props.name.length > 10
+              ? `${props.name.slice(0, 11)}..`
+              : props.name}
+          </h3>
           <p className="product_price">
             {props.price
               .toString()
