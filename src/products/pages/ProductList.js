@@ -11,6 +11,9 @@ export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [popularProducts, setPopularProducts] = useState([]);
+  // const [x, setX] = useState(0);
+  const [latest, setLatest] = useState(0);
+  const [popular, setPopular] = useState(0);
 
   const handleClick = () => {
     console.log("ddd");
@@ -50,16 +53,29 @@ export default function ProductList() {
       });
   }, []);
 
-  const sliderArr = products;
-  const [x, setX] = useState(0);
-
-  const prevSlide = () => {
-    x === 0 ? setX(0) : setX(x + 10);
+  const latestArr = products;
+  const popularArr = popularProducts;
+  let showNumber = 0;
+  if (window.innerWidth < 1200) {
+    showNumber = 3;
+  } else {
+    showNumber = 4;
+  }
+  const prevSlideLatest = () => {
+    latest === 0 ? setLatest(0) : setLatest(latest + 10);
   };
-  const nextSlide = () => {
-    x === -10 * (sliderArr.length - (sliderArr.length - 6))
-      ? setX(-10 * (sliderArr.length - (sliderArr.length - 6)))
-      : setX(x - 10);
+  const nextSlideLatest = () => {
+    latest === -10 * (latestArr.length - showNumber)
+      ? setLatest(-10 * (latestArr.length - showNumber))
+      : setLatest(latest - 10);
+  };
+  const prevSlidePopular = () => {
+    popular === 0 ? setPopular(0) : setPopular(popular + 10);
+  };
+  const nextSlidePopular = () => {
+    popular === -10 * (popularArr.length - showNumber)
+      ? setPopular(-10 * (popularArr.length - showNumber))
+      : setPopular(popular - 10);
   };
 
   return (
@@ -77,7 +93,7 @@ export default function ProductList() {
           <div className="productlist_wrap">
             <ul
               className="productlist"
-              style={{ transform: `translateX(${x}%)` }}
+              style={{ transform: `translateX(${latest}%)` }}
             >
               {products.map((product) => (
                 <ProductItem
@@ -94,10 +110,10 @@ export default function ProductList() {
               ))}
             </ul>
           </div>
-          <button className="slide_left" onClick={prevSlide}>
+          <button className="slide_left" onClick={prevSlideLatest}>
             <FaAngleLeft />
           </button>
-          <button className="slide_right" onClick={nextSlide}>
+          <button className="slide_right" onClick={nextSlideLatest}>
             <FaAngleRight />
           </button>
         </section>
@@ -112,7 +128,7 @@ export default function ProductList() {
           <div className="productlist_wrap">
             <ul
               className="productlist"
-              style={{ transform: `translateX(${x}%)` }}
+              style={{ transform: `translateX(${popular}%)` }}
             >
               {popularProducts.map((product) => (
                 <ProductItem
@@ -129,10 +145,10 @@ export default function ProductList() {
               ))}
             </ul>
           </div>
-          <button className="slide_left" onClick={prevSlide}>
+          <button className="slide_left" onClick={prevSlidePopular}>
             <FaAngleLeft />
           </button>
-          <button className="slide_right" onClick={nextSlide}>
+          <button className="slide_right" onClick={nextSlidePopular}>
             <FaAngleRight />
           </button>
         </section>

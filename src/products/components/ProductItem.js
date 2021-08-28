@@ -8,6 +8,7 @@ import "./ProductItem.css";
 import { addToCart } from "../../shared/util/addCart";
 import CommentList from "../../users/pages/CommentList";
 import { addComment } from "../../shared/util/rating";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 
 export default function ProductItem(props) {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -98,11 +99,7 @@ export default function ProductItem(props) {
               별점주기({props.reviewCount})
             </p>
           </div>
-          <h3 className="product_name">
-            {props.name.length > 10
-              ? `${props.name.slice(0, 11)}..`
-              : props.name}
-          </h3>
+          <h3 className="product_name">{props.name}</h3>
           <p className="product_price">
             {props.price
               .toString()
@@ -112,6 +109,13 @@ export default function ProductItem(props) {
           <button className="cart_btn" onClick={addCartHandler}>
             <span>ADD TO CART</span>
           </button>
+          <div className="basket_icon_btn">
+            <ShoppingBasketIcon
+              className="basket_icon"
+              onClick={addCartHandler}
+              style={{ fontSize: "28px" }}
+            />
+          </div>
         </div>
       </li>
     </>
