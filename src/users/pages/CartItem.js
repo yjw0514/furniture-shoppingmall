@@ -77,7 +77,7 @@ export default function CartItem(props) {
   return (
     <>
       <tr>
-        <td>
+        <td className="cart_td">
           <input
             type="checkbox"
             name="checkbox"
@@ -88,13 +88,13 @@ export default function CartItem(props) {
             checked={props.checkItems.includes(props.id) ? true : false}
           />
         </td>
-        <td>
+        <td className="cart_td">
           <img src={props.image} className="cart_img" alt="cart-product" />
         </td>
-        <td>
+        <td className="cart_td">
           <p className="cart_name">{props.name}</p>
         </td>
-        <td>
+        <td className="cart_td">
           <button className="minus" onClick={minusHnadler}>
             –
           </button>
@@ -103,13 +103,13 @@ export default function CartItem(props) {
             +
           </button>
         </td>
-        <td>
+        <td className="cart_td">
           ₩
           {(props.price * props.quantity)
             .toString()
             .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
         </td>
-        <td>
+        <td className="cart_td">
           {/* <button className="deleteBtn" onClick={deleteHandler}>
             <span>×</span>
           </button> */}

@@ -1,26 +1,30 @@
-th > input,
-td > input {
+.cart_th > input,
+.cart_td > input {
   cursor: pointer;
 }
 
-td {
+.cart_td {
   height: 100px;
   border-bottom: 1px solid rgb(221, 221, 221);
   padding: 20px 10px;
   text-align: center;
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-th:nth-child(1),
-td:nth-child(1) {
+.cart_td > input {
+  width: 14px;
+  height: 14px;
+}
+
+.cart_th:nth-child(1),
+.cart_td:nth-child(1) {
   text-align: left;
 }
 
 .cart_img {
   width: 160px;
   height: 100px;
-  /* object-fit: contain; */
   margin-right: 20px;
 }
 
@@ -61,3 +65,18 @@ td:nth-child(1) {
   font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
 } */
+
+@media screen and (max-width: 1024px) {
+  .cart_td {
+    font-size: 14px;
+  }
+
+  .cart_img {
+    width: 160px;
+    height: 120px;
+    margin-right: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+}

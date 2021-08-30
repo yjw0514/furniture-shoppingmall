@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { dbService } from '../../firebase';
-import { Button } from '@material-ui/core';
-import Modal from '../../shared/UIElement/Modal';
-import { Link } from 'react-router-dom';
+import { dbService } from "../../firebase";
+import { Button } from "@material-ui/core";
+import Modal from "../../shared/UIElement/Modal";
+import { Link } from "react-router-dom";
 
 export default function AdminProductItem(props) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -14,10 +14,10 @@ export default function AdminProductItem(props) {
 
   const onProductDelte = () => {
     dbService
-      .collection('product')
+      .collection("product")
       .doc(props.id)
       .delete()
-      .then(() => console.log('delete successfully'));
+      .then(() => console.log("delete successfully"));
     setDeleteModalOpen(false);
   };
   return (
@@ -25,25 +25,25 @@ export default function AdminProductItem(props) {
       <Modal
         open={deleteModalOpen}
         close={closeDeleteModal}
-        header='정말 삭제하시겠습니까?'
-        mainClass='rating__main'
+        header="정말 삭제하시겠습니까?"
+        mainClass="rating__main"
         footer={<button onClick={onProductDelte}>삭제</button>}
       />
       <tr>
         <td>
-          <img src={props.imageUrl} className='cart_img' alt='img' />
+          <img src={props.imageUrl} className="img" alt="img" />
         </td>
         <td>
-          <p className='cart_name'>{props.name}</p>
+          <p className="name">{props.name}</p>
         </td>
         <td>
-          <p className='category'>{props.category}</p>
+          <p className="category">{props.category}</p>
         </td>
-        <td>₩{props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+        <td>₩{props.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         <td>
           <Button
-            variant='contained'
-            color='secondary'
+            variant="contained"
+            color="secondary"
             onClick={(e) => {
               setDeleteModalOpen(true);
             }}
@@ -53,7 +53,7 @@ export default function AdminProductItem(props) {
         </td>
         <td>
           <Link to={`/admin/edit/${props.id}`}>
-            <Button variant='contained' color='primary'>
+            <Button variant="contained" color="primary">
               수정
             </Button>
           </Link>
