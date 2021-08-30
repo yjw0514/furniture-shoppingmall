@@ -103,7 +103,7 @@
   color: white;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   .product_card {
     width: 10%;
     height: 400px;
@@ -137,5 +137,31 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 768px) {
+  .product_card {
+    width: 10%;
+    height: 360px;
+  }
+
+  .product_content-header {
+    height: 16px;
+  }
+
+  .product_review {
+    font-size: 12px;
+  }
+
+  .product_name {
+    margin-top: 4px;
+  }
+
+  .product_name,
+  .product_price {
+    font-size: 14px;
+  }
+
+  .basket_icon_btn {
+    display: block;
+    font-size: 12px;
+  }
 }

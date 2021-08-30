@@ -22,7 +22,6 @@
 .latest,
 .popular {
   width: 100%;
-  max-width: 1200px;
   height: atuo;
   padding: 40px;
   position: relative;
@@ -54,6 +53,7 @@
 /* slide btn */
 .slide_left,
 .slide_right {
+  display: block;
   width: 36px;
   height: 36px;
   font-size: 30px;
@@ -84,15 +84,36 @@
   color: white;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
+  .latest,
+  .popular {
+    max-width: 1000px;
+  }
+
   .title {
     font-size: 26px;
   }
 
   .productlist {
-    width: 330%;
+    width: 360%;
+  }
+
+  .productlist_wrap {
+    overflow-x: scroll;
+  }
+
+  .slide_left,
+  .slide_right {
+    display: none;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .productlist {
+    width: 700%;
+  }
 }

@@ -55,26 +55,26 @@ export default function ProductList() {
 
   const latestArr = products;
   const popularArr = popularProducts;
-  let showNumber = 0;
-  if (window.innerWidth < 1200) {
-    showNumber = 3;
-  } else {
-    showNumber = 4;
-  }
+  // let showNumber = 0;
+  // if (window.innerWidth < 1200) {
+  //   showNumber = 3;
+  // } else {
+  //   showNumber = 4;
+  // }
   const prevSlideLatest = () => {
     latest === 0 ? setLatest(0) : setLatest(latest + 10);
   };
   const nextSlideLatest = () => {
-    latest === -10 * (latestArr.length - showNumber)
-      ? setLatest(-10 * (latestArr.length - showNumber))
+    latest === -10 * (latestArr.length - 4)
+      ? setLatest(-10 * (latestArr.length - 4))
       : setLatest(latest - 10);
   };
   const prevSlidePopular = () => {
     popular === 0 ? setPopular(0) : setPopular(popular + 10);
   };
   const nextSlidePopular = () => {
-    popular === -10 * (popularArr.length - showNumber)
-      ? setPopular(-10 * (popularArr.length - showNumber))
+    popular === -10 * (popularArr.length - 4)
+      ? setPopular(-10 * (popularArr.length - 4))
       : setPopular(popular - 10);
   };
 
