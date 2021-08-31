@@ -6,19 +6,20 @@
 
 .shopping_cart_wrap {
   width: 100%;
+  /* padding: 0 60px; */
 }
 
 .shopping_cart {
   width: 200%;
   max-width: 1200px;
-  margin-top: 5rem;
+  margin-top: 10rem;
 }
 
 .shopping_cart > h2 {
   font-size: 28px;
   font-weight: 800;
   color: rgb(51, 51, 51);
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 
 table {
@@ -141,7 +142,7 @@ table {
 
   .shopping_cart > h2 {
     font-size: 26px;
-    margin-bottom: 70px;
+    margin-bottom: 80px;
   }
 
   .cart_th {
@@ -172,6 +173,5 @@ table {
 @media screen and (max-width: 768px) {
   .shopping_cart {
     min-width: 1000px;
-    margin-bottom: 40px;
   }
 }

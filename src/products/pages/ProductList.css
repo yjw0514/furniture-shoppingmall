@@ -21,6 +21,7 @@
 
 .latest,
 .popular {
+  margin-top: 30px;
   width: 100%;
   height: atuo;
   padding: 40px;

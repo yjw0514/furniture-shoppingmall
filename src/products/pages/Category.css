@@ -83,3 +83,34 @@
   padding: 10px;
   flex-wrap: wrap;
 }
+
+.selectInput {
+  display: none;
+}
+
+/* responsive */
+
+@media screen and (max-width: 1260px) {
+  .category-list {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .category__list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .category__title {
+    margin-bottom: 30px;
+  }
+  .selectInput {
+    display: block;
+    position: absolute;
+    right: 20px;
+    margin-top: 10px;
+  }
+  .category__list {
+    display: none;
+  }
+}

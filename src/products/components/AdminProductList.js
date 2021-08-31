@@ -22,7 +22,8 @@ export default function AdminProductList({
       <Container maxWidth="lg">
         <section className="admin__product">
           <h2>제품목록</h2>
-          <table className="cart_table" style={{ height: "400px" }}>
+
+          <table className="" style={{ height: "400px" }}>
             {/* table title */}
             <thead>
               <tr>
