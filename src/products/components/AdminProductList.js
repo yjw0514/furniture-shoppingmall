@@ -1,10 +1,8 @@
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import '../../users/pages/ShoppingCart.css';
-import { Pagination } from '@material-ui/lab';
-import AdminProductItem from './AdminProductItem';
-
-import './AdminProductList.css';
+import React from "react";
+import Container from "@material-ui/core/Container";
+import { Pagination } from "@material-ui/lab";
+import AdminProductItem from "./AdminProductItem";
+import "./AdminProductList.css";
 
 export default function AdminProductList({
   loading,
@@ -21,10 +19,11 @@ export default function AdminProductList({
   };
   return (
     <div>
-      <Container maxWidth='lg'>
-        <section className='admin__product'>
+      <Container maxWidth="lg">
+        <section className="admin__product">
           <h2>제품목록</h2>
-          <table className='' style={{ height: '400px' }}>
+
+          <table className="" style={{ height: "400px" }}>
             {/* table title */}
             <thead>
               <tr>
@@ -51,11 +50,11 @@ export default function AdminProductList({
             </tbody>
           </table>
           {/* page */}
-          <div className='paging' style={{ width: '100%', marginTop: '40px' }}>
+          <div className="paging" style={{ width: "100%", marginTop: "40px" }}>
             <Pagination
               count={count}
-              variant='outlined'
-              color='primary'
+              variant="outlined"
+              color="primary"
               onChange={onPageChange}
             />
           </div>

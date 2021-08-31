@@ -4,16 +4,22 @@
   box-sizing: border-box;
 }
 
-.shopping_cart {
+.shopping_cart_wrap {
   width: 100%;
-  margin-top: 5rem;
+  /* padding: 0 60px; */
+}
+
+.shopping_cart {
+  width: 200%;
+  max-width: 1200px;
+  margin-top: 10rem;
 }
 
 .shopping_cart > h2 {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 800;
   color: rgb(51, 51, 51);
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 }
 
 table {
@@ -22,53 +28,57 @@ table {
   padding: 4px;
 }
 
-th {
+.cart_table thead th:nth-child(1) {
+  width: 10%;
+}
+
+.cart_table thead th:nth-child(2) {
+  width: 20%;
+}
+
+.cart_table thead th:nth-child(3) {
+  width: 20%;
+}
+
+.cart_table thead th:nth-child(4) {
+  width: 20%;
+}
+
+.cart_table thead th:nth-child(5) {
+  width: 20%;
+}
+.cart_table thead th:nth-child(6) {
+  width: 10%;
+}
+
+.cart_th {
   padding: 0 10px 10px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 20px;
   color: rgb(100, 100, 100);
   border-bottom: 1px solid rgb(221, 221, 221);
   vertical-align: middle;
 }
 
-th > input,
-td > input {
+.cart_th:last-child {
+  font-size: 18px;
+}
+
+.cart_th > input,
+.cart_td > input {
   cursor: pointer;
 }
 
-.checkboxAll > label {
+.cart_table .checkboxAll > input {
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}
+
+.cart_table .cart_th > label {
   padding-left: 10px;
-  font-size: 12px;
+  font-size: 18px;
   vertical-align: top;
-}
-
-th:last-child {
-  font-size: 12px;
-}
-
-thead th:nth-child(1) {
-  width: 10%;
-}
-
-thead th:nth-child(2) {
-  width: 20%;
-}
-
-thead th:nth-child(3) {
-  width: 20%;
-}
-
-thead th:nth-child(4) {
-  width: 20%;
-}
-
-thead th:nth-child(6) {
-  width: 10%;
-}
-
-th:nth-child(1),
-td:nth-child(1) {
-  text-align: left;
 }
 
 /* Total button */
@@ -95,7 +105,7 @@ td:nth-child(1) {
 }
 
 .total_inner > p {
-  font-size: 15px;
+  font-size: 18px;
   color: rgb(90, 90, 90);
   font-weight: 600;
 }
@@ -123,4 +133,45 @@ td:nth-child(1) {
   border: 1px solid rgb(150, 183, 108);
   background-color: rgba(150, 183, 108);
   color: white;
+}
+
+@media screen and (max-width: 1024px) {
+  .shopping_cart_wrap {
+    overflow-x: scroll;
+  }
+
+  .shopping_cart > h2 {
+    font-size: 26px;
+    margin-bottom: 80px;
+  }
+
+  .cart_th {
+    padding: 0 10px 10px;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgb(100, 100, 100);
+    border-bottom: 1px solid rgb(221, 221, 221);
+    vertical-align: middle;
+  }
+
+  .cart_table .cart_th > label {
+    padding-left: 10px;
+    font-size: 16px;
+    vertical-align: top;
+  }
+
+  .cart_th:last-child {
+    font-size: 16px;
+  }
+
+  /* Total button */
+
+  .total_inner > p {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .shopping_cart {
+    min-width: 1000px;
+  }
 }

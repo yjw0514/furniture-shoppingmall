@@ -19,67 +19,63 @@
   object-position: center;
 }
 
-.latest {
+.latest,
+.popular {
   margin-top: 30px;
   width: 100%;
   height: atuo;
-  padding: 10px;
+  padding: 40px;
   position: relative;
+  margin: 0 auto;
 }
 
 .title {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 800;
   padding-left: 10px;
   margin-bottom: 20px;
   color: rgb(51, 51, 51);
 }
 
 .productlist_wrap {
-  width: 100%;
+  width: calc(100% - 10px);
   height: auto;
   overflow: hidden;
 }
 
 .productlist {
-  width: 200%;
+  width: 250%;
   display: flex;
   align-items: center;
   padding: 10px;
-  transition: all 300ms ease-out;
+  transition: all 400ms ease-out;
 }
 
 /* slide btn */
-.slide_left {
-  position: absolute;
-  left: -20px;
-  top: 50%;
-  width: 40px;
-  height: 40px;
+.slide_left,
+.slide_right {
+  display: block;
+  width: 36px;
+  height: 36px;
   font-size: 30px;
   border: 1px solid rgb(221, 221, 221);
   border-radius: 50%;
   background-color: rgb(221, 221, 221);
   color: rgb(115, 116, 114);
-  transition: all 200ms ease-in;
   cursor: pointer;
-  padding: 4px;
+  padding: 2px;
+}
+
+.slide_left {
+  position: absolute;
+  left: 0;
+  top: 50%;
 }
 
 .slide_right {
   position: absolute;
-  right: -30px;
+  right: 0;
   top: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 30px;
-  border: 1px solid rgb(221, 221, 221);
-  border-radius: 50%;
-  background-color: rgb(221, 221, 221);
-  color: rgb(115, 116, 114);
-  transition: all 200ms ease-in;
-  cursor: pointer;
-  padding: 4px;
 }
 
 .slide_left:hover,
@@ -87,4 +83,38 @@
   border: 1px solid rgb(150, 183, 108);
   background-color: rgba(150, 183, 108);
   color: white;
+}
+
+@media screen and (max-width: 1024px) {
+  .latest,
+  .popular {
+    max-width: 1000px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .productlist {
+    width: 360%;
+  }
+
+  .productlist_wrap {
+    overflow-x: scroll;
+  }
+
+  .slide_left,
+  .slide_right {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .productlist {
+    width: 700%;
+  }
 }

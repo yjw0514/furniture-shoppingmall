@@ -90,13 +90,13 @@ td:nth-child(1) {
   text-align: left;
 }
 
-.cart_img {
+.img {
   width: 160px;
   height: 100px;
   /* object-fit: contain; */
   margin-right: 20px;
 }
 
-.cart_name {
+.name {
   font-weight: 600;
 }

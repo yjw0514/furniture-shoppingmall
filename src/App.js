@@ -1,8 +1,16 @@
-import './App.css';
-import AppRouter from './router/AppRouter';
+import "./App.css";
+import AppRouter from "./router/AppRouter";
+// import {ThemeProvider, createTheme} from '@material-ui/core/styles'
+
+// const theme = createTheme({
+//   typography: {
+//     fontFamily: 'Gowun Dodum'
+//   }
+// })
+
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <AppRouter />
     </div>
   );
