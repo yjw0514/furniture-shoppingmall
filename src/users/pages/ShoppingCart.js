@@ -148,7 +148,10 @@ export default function ShoppingCart() {
                       id="checkAll"
                       onChange={(e) => checkAllHandler(e.target.checked)}
                       checked={
-                        checkItems.length === cartProducts.length ? true : false
+                        checkItems.length > 0 &&
+                        checkItems.length === cartProducts.length
+                          ? true
+                          : false
                       }
                     />
                     <label htmlFor="checkAll">선택</label>
