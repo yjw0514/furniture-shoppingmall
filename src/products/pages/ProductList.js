@@ -146,6 +146,7 @@ export default function ProductList() {
                   category={product.category}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
+                  addComment={onSubmitComment}
                 />
               ))}
             </ul>

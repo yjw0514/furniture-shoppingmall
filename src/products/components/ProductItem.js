@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
-import { dbService } from '../../firebase';
 import Modal from '../../shared/UIElement/Modal';
 import Rating from '@material-ui/lab/Rating';
 import './ProductItem.css';
 import { addToCart } from '../../shared/util/addCart';
 import CommentList from '../../users/pages/CommentList';
-import { addComment } from '../../shared/util/rating';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import SnackBar from '../../shared/UIElement/SnackBar';
 
