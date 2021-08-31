@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
 import Modal from '../../shared/UIElement/Modal';
 import Rating from '@material-ui/lab/Rating';
 import './ProductItem.css';
 import { addToCart } from '../../shared/util/addCart';
 import CommentList from '../../users/pages/CommentList';
+import { addComment } from '../../shared/util/rating';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import SnackBar from '../../shared/UIElement/SnackBar';
 
 export default function ProductItem(props) {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -14,6 +17,15 @@ export default function ProductItem(props) {
   const [value, setValue] = useState(0);
   const { currentUser } = useAuth();
   const history = useHistory();
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   const openRatingModal = () => {
     if (!currentUser) {
@@ -43,7 +55,8 @@ export default function ProductItem(props) {
     if (!currentUser) {
       openLoginModal();
     } else {
-      addToCart(currentUser.uid, props);
+      addToCart(currentUser.uid, props, handleClick);
+      handleClick();
     }
   };
 
@@ -108,6 +121,9 @@ export default function ProductItem(props) {
           </div>
         </div>
       </li>
+      <SnackBar open={open} close={handleClose}>
+        장바구니에 담겼습니다.
+      </SnackBar>
     </>
   );
 }

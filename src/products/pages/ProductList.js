@@ -6,14 +6,12 @@ import Container from '@material-ui/core/Container';
 import './ProductList.css';
 import { FaAngleLeft } from 'react-icons/fa';
 import { FaAngleRight } from 'react-icons/fa';
-import SnackBar from '../../shared/UIElement/SnackBar';
 import Slider from '../../shared/UIElement/slider/Slider';
 import { useAuth } from '../../context/auth-context';
 import { addComment } from '../../shared/util/rating';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState(false);
   const [popularProducts, setPopularProducts] = useState([]);
   const [latest, setLatest] = useState(0);
   const [popular, setPopular] = useState(0);
@@ -33,14 +31,6 @@ export default function ProductList() {
         .catch((err) => console.log(err));
     }
   }, [currentUser]);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     console.log('useeffect productlist');
@@ -105,11 +95,9 @@ export default function ProductList() {
   return (
     <div style={{ position: 'relative' }}>
       <Slider />
+
       <Container maxWidth='lg'>
         <section className='latest'>
-          <SnackBar open={open} close={handleClose}>
-            장바구니에 담겼습니다.
-          </SnackBar>
           <h2 className='title'>Latest Products</h2>
           <div className='productlist_wrap'>
             <ul
@@ -124,7 +112,6 @@ export default function ProductList() {
                   price={product.price}
                   image={product.imageUrl}
                   category={product.category}
-                  handleClick={handleClick}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
                   addComment={onSubmitComment}
@@ -143,9 +130,6 @@ export default function ProductList() {
 
       <Container maxWidth='lg'>
         <section className='popular'>
-          <SnackBar open={open} close={handleClose}>
-            장바구니에 담겼습니다.
-          </SnackBar>
           <h2 className='title'>Popular Products</h2>
           <div className='productlist_wrap'>
             <ul
@@ -160,7 +144,6 @@ export default function ProductList() {
                   price={product.price}
                   image={product.imageUrl}
                   category={product.category}
-                  handleClick={handleClick}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
                 />

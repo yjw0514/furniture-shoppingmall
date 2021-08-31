@@ -12,7 +12,6 @@ import {
 import { FaBed, FaChair, FaAddressCard } from 'react-icons/fa';
 import { GiDesk, GiSofa } from 'react-icons/gi';
 import '../pages/Category.css';
-import SnackBar from '../../shared/UIElement/SnackBar';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
 import { addComment } from '../../shared/util/rating';
@@ -220,9 +219,6 @@ export default function CategoryList(props) {
 
         {props.filterProducts.length > 0 ? (
           <ul className='category-list'>
-            <SnackBar open={open} close={handleClose}>
-              장바구니에 담겼습니다.
-            </SnackBar>
             {props.filterProducts &&
               props.filterProducts.map((product) => (
                 <CategoryItem
