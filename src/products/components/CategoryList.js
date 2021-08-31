@@ -12,7 +12,6 @@ import {
 import { FaBed, FaChair, FaAddressCard } from "react-icons/fa";
 import { GiDesk, GiSofa } from "react-icons/gi";
 import "../pages/Category.css";
-import SnackBar from "../../shared/UIElement/SnackBar";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -22,17 +21,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CategoryList(props) {
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    // console.log("ddd");
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    setOpen(false);
-  };
-
   const classes = useStyles();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -190,9 +178,6 @@ export default function CategoryList(props) {
 
         {props.filterProducts.length > 0 ? (
           <ul className="category-list">
-            <SnackBar open={open} close={handleClose}>
-              장바구니에 담겼습니다.
-            </SnackBar>
             {props.filterProducts &&
               props.filterProducts.map((product) => (
                 <CategoryItem
@@ -204,7 +189,6 @@ export default function CategoryList(props) {
                   category={product.category}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
-                  handleClick={handleClick}
                 />
               ))}
           </ul>

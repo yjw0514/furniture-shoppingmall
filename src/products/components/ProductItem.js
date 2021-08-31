@@ -9,6 +9,7 @@ import { addToCart } from "../../shared/util/addCart";
 import CommentList from "../../users/pages/CommentList";
 import { addComment } from "../../shared/util/rating";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import SnackBar from "../../shared/UIElement/SnackBar";
 
 export default function ProductItem(props) {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -17,6 +18,15 @@ export default function ProductItem(props) {
   const { currentUser } = useAuth();
   const history = useHistory();
   const [user, setUser] = useState();
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   const openRatingModal = () => {
     if (!currentUser) {
@@ -53,7 +63,8 @@ export default function ProductItem(props) {
     if (!currentUser) {
       openLoginModal();
     } else {
-      addToCart(currentUser.uid, props);
+      addToCart(currentUser.uid, props, handleClick);
+      handleClick();
     }
   };
 
@@ -118,6 +129,9 @@ export default function ProductItem(props) {
           </div>
         </div>
       </li>
+      <SnackBar open={open} close={handleClose}>
+        장바구니에 담겼습니다.
+      </SnackBar>
     </>
   );
 }

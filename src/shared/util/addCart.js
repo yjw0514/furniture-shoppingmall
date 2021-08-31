@@ -1,6 +1,6 @@
 import { dbService } from "../../firebase";
 
-export function addToCart(userId, props) {
+export function addToCart(userId, props, handleClick) {
   const newProduct = {
     productId: props.id,
     productName: props.name,
@@ -38,7 +38,7 @@ export function addToCart(userId, props) {
           }
         })
         .then((result) => {
-          props.handleClick();
+          handleClick();
         })
         .catch((err) => console.log(err));
     }
