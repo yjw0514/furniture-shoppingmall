@@ -7,6 +7,7 @@ import './ProductList.css';
 import { FaAngleLeft } from 'react-icons/fa';
 import { FaAngleRight } from 'react-icons/fa';
 import SnackBar from '../../shared/UIElement/SnackBar';
+import Slider from '../../shared/UIElement/slider/Slider';
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -49,10 +50,10 @@ export default function ProductList() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <section className='hero'>
+      {/* <section className='hero'>
         <img src='image/main.jpg' alt='main' />
-      </section>
-
+      </section> */}
+      <Slider />
       <Container maxWidth='lg'>
         <section className='latest'>
           <SnackBar open={open} close={handleClose}>

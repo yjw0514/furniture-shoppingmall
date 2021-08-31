@@ -23,15 +23,11 @@ export default function DropdownMenu() {
     setAnchorEl(null);
   };
   return (
-    <div>
+    <>
       <Button
-        aria-controls='simple-menu'
-        aria-haspopup='true'
         onClick={handleClick}
         style={
-          location.pathname === '/users/profile'
-            ? { paddingTop: '11px', color: 'dodgerblue' }
-            : { paddingTop: '11px' }
+          location.pathname === '/users/profile' ? { color: 'dodgerblue' } : {}
         }
       >
         마이페이지
@@ -51,6 +47,6 @@ export default function DropdownMenu() {
         </Link>
         <MenuItem onClick={logoutHandler}>Logout</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }

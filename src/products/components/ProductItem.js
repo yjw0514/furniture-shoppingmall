@@ -20,7 +20,6 @@ export default function ProductItem(props) {
   };
 
   const addCartHandler = () => {
-    console.log('d');
     if (!currentUser) {
       openModal();
     } else {

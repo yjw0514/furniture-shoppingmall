@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './AdminDrawer.css';
 
@@ -26,9 +26,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AdminDrawer() {
-  const location = useLocation();
-  const currentUrl = location.pathname;
+export default function AdminDrawer({ navToggle }) {
+  // const location = useLocation();
+  // const currentUrl = location.pathname;
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -36,12 +36,6 @@ export default function AdminDrawer() {
     bottom: false,
     right: false,
   });
-
-  const isAdminUrl = (currentUrl) => {
-    if (currentUrl.split('/')[1] === 'admin') {
-      return true;
-    }
-  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -93,19 +87,17 @@ export default function AdminDrawer() {
   );
 
   return (
-    <div>
+    <>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button
             onClick={toggleDrawer(anchor, true)}
             style={
-              isAdminUrl(currentUrl)
+              navToggle
                 ? {
-                    paddingTop: '10px',
-                    marginLeft: '30px',
-                    color: 'dodgerblue',
+                    marginLeft: '0',
                   }
-                : { paddingTop: '10px', marginLeft: '30px' }
+                : { marginLeft: '10px' }
             }
           >
             관리자
@@ -119,6 +111,6 @@ export default function AdminDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </>
   );
 }

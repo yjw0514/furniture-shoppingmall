@@ -29,37 +29,37 @@ export default function ShoppingCart() {
     cartRef
       .get()
       .then((doc) => {
-        let newProducts = [];
-        newProducts = doc.data().products.filter((el) => {
-          return !checkItems.includes(el.productId);
-        });
+        if (!doc.exists || doc.data().products.length === 0) {
+          return console.log('cant checkout');
+        } else {
+          let newProducts = [];
+          newProducts = doc.data().products.filter((el) => {
+            return !checkItems.includes(el.productId);
+          });
 
-        cartRef.update({ products: newProducts });
+          cartRef.update({ products: newProducts });
 
-        const items = doc.data().products.filter((el) => {
-          return checkItems.includes(el.productId);
-        }); //구매한 상품
+          const items = doc.data().products.filter((el) => {
+            return checkItems.includes(el.productId);
+          }); //구매한 상품
 
-        let itemsWithDate = [
-          { products: [...items], date: new Date().toISOString() },
-        ];
-        return itemsWithDate;
-        // setBuyItems({ ...items, date: new Date() });
-      })
-      .then((itemsWithDate) => {
-        buyRef.get().then((doc) => {
-          if (doc.exists) {
-            let buyProducts = [];
-            buyProducts = doc.data().itemsWithDate;
-            itemsWithDate.forEach((el) => buyProducts.push(el));
-            // buyProducts.push(itemsWithDate);
-            buyRef.update({ itemsWithDate: buyProducts });
-          } else {
-            buyRef.set({
-              itemsWithDate,
-            });
-          }
-        });
+          let itemsWithDate = [
+            { products: [...items], date: new Date().toISOString() },
+          ];
+          buyRef.get().then((doc) => {
+            if (doc.exists) {
+              let buyProducts = [];
+              buyProducts = doc.data().itemsWithDate;
+              itemsWithDate.forEach((el) => buyProducts.push(el));
+              // buyProducts.push(itemsWithDate);
+              buyRef.update({ itemsWithDate: buyProducts });
+            } else {
+              buyRef.set({
+                itemsWithDate,
+              });
+            }
+          });
+        }
       })
       .catch((err) => console.error(err));
   };
