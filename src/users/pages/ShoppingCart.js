@@ -4,13 +4,19 @@ import Container from "@material-ui/core/Container";
 import { useAuth } from "../../context/auth-context";
 import { dbService } from "../../firebase";
 import CartItem from "./CartItem";
+import { Pagination } from "@material-ui/lab";
+import { useSliceProducts } from "../../shared/hooks/UseSliceProducts";
 
 export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
   const { currentUser } = useAuth();
   const [checkItems, setCheckItems] = useState([]);
   const [total, setTotal] = useState(0);
-
+  const { setCurrentPage, currentProducts, count } = useSliceProducts(
+    4,
+    cartProducts
+  );
+  console.log(currentProducts);
   const cartRef = dbService.collection("cart").doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
@@ -59,7 +65,6 @@ export default function ShoppingCart() {
               let buyProducts = [];
               buyProducts = doc.data().itemsWithDate;
               itemsWithDate.forEach((el) => buyProducts.push(el));
-              // buyProducts.push(itemsWithDate);
               buyRef.update({ itemsWithDate: buyProducts });
             } else {
               buyRef.set({
@@ -76,132 +81,131 @@ export default function ShoppingCart() {
     if (checked) {
       setCheckItems([...checkItems, id]);
 
-      cartRef.get().then((doc) => {
-        let cartProducts = doc.data().products;
-        const sameIndex = cartProducts.findIndex((el) => el.productId === id);
-        cartProducts[sameIndex].isChecked = true;
-        cartRef.update({ products: cartProducts });
-        // let total = 0;
-        // cartProducts.forEach((el, i) => {
-        //   if (cartProducts[i].isChecked === true) {
-        //     total += cartProducts[i].price * cartProducts[i].quantity;
-        //   }
-        // });
-        // setTotal(total);
-        calcTotal(cartProducts);
-      });
+      const sameIndex = cartProducts.findIndex((el) => el.productId === id);
+      cartProducts[sameIndex].isChecked = true;
+      cartRef.update({ products: cartProducts });
+      calcTotal(cartProducts);
     } else {
-      // 체크 해제
       setCheckItems(checkItems.filter((el) => el !== id));
-      cartRef.get().then((doc) => {
-        let cartProducts = doc.data().products;
-        const sameIndex = cartProducts.findIndex((el) => el.productId === id);
-        cartProducts[sameIndex].isChecked = false;
-        cartRef.update({ products: cartProducts });
 
-        calcTotal(cartProducts);
-      });
+      const sameIndex = cartProducts.findIndex((el) => el.productId === id);
+      cartProducts[sameIndex].isChecked = false;
+      cartRef.update({ products: cartProducts });
+
+      calcTotal(cartProducts);
     }
   };
 
   const checkAllHandler = (checked) => {
     if (checked) {
       const idArray = [];
-      cartProducts.forEach((el, id) => {
+      currentProducts.forEach((el, id) => {
         idArray.push(el.productId);
       });
-      cartRef.get().then((doc) => {
-        let cartProducts = doc.data().products;
-        cartProducts.forEach((el) => (el.isChecked = true));
-        cartRef.update({ products: cartProducts });
+      console.log(idArray);
 
-        calcTotal(cartProducts);
-      });
+      cartProducts.forEach((el) => (el.isChecked = false));
+      for (let i = 0; i < idArray.length; i++) {
+        let id = cartProducts.findIndex((obj) => obj.productId === idArray[i]);
+        cartProducts[id].isChecked = true;
+      }
+
+      cartRef.update({ products: cartProducts });
+
+      calcTotal(cartProducts);
 
       setCheckItems(idArray);
     } else {
       setCheckItems([]);
-      cartRef.get().then((doc) => {
-        let cartProducts = doc.data().products;
-        cartProducts.forEach((el) => (el.isChecked = false));
-        cartRef.update({ products: cartProducts });
+      cartProducts.forEach((el) => (el.isChecked = false));
+      cartRef.update({ products: cartProducts });
 
-        calcTotal(cartProducts);
-      });
+      calcTotal(cartProducts);
     }
+  };
+
+  const onPageChange = (e, number) => {
+    setCurrentPage(number);
   };
 
   return (
     <div>
       <Container maxWidth="lg">
-        <div className="shopping_cart_wrap">
-          <section className="shopping_cart">
-            <h2>Your Shopping Bag</h2>
-            <table className="cart_table">
-              {/* table title */}
-              <thead>
-                <tr>
-                  <th className="checkboxAll cart_th">
-                    <input
-                      type="checkbox"
-                      name="checkboxAll"
-                      id="checkAll"
-                      onChange={(e) => checkAllHandler(e.target.checked)}
-                      checked={
-                        checkItems.length > 0 &&
-                        checkItems.length === cartProducts.length
-                          ? true
-                          : false
-                      }
-                    />
-                    <label htmlFor="checkAll">선택</label>
-                  </th>
-                  <th className="cart_th">Item</th>
-                  <th className="cart_th"></th>
-                  <th className="cart_th">Quantity</th>
-                  <th className="cart_th">Price</th>
-                  <th className="cart_th">삭제</th>
-                </tr>
-              </thead>
-              {/* table content */}
-              <tbody>
-                {cartProducts &&
-                  cartProducts.map((product, index) => (
-                    <CartItem
-                      key={product.productId}
-                      id={product.productId}
-                      name={product.productName}
-                      price={product.price}
-                      image={product.image}
-                      quantity={product.quantity}
-                      index={index}
-                      checkItems={checkItems}
-                      setCheckItems={setCheckItems}
-                      handleSingleCheck={handleSingleCheck}
-                      total={total}
-                      setTotal={setTotal}
-                    />
-                  ))}
-              </tbody>
-            </table>
-            {/* total */}
-            <div className="checkout">
-              <div className="total">
-                <div className="total_inner">
-                  <p>Total :</p>
-                  <p>
-                    ₩{" "}
-                    {total
-                      .toString()
-                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
-                  </p>
-                </div>
-                <button className="total_btn" onClick={checkoutHandler}>
-                  <span>Secure Checkout</span>
-                </button>
+        <section className="shopping_cart">
+          <h2>Your Shopping Bag</h2>
+          <table className="cart_table">
+            {/* table title */}
+            <thead>
+              <tr>
+                <th className="checkboxAll cart_th">
+                  <input
+                    type="checkbox"
+                    name="checkboxAll"
+                    id="checkAll"
+                    onChange={(e) => checkAllHandler(e.target.checked)}
+                    checked={
+                      checkItems.length > 0 &&
+                      checkItems.length === currentProducts.length
+                        ? true
+                        : false
+                    }
+                  />
+                  <label htmlFor="checkAll">선택</label>
+                </th>
+                <th className="cart_th">Item</th>
+                <th className="cart_th"></th>
+                <th className="cart_th">Quantity</th>
+                <th className="cart_th">Price</th>
+                <th className="cart_th">삭제</th>
+              </tr>
+            </thead>
+            {/* table content */}
+            <tbody>
+              {currentProducts &&
+                currentProducts.map((product, index) => (
+                  <CartItem
+                    key={product.productId}
+                    id={product.productId}
+                    name={product.productName}
+                    price={product.price}
+                    image={product.image}
+                    quantity={product.quantity}
+                    index={index}
+                    checkItems={checkItems}
+                    setCheckItems={setCheckItems}
+                    handleSingleCheck={handleSingleCheck}
+                    total={total}
+                    setTotal={setTotal}
+                  />
+                ))}
+            </tbody>
+          </table>
+          {/* total */}
+          <div className="checkout">
+            <div className="total">
+              <div className="total_inner">
+                <p>Total :</p>
+                <p>
+                  ₩{" "}
+                  {total
+                    .toString()
+                    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                </p>
               </div>
+              <button className="total_btn" onClick={checkoutHandler}>
+                <span>Secure Checkout</span>
+              </button>
             </div>
-          </section>
+          </div>
+        </section>
+        {/* page */}
+        <div className="paging" style={{ width: "100%", marginTop: "40px" }}>
+          <Pagination
+            count={count}
+            variant="outlined"
+            color="primary"
+            onChange={onPageChange}
+          />
         </div>
       </Container>
     </div>

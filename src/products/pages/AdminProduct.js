@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { dbService } from '../../firebase';
-import AdminProductList from '../components/AdminProductList';
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { dbService } from "../../firebase";
+import AdminProductList from "../components/AdminProductList";
 export default function AdminProduct() {
   const [productList, setProductList] = useState([]);
-  const [limit] = useState(3);
+  const [limit] = useState(3); //한페이지 당 상품갯수
   const [currentPage, setCurrntPage] = useState(1);
 
   useEffect(() => {
-    console.log('useEffect from admin productlist');
+    console.log("useEffect from admin productlist");
     dbService
-      .collection('product')
-      .orderBy('date')
+      .collection("product")
+      .orderBy("date")
       .get()
       .then((docs) => {
         let loadedProducts = [];
