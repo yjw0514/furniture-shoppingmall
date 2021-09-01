@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CategoryList(props) {
-  const [open, setOpen] = useState(false);
   const { currentUser } = useAuth();
   const [user, setUser] = useState();
 
@@ -41,15 +40,6 @@ export default function CategoryList(props) {
         .catch((err) => console.log(err));
     }
   }, [currentUser]);
-
-  const handleClick = () => {
-    // console.log("ddd");
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    setOpen(false);
-  };
 
   const classes = useStyles();
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -230,7 +220,6 @@ export default function CategoryList(props) {
                   category={product.category}
                   avgRating={product.avgRating}
                   reviewCount={product.scoreCount}
-                  handleClick={handleClick}
                   addComment={onSubmitComment}
                 />
               ))}

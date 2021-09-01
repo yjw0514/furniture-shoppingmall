@@ -15,8 +15,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useRef } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Container } from '@material-ui/core';
 
 import './Header.css';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -32,11 +34,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 
+  appbar: {
+    color: '#C5DF56',
+  },
+
   toolBar: {
     transition: 'all 200ms ease',
-    backgroundColor: 'white',
-    paddingLeft: 60,
-    paddingRight: 60,
+    // backgroundColor: 'white',
+    padding: 0,
   },
 
   toolBarOnToggle: {
@@ -48,7 +53,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    marginLeft: 30,
+    marginLeft: 10,
+    paddingTop: 10,
+    alignSelf: 'start',
   },
 
   navLink: {
@@ -70,6 +77,7 @@ export default function Header() {
   const [navbarActive, setNavbarActive] = useState(false);
   const [navToggle, setNavToggle] = useState(false);
   const navbarRef = useRef();
+  const size = useWindowSize();
 
   const headerScrollEvent = useCallback(() => {
     if (navToggle) return;
@@ -119,83 +127,108 @@ export default function Header() {
   return (
     <div className={classes.root}>
       <AppBar
-        className='appbar'
+        // className={classes.appbar}
         position='fixed'
-        style={{
-          color: 'black',
-          backgroundColor: 'white',
-        }}
-        elevation={navbarActive ? 3 : 0}
+        style={
+          navToggle && size.width < 768
+            ? {
+                backgroundColor: '#F2F7F3',
+              }
+            : {
+                color: 'black',
+                backgroundColor: 'white',
+              }
+        }
+        elevation={navbarActive || navToggle ? 3 : 0}
+        // elevation={3}
       >
-        <Toolbar
-          className={
-            navToggle
-              ? `toolBarOnToggle navbar ${classes.toolBar}`
-              : `${classes.toolBar} navbar`
-          }
-          ref={navbarRef}
-          style={
-            navbarActive
-              ? {
-                  padding: '10px 40px 10px',
-                }
-              : null
-          }
-        >
-          <Typography variant='h6' className={classes.title}>
-            <NavLink
-              to='/'
-              className={classes.navLink}
-              style={{
-                fontWeight: 'bold',
-                color: 'rgb(150, 183, 108)',
-                fontSize: '28px',
-              }}
-            >
-              FUTURELIFE
-            </NavLink>
-          </Typography>
-          <div
-            className={navToggle ? `navMenuList navListActive` : 'navMenuList'}
+        <Container maxWidth='lg'>
+          <Toolbar
+            className={
+              navToggle
+                ? `toolBarOnToggle navbar ${classes.toolBar}`
+                : `${classes.toolBar} navbar`
+            }
+            ref={navbarRef}
+            style={
+              navbarActive && size.width > 768
+                ? {
+                    padding: '10px 40px 10px',
+                  }
+                : null
+            }
           >
-            <Button href='/category' className={`${classes.navLink}`}>
-              모든제품
-            </Button>
-
-            {!currentUser && (
-              <Button href='/auth' className={classes.navLink}>
-                로그인
-              </Button>
-            )}
-
-            {currentUser && (
-              <Button href='/users/purchaselist' className={classes.navLink}>
-                구매내역
-              </Button>
-            )}
-
-            {currentUser && (
-              <IconButton
-                aria-label='cart'
-                href='/users/cart'
-                className='cart'
-                style={
-                  navToggle
-                    ? { borderRadius: '0px', marginRight: '10px' }
-                    : { borderRadius: '0px', marginRight: '30px' }
-                }
+            <Typography
+              variant='h6'
+              className={classes.title}
+              style={navbarActive && size.width > 768 ? { paddingTop: 0 } : {}}
+            >
+              <NavLink
+                to='/'
+                className={`${classes.navLink}`}
+                style={{
+                  fontWeight: 'bold',
+                  color: 'rgb(150, 183, 108)',
+                  fontSize: '28px',
+                  marginRight: 0,
+                }}
               >
-                <StyledBadge badgeContent={cartNum} color='secondary'>
-                  <ShoppingCartIcon />
-                </StyledBadge>
-              </IconButton>
-            )}
-            {currentUser && <DropdownMenu />}
-            {currentUser && userRole === 'admin' ? (
-              <AdminDrawer navToggle={navToggle} />
-            ) : null}
-          </div>
-        </Toolbar>
+                FUTURELIFE
+              </NavLink>
+            </Typography>
+            <div
+              className={
+                navToggle ? `navMenuList navListActive` : 'navMenuList'
+              }
+            >
+              <Button href='/category' className={`${classes.navLink}`}>
+                모든제품
+              </Button>
+
+              {!currentUser && (
+                <Button href='/auth' className={classes.navLink}>
+                  로그인
+                </Button>
+              )}
+
+              {currentUser && (
+                <Button href='/users/purchaselist' className={classes.navLink}>
+                  구매내역
+                </Button>
+              )}
+              {currentUser && <DropdownMenu />}
+              {currentUser && (
+                <IconButton
+                  aria-label='cart'
+                  href='/users/cart'
+                  className='cart'
+                  style={
+                    navToggle && size.width < 768
+                      ? {
+                          borderRadius: '50%',
+                          marginLeft: '10px',
+                          position: 'absolute',
+                          top: '9px',
+                          right: '30px',
+                          width: '50px',
+                        }
+                      : {
+                          borderRadius: '50%',
+                          marginLeft: '25px',
+                        }
+                  }
+                >
+                  <StyledBadge badgeContent={cartNum} color='secondary'>
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              )}
+              {currentUser && userRole === 'admin' ? (
+                <AdminDrawer navToggle={navToggle} />
+              ) : null}
+            </div>
+          </Toolbar>
+        </Container>
         <div
           className='menuIcon'
           onClick={() => {

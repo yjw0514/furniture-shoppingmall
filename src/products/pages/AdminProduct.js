@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { dbService } from '../../firebase';
+import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
 import AdminProductList from '../components/AdminProductList';
 export default function AdminProduct() {
   const [productList, setProductList] = useState([]);
-  const [limit] = useState(3);
-  const [currentPage, setCurrntPage] = useState(1);
-
+  const { setCurrentPage, currentProducts, count } = useSliceProducts(
+    6,
+    productList
+  );
   useEffect(() => {
     console.log('useEffect from admin productlist');
     dbService
@@ -16,26 +18,21 @@ export default function AdminProduct() {
       .then((docs) => {
         let loadedProducts = [];
         docs.forEach((doc) => {
-          loadedProducts.push(doc.data());
+          loadedProducts.push({ ...doc.data(), id: doc.id });
         });
-
         setProductList(loadedProducts);
       });
   }, []);
 
-  const setCurrentPage = (number) => {
-    setCurrntPage(number);
+  const onSetCurrentPage = (number) => {
+    setCurrentPage(number);
   };
-
-  const lastIndex = currentPage * limit;
-  const firstIndex = lastIndex - limit;
-  const currentProducts = productList.slice(firstIndex, lastIndex);
 
   return (
     <AdminProductList
       currentProducts={currentProducts}
-      count={Math.ceil(productList.length / limit)}
-      setCurrentPage={setCurrentPage}
+      count={count}
+      setCurrentPage={onSetCurrentPage}
     />
   );
 }

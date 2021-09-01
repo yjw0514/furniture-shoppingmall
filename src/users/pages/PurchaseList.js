@@ -4,10 +4,21 @@ import Container from '@material-ui/core/Container';
 import { dbService } from '../../firebase';
 import { useAuth } from '../../context/auth-context';
 import PurchaseItems from './PurchaseItems';
+import { Pagination } from '@material-ui/lab';
+import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
 
 export default function PurchaseList() {
   const { currentUser } = useAuth();
   const [buyProducts, setBuyProducts] = useState([]);
+  console.log(buyProducts);
+  const { setCurrentPage, currentProducts, count } = useSliceProducts(
+    5,
+    buyProducts
+  );
+
+  const onPageChange = (e, value) => {
+    setCurrentPage(value);
+  };
 
   useEffect(() => {
     console.log('useeffect purchaselist');
@@ -17,11 +28,12 @@ export default function PurchaseList() {
       if (doc.exists) {
         setBuyProducts(doc.data().itemsWithDate);
         // console.log(doc.data().itemsWithDate);
-      } else if (buyProducts.length === 0) {
-        return <div>구매한 상품이 없습니다.</div>;
+      } else {
+        return <div className='buy_blank'>구매한 상품이 없습니다.</div>;
       }
     });
   }, [buyProducts.length, currentUser.uid]);
+
   return (
     <div>
       <Container maxWidth='lg'>
@@ -40,8 +52,8 @@ export default function PurchaseList() {
             </thead>
             {/* table content */}
             <tbody>
-              {buyProducts &&
-                buyProducts.map((buy, index) => (
+              {currentProducts &&
+                currentProducts.map((buy, index) => (
                   <PurchaseItems
                     key={index}
                     date={buy.date}
@@ -51,6 +63,15 @@ export default function PurchaseList() {
             </tbody>
           </table>
         </section>
+        {/* page */}
+        <div className='paging' style={{ width: '100%', marginTop: '40px' }}>
+          <Pagination
+            count={count}
+            variant='outlined'
+            color='primary'
+            onChange={onPageChange}
+          />
+        </div>
       </Container>
     </div>
   );

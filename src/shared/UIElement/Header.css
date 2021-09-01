@@ -22,8 +22,16 @@
     padding-top: 10px;
   }
 
+  .title {
+    justify-content: flex-start;
+  }
+
   .navMenuList {
     display: none;
+  }
+
+  .navLink {
+    margin-top: 10px;
   }
 
   .navMenuList a,
@@ -40,7 +48,8 @@
     background-color: #cee5d0;
   }
   .cart {
-    margin-right: 0;
+    margin-left: 0;
+    position: absolute;
   }
   .admin {
     margin-left: 0;
@@ -51,6 +60,7 @@
     position: absolute;
     right: 20px;
     top: 20px;
+    color: black;
     cursor: pointer;
   }
 
