@@ -9,6 +9,7 @@ export default function AdminProduct() {
     6,
     productList
   );
+
   useEffect(() => {
     console.log('useEffect from admin productlist');
     dbService

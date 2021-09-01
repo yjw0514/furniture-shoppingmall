@@ -7,9 +7,13 @@
   align-items: center;
 }
 
+.navMenuList a {
+  font-weight: 400;
+}
+
 .navMenuList a:hover,
 .navMenuList button:hover {
-  font-weight: 900;
+  font-weight: 600;
   background-color: rgb(179, 200, 150);
 }
 

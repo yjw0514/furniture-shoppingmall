@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap");
 /* @font-face {
   font-family: "Gowun Dodum";
   src: url(./fonts/GowunDodum-Regular.ttf);
 } */
 
 body {
-  font-family: "Gowun Dodum";
+  font-family: "Noto Sans KR", "Gowun Dodum";
 }

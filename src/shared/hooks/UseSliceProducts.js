@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 export function useSliceProducts(initialLimit, originalProduct) {
-  console.log(originalProduct);
   const [limit] = useState(initialLimit);
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * limit;
