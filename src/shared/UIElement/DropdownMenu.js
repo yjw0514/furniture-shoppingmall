@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
 
 export default function DropdownMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const location = useLocation();
   const { logout } = useAuth();
 
   const handleClick = (event) => {
@@ -24,12 +23,7 @@ export default function DropdownMenu() {
   };
   return (
     <>
-      <Button
-        onClick={handleClick}
-        style={
-          location.pathname === '/users/profile' ? { color: 'dodgerblue' } : {}
-        }
-      >
+      <Button onClick={handleClick} className='navLink'>
         마이페이지
       </Button>
       <Menu

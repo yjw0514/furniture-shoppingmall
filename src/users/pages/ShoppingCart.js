@@ -57,9 +57,11 @@ export default function ShoppingCart() {
             return checkItems.includes(el.productId);
           }); //구매한 상품
 
+          items.forEach((el, i) => (items[i].date = new Date().toISOString()));
           let itemsWithDate = [
             { products: [...items], date: new Date().toISOString() },
           ];
+          console.log(items);
           buyRef.get().then((doc) => {
             if (doc.exists) {
               let buyProducts = [];

@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
@@ -14,11 +11,10 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useRef } from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Container } from '@material-ui/core';
 
 import './Header.css';
-import { useWindowSize } from '../hooks/useWindowSize';
+import NavigationDrawer from './NavigationDrawer';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -29,54 +25,13 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-
-  appbar: {
-    color: '#C5DF56',
-  },
-
-  toolBar: {
-    transition: 'all 200ms ease',
-    padding: 0,
-  },
-
-  toolBarOnToggle: {
-    padding: 0,
-  },
-
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    marginLeft: 10,
-    paddingTop: 10,
-    alignSelf: 'start',
-  },
-
-  navLink: {
-    color: 'black',
-    textDecoration: 'none',
-    paddingTop: 3,
-    marginRight: 30,
-  },
-  active: {
-    borderColor: 'black',
-  },
-}));
-
 export default function Header() {
-  const classes = useStyles();
   const { currentUser } = useAuth();
   const [userRole, setUserRole] = useState();
   const [cartNum, setCartNum] = useState(0);
   const [navbarActive, setNavbarActive] = useState(false);
   const [navToggle, setNavToggle] = useState(false);
   const navbarRef = useRef();
-  const size = useWindowSize();
 
   const headerScrollEvent = useCallback(() => {
     if (navToggle) return;
@@ -124,97 +79,47 @@ export default function Header() {
   }, [currentUser]);
 
   return (
-    <div className={classes.root}>
+    <div className='root'>
       <AppBar
-        // className={classes.appbar}
+        className={navbarActive ? 'appbar activeAppbar' : 'appbar'}
         position='fixed'
-        style={
-          navToggle && size.width < 768
-            ? {
-                backgroundColor: '#F2F7F3',
-              }
-            : {
-                color: 'black',
-                backgroundColor: 'white',
-              }
-        }
         elevation={navbarActive || navToggle ? 3 : 0}
-        // elevation={3}
       >
         <Container maxWidth='lg'>
-          <Toolbar
-            className={
-              navToggle
-                ? `toolBarOnToggle navbar ${classes.toolBar}`
-                : `${classes.toolBar} navbar`
-            }
-            ref={navbarRef}
-            style={
-              navbarActive && size.width > 768
-                ? {
-                    padding: '10px 40px 10px',
-                  }
-                : null
-            }
-          >
-            <Typography
-              variant='h6'
-              className={classes.title}
-              style={navbarActive && size.width > 768 ? { paddingTop: 0 } : {}}
+          <Toolbar className='toolbar' ref={navbarRef}>
+            <Button
+              href='/'
+              className={
+                navbarActive ? ' header-title activeHeader' : ' header-title'
+              }
             >
-              <NavLink
-                to='/'
-                className={`${classes.navLink}`}
-                style={{
-                  fontWeight: 'bold',
-                  color: 'rgb(150, 183, 108)',
-                  fontSize: '28px',
-                  marginRight: 0,
-                }}
-              >
-                FUTURELIFE
-              </NavLink>
-            </Typography>
+              FUTURELIFE
+            </Button>
             <div
               className={
                 navToggle ? `navMenuList navListActive` : 'navMenuList'
               }
             >
-              <Button href='/category' className={`${classes.navLink}`}>
+              <Button href='/category' className='navLink'>
                 모든제품
               </Button>
               {!currentUser && (
-                <Button href='/auth' className={classes.navLink}>
+                <Button href='/auth' className='navLink'>
                   로그인
                 </Button>
               )}
 
               {currentUser && (
-                <Button href='/users/purchaselist' className={classes.navLink}>
+                <Button href='/users/purchaselist' className='navLink'>
                   구매내역
                 </Button>
               )}
-              {currentUser && <DropdownMenu />}
+              {currentUser && <DropdownMenu className='navLink' />}
               {currentUser && (
                 <IconButton
                   aria-label='cart'
                   href='/users/cart'
                   className='cart'
-                  style={
-                    navToggle && size.width < 768
-                      ? {
-                          borderRadius: '50%',
-                          marginLeft: '10px',
-                          position: 'absolute',
-                          top: '9px',
-                          right: '30px',
-                          width: '50px',
-                        }
-                      : {
-                          borderRadius: '50%',
-                          marginLeft: '25px',
-                        }
-                  }
                 >
                   <StyledBadge badgeContent={cartNum} color='secondary'>
                     <ShoppingCartIcon />
@@ -233,7 +138,7 @@ export default function Header() {
             setNavToggle((prev) => !prev);
           }}
         >
-          <MenuIcon />
+          <NavigationDrawer />
         </div>
       </AppBar>
     </div>

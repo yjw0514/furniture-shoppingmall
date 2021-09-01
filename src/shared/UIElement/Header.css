@@ -1,3 +1,62 @@
+.root {
+  flex-grow: 1;
+}
+
+.root .appbar {
+  background-color: rgba(197, 223, 86, 0.9);
+  padding: 7px 0 7px;
+  transition: all 300ms ease-in-out;
+}
+
+.root .activeAppbar {
+  background-color: white;
+}
+
+.root .activeAppbar .navLink {
+  color: black;
+}
+
+.root .activeAppbar .activeHeader {
+  color: rgb(106, 153, 44);
+}
+
+.appbar .toolbar {
+  transition: all 300ms ease-in-out;
+  padding-right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.toolBarOnToggle {
+  padding: 0;
+}
+
+.appbar .header-title {
+  font-weight: bold;
+  color: white;
+  font-size: 28px;
+  letter-spacing: 2px;
+  padding-bottom: 3px;
+}
+
+.toolbar .navLink {
+  color: white;
+  text-decoration: none;
+  padding-top: 3px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-right: 30px;
+}
+
+.active {
+  border-color: black;
+}
+
 .menuIcon {
   display: none;
 }
@@ -7,37 +66,21 @@
   align-items: center;
 }
 
-.navMenuList a {
+.navMenuList a:not(:last-child) {
   font-weight: 400;
+  margin-right: 30px;
 }
 
-.navMenuList a:hover,
-.navMenuList button:hover {
+.toolbar a:hover,
+.toolbar button:hover {
+  background-color: transparent;
   font-weight: 600;
-  background-color: rgb(179, 200, 150);
 }
 
 @media screen and (max-width: 768px) {
-  .navbar {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    padding: 0;
-    padding-top: 10px;
-  }
-
-  .title {
-    justify-content: flex-start;
-  }
-
   .navMenuList {
     display: none;
   }
-
-  .navLink {
-    margin-top: 10px;
-  }
-
   .navMenuList a,
   .navMenuList button {
     margin-right: 0;
@@ -47,12 +90,12 @@
 
   .navMenuList a:hover,
   .navMenuList button:hover {
-    /* border: 1px solid red; */
     color: black;
     background-color: #cee5d0;
   }
   .cart {
     margin-left: 0;
+    top: 10px;
     position: absolute;
   }
   .admin {
@@ -63,15 +106,8 @@
     display: block;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 25px;
     color: black;
     cursor: pointer;
-  }
-
-  .navListActive {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    width: 100%;
   }
 }
