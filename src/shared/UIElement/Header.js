@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
   toolBar: {
     transition: 'all 200ms ease',
-    // backgroundColor: 'white',
     padding: 0,
   },
 
@@ -184,7 +183,6 @@ export default function Header() {
               <Button href='/category' className={`${classes.navLink}`}>
                 모든제품
               </Button>
-
               {!currentUser && (
                 <Button href='/auth' className={classes.navLink}>
                   로그인

@@ -4,8 +4,8 @@ import Container from '@material-ui/core/Container';
 import { dbService } from '../../firebase';
 import { useAuth } from '../../context/auth-context';
 import PurchaseItems from './PurchaseItems';
-import { Pagination } from '@material-ui/lab';
 import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
+import { Pagination } from '@material-ui/lab';
 
 export default function PurchaseList() {
   const { currentUser } = useAuth();
@@ -27,7 +27,6 @@ export default function PurchaseList() {
     buyRef.onSnapshot((doc) => {
       if (doc.exists) {
         setBuyProducts(doc.data().itemsWithDate);
-        // console.log(doc.data().itemsWithDate);
       } else {
         return <div className='buy_blank'>구매한 상품이 없습니다.</div>;
       }

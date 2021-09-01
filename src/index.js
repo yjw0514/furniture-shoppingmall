@@ -7,7 +7,7 @@ import "./index.css";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Gowun Dodum",
+    fontFamily: ["Noto Sans KR", "Gowun Dodum"].join(","),
   },
 });
 

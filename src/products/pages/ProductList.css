@@ -21,19 +21,18 @@
 
 .latest,
 .popular {
-  margin-top: 30px;
   width: 100%;
   height: atuo;
-  padding: 40px;
+  padding: 0 40px;
   position: relative;
-  margin: 0 auto;
+  margin: 80px auto 0;
 }
 
 .title {
   font-size: 28px;
-  font-weight: 800;
-  padding-left: 10px;
-  margin-bottom: 20px;
+  font-weight: 600;
+  padding-left: 12px;
+  margin-bottom: 30px;
   color: rgb(51, 51, 51);
 }
 
@@ -49,6 +48,7 @@
   align-items: center;
   padding: 10px;
   transition: all 400ms ease-out;
+  margin-bottom: 20px;
 }
 
 /* slide btn */

@@ -7,7 +7,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
 export default function CartItem(props) {
-  // console.log(props.checkItems);
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
   // console.log(props.price);
