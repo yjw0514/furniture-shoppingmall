@@ -74,6 +74,7 @@ export default function ShoppingCart() {
               });
             }
           });
+          setTotal(0);
         }
       })
       .catch((err) => console.error(err));

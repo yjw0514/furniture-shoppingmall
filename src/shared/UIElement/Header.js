@@ -119,10 +119,10 @@ export default function Header() {
                 <IconButton
                   aria-label='cart'
                   href='/users/cart'
-                  className='cart'
+                  className='cartIcon'
                 >
                   <StyledBadge badgeContent={cartNum} color='secondary'>
-                    <ShoppingCartIcon />
+                    <ShoppingCartIcon className='' />
                   </StyledBadge>
                 </IconButton>
               )}

@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
 import { NavLink } from 'react-router-dom';
@@ -29,6 +30,8 @@ const useStyles = makeStyles({
 });
 
 export default function NavigationDrawer() {
+  const { logout } = useAuth();
+
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -43,6 +46,10 @@ export default function NavigationDrawer() {
       return;
     }
     setState({ ...state, [anchor]: open });
+  };
+
+  const logoutHandler = () => {
+    logout();
   };
 
   const list = (anchor) => (
@@ -79,7 +86,7 @@ export default function NavigationDrawer() {
             <ListItemText primary='모든제품' />
           </ListItem>
         </NavLink>
-        <NavLink to='/admin/products'>
+        <NavLink to='/users/profile'>
           <ListItem button className={classes.listItem}>
             <ListItemIcon>
               <AccountBoxOutlinedIcon />
@@ -87,7 +94,7 @@ export default function NavigationDrawer() {
             <ListItemText primary='마이페이지' />
           </ListItem>
         </NavLink>
-        <NavLink to='/admin/products'>
+        <NavLink to='/users/purchaselist'>
           <ListItem button className={classes.listItem}>
             <ListItemIcon>
               <ListAltOutlinedIcon />
@@ -95,6 +102,12 @@ export default function NavigationDrawer() {
             <ListItemText primary='구매목록' />
           </ListItem>
         </NavLink>
+        <ListItem button className={classes.listItem} onClick={logoutHandler}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary='로그아웃' />
+        </ListItem>
       </List>
     </div>
   );

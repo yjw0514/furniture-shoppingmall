@@ -1,4 +1,3 @@
-import { Button, Card, Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../context/auth-context';
 import { dbService, storage } from '../../firebase';
@@ -62,40 +61,35 @@ export default function Profile() {
   };
 
   return (
-    <div>
+    <section className='profile-wrap'>
       {loading && <CircularProgress />}
       {!loading && user && (
-        <Container maxWidth='md' style={{ height: '80vh' }}>
-          <Card
-            elevation={4}
-            style={{ maxWidth: '500px', marginTop: '150px', padding: '30px' }}
-          >
-            <div className='user-container'>
-              <div className='user__avatar'>
-                <img src={user.imageUrl} alt='userAvatar' />
-              </div>
-              <div className='user-info'>
-                <div className='user-nickName'>
-                  <p>Nickname</p>
-                  <p>{user.nickName}</p>
-                </div>
-                <div className='user-email'>
-                  <p>Email</p>
-                  <p>{user.email}</p>
-                </div>
-              </div>
-            </div>
-            <div className='editBtn'>
-              <Button
-                className='button'
-                variant='contained'
-                color='primary'
+        <div className='user-profile'>
+          <div className='user-image'>
+            <img src={user.imageUrl} alt='userAvatar' />
+          </div>
+          <div className='user-info'>
+            <div className='user-info__header'>
+              <p className='user-email'>{user.email.split('@')[0]}</p>
+              <button
+                className='image__btn'
                 onClick={() => fileInput.current.click()}
               >
-                프로필사진 변경
-              </Button>
+                프로필사진
+              </button>
             </div>
-          </Card>
+            <div className='user-info__products'>
+              <div className='user-purchase__num'>
+                <span>구매목록</span>
+                <span>4</span>
+              </div>
+              <div className='user-cart__num'>
+                <span>장바구니</span>
+                <span>4</span>
+              </div>
+            </div>
+            <p className='user-nickName'>{user.nickName}</p>
+          </div>
           <div className='filebox'>
             <input
               type='file'
@@ -104,8 +98,8 @@ export default function Profile() {
               required
             />
           </div>
-        </Container>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

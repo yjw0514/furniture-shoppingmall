@@ -9,6 +9,7 @@ export default function Category() {
   const [selecteCategory, setSelecteCategory] = useState('All Products');
 
   useEffect(() => {
+    console.log('useEffect category');
     dbService.collection('product').onSnapshot((snapshot) => {
       setLoadedProducts(
         snapshot.docs.map((doc) => {
@@ -58,7 +59,7 @@ export default function Category() {
   const onSearchFilter = (searchTerm) => {
     const newArr = [...loadedProducts];
     const filteredArr = newArr.filter((el) => {
-      return el.name.includes(searchTerm);
+      return el.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
     setFilterProducts(filteredArr);
   };

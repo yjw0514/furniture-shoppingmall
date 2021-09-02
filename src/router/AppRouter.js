@@ -22,31 +22,36 @@ export default function AppRouter() {
     <>
       <Router>
         <AuthProvider>
-          <Header />
-          <Switch>
-            <Route path='/' exact>
-              <ProductList />
-            </Route>
-            <Route path='/category' exact>
-              <Category />
-            </Route>
-            <Route path='/auth'>
-              <Auth />
-            </Route>
-            {/* admin 체크해서 privateRoute 설정해주어야함 */}
-            <PrivateRoute path='/admin/new' component={NewProduct} />
-            <PrivateRoute path='/admin/products' component={AdminProduct} />
-            <PrivateRoute
-              path='/admin/edit/:productId'
-              component={EditProduct}
-            />
-            <Route path='/products/:productId'>
-              <ProductDetail />
-            </Route>
-            <PrivateRoute path='/users/profile' component={Profile} />
-            <PrivateRoute path='/users/cart' component={ShoppingCart} />
-            <PrivateRoute path='/users/purchaselist' component={PurchaseList} />
-          </Switch>
+          <div>
+            <Header />
+            <Switch>
+              <Route path='/' exact>
+                <ProductList />
+              </Route>
+              <Route path='/category' exact>
+                <Category />
+              </Route>
+              <Route path='/auth'>
+                <Auth />
+              </Route>
+              {/* admin 체크해서 privateRoute 설정해주어야함 */}
+              <PrivateRoute path='/admin/new' component={NewProduct} />
+              <PrivateRoute path='/admin/products' component={AdminProduct} />
+              <PrivateRoute
+                path='/admin/edit/:productId'
+                component={EditProduct}
+              />
+              <Route path='/products/:productId'>
+                <ProductDetail />
+              </Route>
+              <PrivateRoute path='/users/profile' component={Profile} />
+              <PrivateRoute path='/users/cart' component={ShoppingCart} />
+              <PrivateRoute
+                path='/users/purchaselist'
+                component={PurchaseList}
+              />
+            </Switch>
+          </div>
           <Footer />
         </AuthProvider>
       </Router>

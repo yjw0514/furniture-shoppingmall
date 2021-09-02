@@ -63,7 +63,7 @@ export default function CategoryList(props) {
   };
 
   return (
-    <Container maxWidth='lg' style={{ marginTop: '6em' }}>
+    <Container maxWidth='lg'>
       <section
         className='category'
         style={props.filterProducts.length > 0 ? null : { height: '150vh' }}
@@ -233,7 +233,9 @@ export default function CategoryList(props) {
                 ))}
             </ul>
           ) : (
-            <h1 className='no-result'>검색결과가 없습니다.</h1>
+            <h1 className='no-result' style={{ height: '100vh' }}>
+              검색결과가 없습니다.
+            </h1>
           )}
         </Container>
       </section>
