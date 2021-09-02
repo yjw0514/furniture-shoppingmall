@@ -162,7 +162,7 @@ export default function ShoppingCart() {
   } else if (!loading && cartProducts.length > 0) {
     content = (
       <div>
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" style={{ position: "relative" }}>
           <section className="shopping_cart">
             <h2>Your Shopping Bag</h2>
             <table className="cart_table">
