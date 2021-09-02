@@ -6,32 +6,27 @@ import { useAuth } from '../../context/auth-context';
 import PurchaseItems from './PurchaseItems';
 import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
 import { Pagination } from '@material-ui/lab';
+import CircularLoading from '../../shared/UIElement/CirularLoading';
+import { useHistory } from 'react-router-dom';
 
 export default function PurchaseList() {
   const { currentUser } = useAuth();
   const [buyProducts, setBuyProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    5,
-    buyProducts.reduce((prev, current) => {
-      return prev.concat(current.products);
-    }, [])
-  );
 
-  console.log(
-    buyProducts.reduce((prev, current) => {
-      return prev.concat(current.products);
-    }, [])
+  const history = useHistory();
+  const { setCurrentPage, currentProducts, count } = useSliceProducts(
+    3,
+    buyProducts
   );
 
   const onPageChange = (e, value) => {
     setCurrentPage(value);
   };
-
+  console.log(buyProducts);
   useEffect(() => {
     console.log('useeffect purchaselist');
     const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
-
     buyRef.onSnapshot((doc) => {
       if (doc.exists) {
         setBuyProducts(doc.data().itemsWithDate);
@@ -42,11 +37,29 @@ export default function PurchaseList() {
     });
   }, [buyProducts.length, currentUser.uid]);
 
-  let content;
+  if (loading) {
+    return <CircularLoading />;
+  }
+  console.log(buyProducts.length);
 
+  let content;
   if (!loading && buyProducts.length === 0) {
-    content = <h1 className='noresult'>없음</h1>;
-  } else {
+    content = (
+      <>
+        <Container maxWidth='lg'>
+          <section className='purchaselist'>
+            <h2>구매내역</h2>
+            <div className='noresult_box'>
+              <h2>구매한 상품이 없습니다.</h2>
+              <button onClick={() => history.push('/category')}>
+                쇼핑하러 가기
+              </button>
+            </div>
+          </section>
+        </Container>
+      </>
+    );
+  } else if (!loading && buyProducts.length > 0) {
     content = (
       <div>
         <Container maxWidth='lg'>
