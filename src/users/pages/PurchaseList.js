@@ -16,9 +16,9 @@ export default function PurchaseList() {
 
   const history = useHistory();
   const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    3,
-    buyProducts.reduce((prev, current) => {
-      return prev.concat(current.products);
+    4,
+    buyProducts.reduce((prev, cur) => {
+      return prev.concat(cur.products);
     }, [])
   );
 
@@ -81,11 +81,7 @@ export default function PurchaseList() {
               <tbody>
                 {currentProducts &&
                   currentProducts.map((product, index) => (
-                    <PurchaseItems
-                      key={index}
-                      date={product.date}
-                      product={product}
-                    />
+                    <PurchaseItems key={index} product={product} />
                   ))}
               </tbody>
             </table>

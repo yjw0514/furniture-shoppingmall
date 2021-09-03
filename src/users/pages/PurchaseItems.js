@@ -2,7 +2,7 @@ import React from 'react';
 import './PurchaseItems.css';
 
 export default function PurchaseItems(props) {
-  const date = props.date.split('T')[0];
+  const date = props.product.date.split('T')[0];
 
   return (
     <>
@@ -19,7 +19,13 @@ export default function PurchaseItems(props) {
           <p className='list_name'>{props.product.productName}</p>
         </td>
         <td className='list_td'>{props.product.quantity}</td>
-        <td className='list_td'>₩ {props.product.price}</td>
+
+        <td className='list_td'>
+          ₩{' '}
+          {props.product.price
+            .toString()
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+        </td>
       </tr>
     </>
   );

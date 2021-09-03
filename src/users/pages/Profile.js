@@ -70,7 +70,8 @@ export default function Profile() {
           </div>
           <div className='user-info'>
             <div className='user-info__header'>
-              <p className='user-email'>{user.email.split('@')[0]}</p>
+              <p className='user-nickName'>{user.nickName}</p>
+
               <button
                 className='image__btn'
                 onClick={() => fileInput.current.click()}
@@ -88,7 +89,7 @@ export default function Profile() {
                 <span>4</span>
               </div>
             </div>
-            <p className='user-nickName'>{user.nickName}</p>
+            <p className='user-email'>{user.email}</p>
           </div>
           <div className='filebox'>
             <input

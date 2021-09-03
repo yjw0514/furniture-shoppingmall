@@ -1,41 +1,43 @@
+import { Container } from '@material-ui/core';
 import React from 'react';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { FaInstagram } from 'react-icons/fa';
+import { FaTwitter } from 'react-icons/fa';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FaYoutube } from 'react-icons/fa';
 import './Footer.css';
 export default function Footer() {
   return (
-    <footer className='footer'>
-      <ul className='footer__icons'>
-        <li className='icon-item'>
-          <AccountCircleOutlinedIcon
-            style={{ fontSize: 50, fontWeight: 'light' }}
-          />
-        </li>
-        <li className='icon-item'>
-          <AccountCircleOutlinedIcon
-            style={{ fontSize: 50, fontWeight: 'light' }}
-          />
-        </li>
-        <li className='icon-item'>
-          <AccountCircleOutlinedIcon
-            style={{ fontSize: 50, fontWeight: 'light' }}
-          />
-        </li>
-        <li className='icon-item'>
-          <AccountCircleOutlinedIcon
-            style={{ fontSize: 50, fontWeight: 'light', color: 'lightgray' }}
-          />
-        </li>
-      </ul>
-      <ul className='footer__menu'>
-        <li className='menu-item'>Home</li>
-        <li className='menu-item'>Services</li>
-        <li className='menu-item'>About</li>
-        <li className='menu-item'>Terms</li>
-        <li className='menu-item'>Privacy Policy</li>
-      </ul>
-      <div className='footer__name'>
-        <p>Company Name c 2018</p>
-      </div>
-    </footer>
+    <>
+      <footer className='footer'>
+        <Container maxWidth='lg'>
+          <div className='footer_inner'>
+            <ul className='footer__icons'>
+              <li className='icon-item'>
+                <FaInstagram className='icon' />
+              </li>
+              <li className='icon-item'>
+                <FaTwitter className='icon' />
+              </li>
+              <li className='icon-item'>
+                <FaFacebookSquare className='icon' />
+              </li>
+              <li className='icon-item'>
+                <FaYoutube className='icon' />
+              </li>
+            </ul>
+            <ul className='footer__menu'>
+              <li className='menu-item'>Home</li>
+              <li className='menu-item'>Services</li>
+              <li className='menu-item'>About</li>
+              <li className='menu-item'>Terms</li>
+              <li className='menu-item'>Privacy Policy</li>
+            </ul>
+            <div className='footer__name'>
+              <p>Company FUTURELIFE c 2021</p>
+            </div>
+          </div>
+        </Container>
+      </footer>
+    </>
   );
 }

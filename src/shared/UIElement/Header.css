@@ -37,15 +37,15 @@
 }
 
 .appbar .header-title {
-  color: rgba(197, 223, 86, 0.8);
-  font-weight: bold;
+  color: rgba(150, 183, 108);
+  font-weight: 600;
   font-size: 28px;
   letter-spacing: 2px;
   padding-top: 0;
 }
 
 .navMenuList .navLink {
-  color: black;
+  color: rgb(72, 72, 72);
   text-decoration: none;
   padding-top: 3px;
   font-size: 16px;
@@ -63,17 +63,27 @@
   align-items: center;
 }
 
-.toolbar a:hover,
-.toolbar button:hover {
+.toolbar .header-title:hover {
   background-color: transparent;
-  font-weight: 600;
+}
+
+.navMenuList .navLink:hover,
+.toolbar .cartIcon:hover {
+  background-color: rgba(172, 199, 137, 0.8);
+  color: white;
 }
 
 .toolbar .cartIcon {
-  color: black;
+  color: rgb(72, 72, 72);
 }
 
 .activeAppbar .toolbar .cartIcon {
+  color: white;
+}
+
+.activeAppbar .navMenuList .navLink:hover,
+.toolbar .cartIcon:hover {
+  background-color: rgba(106, 153, 44, 0.6);
   color: white;
 }
 
