@@ -25,6 +25,7 @@ export default function PurchaseList() {
   const onPageChange = (e, value) => {
     setCurrentPage(value);
   };
+
   useEffect(() => {
     console.log('useeffect purchaselist');
     const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
@@ -41,7 +42,6 @@ export default function PurchaseList() {
   if (loading) {
     return <CircularLoading />;
   }
-  console.log(currentProducts);
 
   let content;
   if (!loading && buyProducts.length === 0) {

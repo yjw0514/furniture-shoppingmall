@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { dbService } from '../../firebase';
 import './Category.css';
 import CategoryList from '../components/CategoryList';
+import CircularLoading from '../../shared/UIElement/CirularLoading';
 
 export default function Category() {
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selecteCategory, setSelecteCategory] = useState('All Products');
 
   useEffect(() => {
@@ -21,8 +23,13 @@ export default function Category() {
           return { id: doc.id, ...doc.data() };
         })
       );
+      setLoading(false);
     });
   }, []);
+
+  if (loading) {
+    return <CircularLoading />;
+  }
 
   const productFilter = (filter) => {
     if (filter === 'desc') {
@@ -63,6 +70,10 @@ export default function Category() {
     });
     setFilterProducts(filteredArr);
   };
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <CategoryList

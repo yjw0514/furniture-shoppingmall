@@ -3,6 +3,7 @@ import './PurchaseItems.css';
 
 export default function PurchaseItems(props) {
   const date = props.product.date.split('T')[0];
+
   return (
     <>
       <tr>
@@ -18,6 +19,7 @@ export default function PurchaseItems(props) {
           <p className='list_name'>{props.product.productName}</p>
         </td>
         <td className='list_td'>{props.product.quantity}</td>
+
         <td className='list_td'>
           ₩{' '}
           {props.product.price

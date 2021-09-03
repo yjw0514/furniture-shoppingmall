@@ -4,16 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import { NavLink } from 'react-router-dom';
 
 import './AdminDrawer.css';
+import { useAuth } from '../../context/auth-context';
 
 const useStyles = makeStyles({
   list: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 export default function AdminDrawer({ navToggle }) {
   // const location = useLocation();
   // const currentUrl = location.pathname;
+  const { logout } = useAuth();
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -71,17 +72,19 @@ export default function AdminDrawer({ navToggle }) {
             <ListItemText primary='상품관리' />
           </ListItem>
         </NavLink>
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
+        <button
+          className='logout'
+          onClick={() => {
+            logout();
+          }}
+        >
+          <ListItem button className={classes.listItem}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary='로그아웃' />
           </ListItem>
-        ))}
+        </button>
       </List>
     </div>
   );
@@ -90,16 +93,7 @@ export default function AdminDrawer({ navToggle }) {
     <>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button
-            onClick={toggleDrawer(anchor, true)}
-            style={
-              navToggle
-                ? {
-                    marginLeft: '0',
-                  }
-                : { marginLeft: '10px' }
-            }
-          >
+          <Button onClick={toggleDrawer(anchor, true)} className='navLink'>
             관리자
           </Button>
           <Drawer

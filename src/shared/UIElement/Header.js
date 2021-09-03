@@ -109,13 +109,15 @@ export default function Header() {
                 </Button>
               )}
 
-              {currentUser && (
+              {currentUser && userRole !== 'admin' ? (
                 <Button href='/users/purchaselist' className='navLink'>
                   구매내역
                 </Button>
-              )}
-              {currentUser && <DropdownMenu className='navLink' />}
-              {currentUser && (
+              ) : null}
+              {currentUser && userRole !== 'admin' ? (
+                <DropdownMenu className='navLink' />
+              ) : null}
+              {currentUser && userRole !== 'admin' ? (
                 <IconButton
                   aria-label='cart'
                   href='/users/cart'
@@ -125,9 +127,9 @@ export default function Header() {
                     <ShoppingCartIcon className='' />
                   </StyledBadge>
                 </IconButton>
-              )}
+              ) : null}
               {currentUser && userRole === 'admin' ? (
-                <AdminDrawer navToggle={navToggle} />
+                <AdminDrawer navToggle={navToggle} className='navLink' />
               ) : null}
             </div>
           </Toolbar>

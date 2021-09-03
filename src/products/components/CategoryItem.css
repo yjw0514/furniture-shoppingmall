@@ -69,15 +69,16 @@
 }
 
 .category-cart_btn {
-  width: 65%;
-  height: 45px;
-  padding: 6px 25px;
+  width: 50%;
+  height: 40px;
+  padding: 4px 2px;
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 6px;
   background-color: rgba(0, 0, 0, 0);
   color: rgb(136, 136, 136);
   transition: all 200ms ease-in;
   cursor: pointer;
+  margin-left: 50%;
 }
 
 .category-cart_btn > span {
@@ -89,4 +90,37 @@
   border: 1px solid rgb(150, 183, 108);
   background-color: rgba(150, 183, 108);
   color: white;
+}
+
+.basket_icon_btn {
+  display: none;
+}
+
+.basket_icon {
+  font-size: 100px;
+  margin-left: 85%;
+  cursor: pointer;
+  color: rgb(136, 136, 136);
+}
+
+@media screen and (max-width: 1024px) {
+  .category-cart_btn {
+    display: none;
+  }
+
+  .basket_icon_btn {
+    display: block;
+  }
+
+  .basket_icon:hover {
+    color: rgba(150, 183, 108);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .category_card {
+    width: 180px;
+    height: 380px;
+    /* margin-right: 10px; */
+  }
 }
