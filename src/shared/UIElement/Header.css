@@ -9,7 +9,7 @@
 }
 
 .root .activeAppbar {
-  background-color: rgb(197, 223, 86);
+  background-color: rgb(172, 199, 137);
 }
 
 .root .activeAppbar .navLink {
@@ -37,11 +37,11 @@
 }
 
 .appbar .header-title {
-  color: rgb(106, 153, 44);
+  color: rgba(197, 223, 86, 0.8);
   font-weight: bold;
   font-size: 28px;
   letter-spacing: 2px;
-  padding-bottom: 3px;
+  padding-top: 0;
 }
 
 .navMenuList .navLink {
@@ -109,5 +109,9 @@
     top: 25px;
     color: black;
     cursor: pointer;
+  }
+
+  .activeAppbar .menuIcon {
+    color: white;
   }
 }

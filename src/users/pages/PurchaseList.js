@@ -17,13 +17,15 @@ export default function PurchaseList() {
   const history = useHistory();
   const { setCurrentPage, currentProducts, count } = useSliceProducts(
     3,
-    buyProducts
+    buyProducts.reduce((prev, current) => {
+      return prev.concat(current.products);
+    }, [])
   );
 
   const onPageChange = (e, value) => {
     setCurrentPage(value);
   };
-  console.log(buyProducts);
+
   useEffect(() => {
     console.log('useeffect purchaselist');
     const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
@@ -40,7 +42,6 @@ export default function PurchaseList() {
   if (loading) {
     return <CircularLoading />;
   }
-  console.log(buyProducts.length);
 
   let content;
   if (!loading && buyProducts.length === 0) {
@@ -79,11 +80,11 @@ export default function PurchaseList() {
               {/* table content */}
               <tbody>
                 {currentProducts &&
-                  currentProducts.map((buy, index) => (
+                  currentProducts.map((product, index) => (
                     <PurchaseItems
                       key={index}
-                      date={buy.date}
-                      products={buy.products}
+                      date={product.date}
+                      product={product}
                     />
                   ))}
               </tbody>

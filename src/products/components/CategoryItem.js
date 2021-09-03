@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-
 import Modal from '../../shared/UIElement/Modal';
 import Rating from '@material-ui/lab/Rating';
-
 import { useAuth } from '../../context/auth-context';
 import { useHistory } from 'react-router-dom';
-import './CategoryItem.css';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import CommentList from '../../users/pages/CommentList';
 import { addToCart } from '../../shared/util/addCart';
-
 import SnackBar from '../../shared/UIElement/SnackBar';
+import './CategoryItem.css';
 
 export default function CategoryItem(props) {
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
@@ -118,6 +116,13 @@ export default function CategoryItem(props) {
           <button className='category-cart_btn' onClick={addCartHandler}>
             <span>ADD TO CART</span>
           </button>
+          <div className='basket_icon_btn'>
+            <ShoppingBasketIcon
+              className='basket_icon'
+              onClick={addCartHandler}
+              style={{ fontSize: '28px' }}
+            />
+          </div>
         </div>
       </li>
       <SnackBar open={open} close={handleClose}>

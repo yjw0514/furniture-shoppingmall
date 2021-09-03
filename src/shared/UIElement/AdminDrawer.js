@@ -90,16 +90,7 @@ export default function AdminDrawer({ navToggle }) {
     <>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button
-            onClick={toggleDrawer(anchor, true)}
-            style={
-              navToggle
-                ? {
-                    marginLeft: '0',
-                  }
-                : { marginLeft: '10px' }
-            }
-          >
+          <Button onClick={toggleDrawer(anchor, true)} className='navLink'>
             관리자
           </Button>
           <Drawer
