@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useSliceProducts(initialLimit, originalProduct) {
   const [limit] = useState(initialLimit);

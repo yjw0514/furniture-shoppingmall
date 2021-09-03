@@ -66,8 +66,7 @@
 
 .toolbar a:hover,
 .toolbar button:hover {
-  background-color: transparent;
-  font-weight: 600;
+  background-color: rgba(172, 199, 137, 0.8);
 }
 
 .toolbar .cartIcon {
@@ -76,6 +75,11 @@
 
 .activeAppbar .toolbar .cartIcon {
   color: white;
+}
+
+.activeAppbar .toolbar a:hover,
+.activeAppbar .toolbar button:hover {
+  background-color: rgba(106, 153, 44, 0.6);
 }
 
 @media screen and (max-width: 768px) {

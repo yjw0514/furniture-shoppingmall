@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "./ShoppingCart.css";
-import Container from "@material-ui/core/Container";
-import { useAuth } from "../../context/auth-context";
-import { dbService } from "../../firebase";
-import CartItem from "./CartItem";
-import { Pagination } from "@material-ui/lab";
-import { useSliceProducts } from "../../shared/hooks/UseSliceProducts";
-import CircularLoading from "../../shared/UIElement/CirularLoading";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import './ShoppingCart.css';
+import Container from '@material-ui/core/Container';
+import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
+import CartItem from './CartItem';
+import { Pagination } from '@material-ui/lab';
+import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
+import CircularLoading from '../../shared/UIElement/CirularLoading';
+import { useHistory } from 'react-router-dom';
 
 export default function ShoppingCart() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -17,15 +17,15 @@ export default function ShoppingCart() {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    3,
+    4,
     cartProducts
   );
 
-  const cartRef = dbService.collection("cart").doc(currentUser.uid);
+  const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
 
   useEffect(() => {
-    const cartRef = dbService.collection("cart").doc(currentUser.uid);
+    const cartRef = dbService.collection('cart').doc(currentUser.uid);
     cartRef.onSnapshot((doc) => {
       if (doc.exists) {
         setCartProducts(doc.data().products);
@@ -66,19 +66,17 @@ export default function ShoppingCart() {
             return checkItems.includes(el.productId);
           }); //구매한 상품
           items.forEach((el, i) => (el.date = new Date().toISOString()));
-          console.log(items);
 
-          items.forEach((el, i) => (items[i].date = new Date().toISOString()));
-          let itemsWithDate = [
-            { products: [...items], date: new Date().toISOString() },
-          ];
-          console.log(items);
+          let itemsWithDate = [{ products: [...items] }];
+
           buyRef.get().then((doc) => {
             if (doc.exists) {
               let buyProducts = [];
+
               buyProducts = doc.data().itemsWithDate;
               itemsWithDate.forEach((el) => buyProducts.push(el));
               buyRef.update({ itemsWithDate: buyProducts });
+              console.log(buyProducts);
             } else {
               buyRef.set({
                 itemsWithDate,
@@ -142,16 +140,20 @@ export default function ShoppingCart() {
     setCurrentPage(number);
   };
 
+  if (currentProducts.length === 0) {
+    setCurrentPage((prev) => prev - 1);
+  }
+
   let content;
   if (!loading && cartProducts.length === 0) {
     content = (
       <>
-        <Container maxWidth="lg">
-          <section className="shopping_cart">
+        <Container maxWidth='lg'>
+          <section className='shopping_cart'>
             <h2>Your Shopping Bag</h2>
-            <div className="noresult_box">
+            <div className='noresult_box'>
               <h2>장바구니가 비어있습니다.</h2>
-              <button onClick={() => history.push("/category")}>
+              <button onClick={() => history.push('/category')}>
                 쇼핑하러 가기
               </button>
             </div>
@@ -162,33 +164,34 @@ export default function ShoppingCart() {
   } else if (!loading && cartProducts.length > 0) {
     content = (
       <div>
-        <Container maxWidth="lg" style={{ position: "relative" }}>
-          <section className="shopping_cart">
+        <Container maxWidth='lg' style={{ position: 'relative' }}>
+          <section className='shopping_cart'>
             <h2>Your Shopping Bag</h2>
-            <table className="cart_table">
+            <table className='cart_table'>
               {/* table title */}
               <thead>
                 <tr>
-                  <th className="checkboxAll cart_th">
+                  <th className='checkboxAll cart_th'>
                     <input
-                      type="checkbox"
-                      name="checkboxAll"
-                      id="checkAll"
+                      type='checkbox'
+                      name='checkboxAll'
+                      id='checkAll'
                       onChange={(e) => checkAllHandler(e.target.checked)}
                       checked={
                         checkItems.length > 0 &&
+                        checkItems.includes(currentProducts[0].productId) &&
                         checkItems.length === currentProducts.length
                           ? true
                           : false
                       }
                     />
-                    <label htmlFor="checkAll">선택</label>
+                    <label htmlFor='checkAll'>선택</label>
                   </th>
-                  <th className="cart_th">Item</th>
-                  <th className="cart_th"></th>
-                  <th className="cart_th">Quantity</th>
-                  <th className="cart_th">Price</th>
-                  <th className="cart_th">삭제</th>
+                  <th className='cart_th'>Item</th>
+                  <th className='cart_th'></th>
+                  <th className='cart_th'>Quantity</th>
+                  <th className='cart_th'>Price</th>
+                  <th className='cart_th'>삭제</th>
                 </tr>
               </thead>
               {/* table content */}
@@ -213,29 +216,29 @@ export default function ShoppingCart() {
               </tbody>
             </table>
             {/* total */}
-            <div className="checkout">
-              <div className="total">
-                <div className="total_inner">
+            <div className='checkout'>
+              <div className='total'>
+                <div className='total_inner'>
                   <p>Total :</p>
                   <p>
-                    ₩{" "}
+                    ₩{' '}
                     {total
                       .toString()
-                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+                      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
                   </p>
                 </div>
-                <button className="total_btn" onClick={checkoutHandler}>
+                <button className='total_btn' onClick={checkoutHandler}>
                   <span>Secure Checkout</span>
                 </button>
               </div>
             </div>
           </section>
           {/* page */}
-          <div className="paging" style={{ width: "100%", marginTop: "40px" }}>
+          <div className='paging' style={{ width: '100%', marginTop: '40px' }}>
             <Pagination
               count={count}
-              variant="outlined"
-              color="primary"
+              variant='outlined'
+              color='primary'
               onChange={onPageChange}
             />
           </div>
