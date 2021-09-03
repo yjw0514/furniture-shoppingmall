@@ -1,16 +1,17 @@
-import React from "react";
-import { useAuth } from "../../context/auth-context";
-import { dbService } from "../../firebase";
-import "./CartItem.css";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
+import React from 'react';
+import { useAuth } from '../../context/auth-context';
+import { dbService } from '../../firebase';
+import './CartItem.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default function CartItem(props) {
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
-  // console.log(props.price);
+
   const deleteHandler = () => {
+    props.updateCurrentProduct(props.id);
     cartRef
       .get()
       .then((doc) => {
@@ -76,10 +77,10 @@ export default function CartItem(props) {
   return (
     <>
       <tr>
-        <td className="cart_td">
+        <td className='cart_td'>
           <input
-            type="checkbox"
-            name="checkbox"
+            type='checkbox'
+            name='checkbox'
             id={props.index}
             onChange={(e) =>
               props.handleSingleCheck(e.target.checked, props.id)
@@ -87,35 +88,35 @@ export default function CartItem(props) {
             checked={props.checkItems.includes(props.id) ? true : false}
           />
         </td>
-        <td className="cart_td">
-          <img src={props.image} className="cart_img" alt="cart-product" />
+        <td className='cart_td'>
+          <img src={props.image} className='cart_img' alt='cart-product' />
         </td>
-        <td className="cart_td">
-          <p className="cart_name">{props.name}</p>
+        <td className='cart_td'>
+          <p className='cart_name'>{props.name}</p>
         </td>
-        <td className="cart_td">
-          <button className="minus" onClick={minusHnadler}>
+        <td className='cart_td'>
+          <button className='minus' onClick={minusHnadler}>
             –
           </button>
           <span>{props.quantity}</span>
-          <button className="plus" onClick={plusHnadler}>
+          <button className='plus' onClick={plusHnadler}>
             +
           </button>
         </td>
-        <td className="cart_td">
+        <td className='cart_td'>
           ₩
           {(props.price * props.quantity)
             .toString()
-            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
+            .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
         </td>
-        <td className="cart_td">
+        <td className='cart_td'>
           {/* <button className="deleteBtn" onClick={deleteHandler}>
             <span>×</span>
           </button> */}
-          <Tooltip title="Delete">
+          <Tooltip title='Delete'>
             <IconButton
-              aria-label="delete"
-              className="deleteBtn"
+              aria-label='delete'
+              className='deleteBtn'
               onClick={deleteHandler}
             >
               <DeleteIcon />

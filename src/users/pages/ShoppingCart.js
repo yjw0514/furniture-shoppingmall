@@ -17,7 +17,7 @@ export default function ShoppingCart() {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    4,
+    2,
     cartProducts
   );
 
@@ -140,9 +140,14 @@ export default function ShoppingCart() {
     setCurrentPage(number);
   };
 
-  if (currentProducts.length === 0) {
-    setCurrentPage((prev) => prev - 1);
-  }
+  const updateCurrentProduct = (productId) => {
+    console.log(currentProducts);
+    currentProducts.filter((el) => el.productId !== productId);
+    console.log(currentProducts.length);
+    if (currentProducts.length === 0) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   let content;
   if (!loading && cartProducts.length === 0) {
@@ -211,6 +216,7 @@ export default function ShoppingCart() {
                       handleSingleCheck={handleSingleCheck}
                       total={total}
                       setTotal={setTotal}
+                      updateCurrentProduct={updateCurrentProduct}
                     />
                   ))}
               </tbody>
