@@ -16,10 +16,8 @@ export default function ShoppingCart() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    2,
-    cartProducts
-  );
+  const { setCurrentPage, currentProducts, setCurrentProducts, count } =
+    useSliceProducts(2, cartProducts);
 
   const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
@@ -35,10 +33,6 @@ export default function ShoppingCart() {
       }
     });
   }, [currentUser.uid]);
-
-  if (loading) {
-    return <CircularLoading />;
-  }
 
   const calcTotal = (products) => {
     let total = 0;
@@ -141,13 +135,14 @@ export default function ShoppingCart() {
   };
 
   const updateCurrentProduct = (productId) => {
-    console.log(currentProducts);
-    currentProducts.filter((el) => el.productId !== productId);
-    console.log(currentProducts.length);
-    if (currentProducts.length === 0) {
-      setCurrentPage((prev) => prev - 1);
-    }
+    setCurrentProducts(
+      currentProducts.filter((el) => el.productId !== productId)
+    );
   };
+
+  if (loading) {
+    return <CircularLoading />;
+  }
 
   let content;
   if (!loading && cartProducts.length === 0) {
