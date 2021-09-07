@@ -1,5 +1,5 @@
 .auth {
-  height: 80vh;
+  height: 800px;
 }
 .auth__container {
   text-align: center;
@@ -23,4 +23,14 @@
   color: dodgerblue;
   cursor: pointer;
   margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .auth {
+    height: 500px;
+  }
+
+  .auth__container {
+    width: 90%;
+  }
 }
