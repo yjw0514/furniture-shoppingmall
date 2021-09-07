@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../context/auth-context';
 import { dbService, storage } from '../../firebase';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 import './Profile.css';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 
 export default function Profile() {
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [user, setUser] = useState();
   const { currentUser } = useAuth();
   const fileInput = useRef();
   const [loading, setLoading] = useState(false);
+  const [cartNum, setCartNum] = useState(0);
+  const [buyNum, setBuyNum] = useState(0);
 
   useEffect(() => {
     if (currentUser) {
@@ -28,13 +28,34 @@ export default function Profile() {
     }
   }, [currentUser]);
 
-  console.log(image);
+  useEffect(() => {
+    const cartRef = dbService.collection('cart').doc(currentUser.uid);
+
+    cartRef.get().then((doc) => {
+      if (doc.exists) {
+        const cartNum = doc.data().products.length;
+        setCartNum(cartNum);
+      }
+    });
+  }, [currentUser.uid]);
+
+  useEffect(() => {
+    const buyRef = dbService.collection('buy').doc(currentUser.uid);
+
+    buyRef.get().then((doc) => {
+      if (doc.exists) {
+        const buyNum = doc.data().itemsWithDate.length;
+        setBuyNum(buyNum);
+      }
+    });
+  }, [currentUser.uid]);
+
   const handleChange = (e) => {
     const image = e.target.files[0];
 
-    if (image) {
-      setImage(image);
-    }
+    // if (image) {
+    //   setImage(image);
+    // }
     setLoading(true);
     const uploadImage = storage.ref(`images/avatar/${image.name}`).put(image);
     uploadImage.on(
@@ -62,7 +83,7 @@ export default function Profile() {
 
   return (
     <section className='profile-wrap'>
-      {loading && <CircularProgress />}
+      {loading && <CircularLoading />}
       {!loading && user && (
         <div className='user-profile'>
           <div className='user-image'>
@@ -76,17 +97,17 @@ export default function Profile() {
                 className='image__btn'
                 onClick={() => fileInput.current.click()}
               >
-                프로필사진
+                사진 변경
               </button>
             </div>
             <div className='user-info__products'>
               <div className='user-purchase__num'>
-                <span>구매목록</span>
-                <span>4</span>
+                <span>구매내역</span>
+                <span>{buyNum}</span>
               </div>
               <div className='user-cart__num'>
                 <span>장바구니</span>
-                <span>4</span>
+                <span>{cartNum}</span>
               </div>
             </div>
             <p className='user-email'>{user.email}</p>

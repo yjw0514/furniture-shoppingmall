@@ -93,7 +93,12 @@ export default function ProductItem(props) {
           <div className='product_content-header'>
             <div className='span'>
               <div className='rating'>
-                <Rating name='read-only' value={props.avgRating} readOnly />
+                <Rating
+                  name='read-only'
+                  value={props.avgRating}
+                  readOnly
+                  size='small'
+                />
               </div>
             </div>
             <p className='product_review' onClick={openRatingModal}>

@@ -6,7 +6,7 @@ import { dbService } from '../../firebase';
 import CartItem from './CartItem';
 import { Pagination } from '@material-ui/lab';
 import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
-import CircularLoading from '../../shared/UIElement/CirularLoading';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 import { useHistory } from 'react-router-dom';
 
 export default function ShoppingCart() {
@@ -20,7 +20,7 @@ export default function ShoppingCart() {
   const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
   const { setCurrentPage, currentProducts, count, setCurrentProducts } =
-    useSliceProducts(2, cartProducts);
+    useSliceProducts(3, cartProducts);
 
   useEffect(() => {
     const cartRef = dbService.collection('cart').doc(currentUser.uid);
@@ -33,10 +33,6 @@ export default function ShoppingCart() {
       }
     });
   }, [currentUser.uid]);
-
-  if (loading) {
-    return <CircularLoading />;
-  }
 
   const calcTotal = (products) => {
     let total = 0;
@@ -144,6 +140,9 @@ export default function ShoppingCart() {
     );
   };
 
+  if (loading) {
+    return <CircularLoading />;
+  }
   let content;
   if (!loading && cartProducts.length === 0) {
     content = (

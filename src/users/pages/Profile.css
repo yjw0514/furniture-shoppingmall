@@ -84,4 +84,17 @@
     flex-direction: column;
     align-items: center;
   }
+  .user-image {
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+
+  .image__btn {
+    word-break: keep-all;
+    height: auto;
+  }
+
+  .user-nickName {
+    font-size: 20px;
+  }
 }

@@ -71,6 +71,7 @@ export default function CategoryList(props) {
         <div className='category__main'>
           <div className='main__img'>
             <img src='image/main.jpg' alt='category-main-img' />
+            <img src='image/main2.jpg' alt='category-main-img' />
           </div>
         </div>
         <ul className='category__list'>

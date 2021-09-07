@@ -9,8 +9,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 export default function CartItem(props) {
   const { currentUser } = useAuth();
   const cartRef = dbService.doc(`/cart/${currentUser.uid}`);
-  // console.log(props.price);
+
   const deleteHandler = () => {
+    props.updateCurrentProduct(props.id);
     cartRef
       .get()
       .then((doc) => {
