@@ -186,7 +186,7 @@ export default function CategoryList(props) {
                   props.productFilter('desc');
                 }}
               >
-                낮은가격순
+                낮은 가격순
               </li>
               <li
                 className='filter-item'
@@ -194,7 +194,7 @@ export default function CategoryList(props) {
                   props.productFilter('asce');
                 }}
               >
-                높은가격순
+                높은 가격순
               </li>
               <li
                 className='filter-item'
@@ -202,7 +202,7 @@ export default function CategoryList(props) {
                   props.productFilter('register');
                 }}
               >
-                최근제품순
+                최근 제품순
               </li>
             </ul>
           </div>

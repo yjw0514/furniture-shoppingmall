@@ -51,7 +51,7 @@ export default function Header() {
     };
   }, [headerScrollEvent]);
 
-  if (currentUser) {
+  if (currentUser && !userRole) {
     dbService
       .collection('users')
       .where('userId', '==', currentUser.uid)
@@ -93,7 +93,7 @@ export default function Header() {
                 navbarActive ? ' header-title activeHeader' : ' header-title'
               }
             >
-              FUTURELIFE
+              FURNITURE
             </Button>
             <div
               className={

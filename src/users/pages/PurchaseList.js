@@ -17,9 +17,7 @@ export default function PurchaseList() {
   const history = useHistory();
   const { setCurrentPage, currentProducts, count } = useSliceProducts(
     4,
-    buyProducts.reduce((prev, cur) => {
-      return prev.concat(cur.products);
-    }, [])
+    buyProducts
   );
 
   const onPageChange = (e, value) => {
@@ -31,7 +29,12 @@ export default function PurchaseList() {
     const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
     buyRef.onSnapshot((doc) => {
       if (doc.exists) {
-        setBuyProducts(doc.data().itemsWithDate);
+        const loadedProducts = doc.data().itemsWithDate;
+        setBuyProducts(
+          loadedProducts.reduce((prev, cur) => {
+            return prev.concat(cur.products);
+          }, [])
+        );
         setLoading(false);
       } else {
         setLoading(false);

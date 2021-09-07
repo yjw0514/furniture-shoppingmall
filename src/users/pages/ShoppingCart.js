@@ -16,13 +16,11 @@ export default function ShoppingCart() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  const { setCurrentPage, currentProducts, count } = useSliceProducts(
-    4,
-    cartProducts
-  );
 
   const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
+  const { setCurrentPage, currentProducts, count, setCurrentProducts } =
+    useSliceProducts(2, cartProducts);
 
   useEffect(() => {
     const cartRef = dbService.collection('cart').doc(currentUser.uid);
@@ -140,9 +138,11 @@ export default function ShoppingCart() {
     setCurrentPage(number);
   };
 
-  if (currentProducts.length === 0) {
-    setCurrentPage((prev) => prev - 1);
-  }
+  const updateCurrentProduct = (productId) => {
+    setCurrentProducts(
+      currentProducts.filter((el) => el.productId !== productId)
+    );
+  };
 
   let content;
   if (!loading && cartProducts.length === 0) {
@@ -211,6 +211,7 @@ export default function ShoppingCart() {
                       handleSingleCheck={handleSingleCheck}
                       total={total}
                       setTotal={setTotal}
+                      updateCurrentProduct={updateCurrentProduct}
                     />
                   ))}
               </tbody>
