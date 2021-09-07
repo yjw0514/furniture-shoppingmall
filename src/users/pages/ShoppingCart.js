@@ -6,7 +6,7 @@ import { dbService } from '../../firebase';
 import CartItem from './CartItem';
 import { Pagination } from '@material-ui/lab';
 import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
-import CircularLoading from '../../shared/UIElement/CirularLoading';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 import { useHistory } from 'react-router-dom';
 
 export default function ShoppingCart() {

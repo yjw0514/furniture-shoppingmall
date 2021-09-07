@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { dbService } from '../../firebase';
 import './Category.css';
 import CategoryList from '../components/CategoryList';
-import CircularLoading from '../../shared/UIElement/CirularLoading';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 
 export default function Category() {
   const [loadedProducts, setLoadedProducts] = useState([]);

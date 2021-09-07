@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../context/auth-context';
 import { dbService, storage } from '../../firebase';
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 import './Profile.css';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 
 export default function Profile() {
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [user, setUser] = useState();
   const { currentUser } = useAuth();
   const fileInput = useRef();
@@ -51,9 +49,9 @@ export default function Profile() {
   const handleChange = (e) => {
     const image = e.target.files[0];
 
-    if (image) {
-      setImage(image);
-    }
+    // if (image) {
+    //   setImage(image);
+    // }
     setLoading(true);
     const uploadImage = storage.ref(`images/avatar/${image.name}`).put(image);
     uploadImage.on(
@@ -81,7 +79,7 @@ export default function Profile() {
 
   return (
     <section className='profile-wrap'>
-      {loading && <CircularProgress />}
+      {loading && <CircularLoading />}
       {!loading && user && (
         <div className='user-profile'>
           <div className='user-image'>
