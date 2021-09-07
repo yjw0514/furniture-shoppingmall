@@ -118,3 +118,18 @@
     width: 700%;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .productlist {
+    width: 1000%;
+  }
+
+  .latest,
+  .popular {
+    width: 100%;
+    height: atuo;
+    padding: 0 10px;
+    position: relative;
+    margin: 80px auto 0;
+  }
+}

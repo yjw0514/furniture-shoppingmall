@@ -7,9 +7,16 @@
   margin-bottom: 60px;
 }
 
-.main__img img {
+.main__img img:first-child {
+  display: block;
   width: 100%;
   height: 700px;
+}
+
+.main__img img:last-child {
+  display: none;
+  width: 100%;
+  height: auto;
 }
 
 .category__list {
@@ -120,11 +127,17 @@
   .category__list {
     display: none;
   }
+  .main__img img:last-child {
+    display: block;
+  }
+  .main__img img:first-child {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .category__title {
-    font-size: 38px;
+    font-size: 30 px;
   }
   .category__list-header {
     margin-top: 0;

@@ -6,7 +6,7 @@ import { useAuth } from '../../context/auth-context';
 import PurchaseItems from './PurchaseItems';
 import { useSliceProducts } from '../../shared/hooks/UseSliceProducts';
 import { Pagination } from '@material-ui/lab';
-import CircularLoading from '../../shared/UIElement/CirularLoading';
+import CircularLoading from '../../shared/UIElement/CircularLoading';
 import { useHistory } from 'react-router-dom';
 
 export default function PurchaseList() {

@@ -173,4 +173,7 @@
     width: 30%;
     height: 360px;
   }
+  .rating {
+    width: 100px;
+  }
 }
