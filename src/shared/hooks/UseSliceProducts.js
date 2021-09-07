@@ -11,7 +11,7 @@ export function useSliceProducts(initialLimit, originalProduct) {
     if (currentProducts.length === 0 && currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
     }
-  }, [currentProducts.length]);
+  }, [currentProducts.length, currentPage]);
 
   useEffect(() => {
     setCurrentProducts(originalProduct.slice(firstIndex, lastIndex));

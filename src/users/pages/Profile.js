@@ -12,6 +12,8 @@ export default function Profile() {
   const { currentUser } = useAuth();
   const fileInput = useRef();
   const [loading, setLoading] = useState(false);
+  const [cartNum, setCartNum] = useState(0);
+  const [buyNum, setBuyNum] = useState(0);
 
   useEffect(() => {
     if (currentUser) {
@@ -28,7 +30,24 @@ export default function Profile() {
     }
   }, [currentUser]);
 
-  console.log(image);
+  useEffect(() => {
+    const cartRef = dbService.collection('cart').doc(currentUser.uid);
+
+    cartRef.get().then((doc) => {
+      const cartNum = doc.data().products.length;
+      setCartNum(cartNum);
+    });
+  }, [currentUser.uid]);
+
+  useEffect(() => {
+    const buyRef = dbService.collection('buy').doc(currentUser.uid);
+
+    buyRef.get().then((doc) => {
+      const buyNum = doc.data().itemsWithDate.length;
+      setBuyNum(buyNum);
+    });
+  }, [currentUser.uid]);
+
   const handleChange = (e) => {
     const image = e.target.files[0];
 
@@ -81,12 +100,12 @@ export default function Profile() {
             </div>
             <div className='user-info__products'>
               <div className='user-purchase__num'>
-                <span>구매목록</span>
-                <span>4</span>
+                <span>구매내역</span>
+                <span>{buyNum}</span>
               </div>
               <div className='user-cart__num'>
                 <span>장바구니</span>
-                <span>4</span>
+                <span>{cartNum}</span>
               </div>
             </div>
             <p className='user-email'>{user.email}</p>

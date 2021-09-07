@@ -17,7 +17,7 @@ export default function ShoppingCart() {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { setCurrentPage, currentProducts, setCurrentProducts, count } =
-    useSliceProducts(2, cartProducts);
+    useSliceProducts(3, cartProducts);
 
   const cartRef = dbService.collection('cart').doc(currentUser.uid);
   const buyRef = dbService.doc(`/buy/${currentUser.uid}`);
