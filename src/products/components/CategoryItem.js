@@ -131,7 +131,7 @@ export default function CategoryItem(props) {
         </div>
       </li>
       <SnackBar open={open} close={handleClose}>
-        장바구니에 담겼습니다.
+        <p style={{ wordBreak: 'keep-all' }}> 장바구니에 담았습니다. </p>
       </SnackBar>
     </>
   );
