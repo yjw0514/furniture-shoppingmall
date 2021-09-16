@@ -13,6 +13,7 @@ import '../pages/Category.css';
 import { useAuth } from '../../context/auth-context';
 import { dbService } from '../../firebase';
 import { addComment } from '../../shared/util/rating';
+import useDebounce from '../../shared/hooks/useDebounce';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -22,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CategoryList(props) {
+  const classes = useStyles();
   const { currentUser } = useAuth();
   const [user, setUser] = useState();
-
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouceValue = useDebounce(searchTerm, 1000);
   useEffect(() => {
     if (currentUser) {
       dbService
@@ -39,12 +43,20 @@ export default function CategoryList(props) {
     }
   }, [currentUser]);
 
-  const classes = useStyles();
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const { onSearchFilter } = props;
+
+  useEffect(() => {
+    if (!debouceValue) {
+      onSearchFilter('initialize');
+    }
+    if (debouceValue) {
+      onSearchFilter(debouceValue);
+    }
+  }, [searchTerm, debouceValue, onSearchFilter]);
+
   const searchTermHandler = (e) => {
     setSearchTerm(e.target.value);
-    props.onSearchFilter(e.target.value);
+    // props.onSearchFilter(e.target.value);
   };
 
   const handleChange = (event) => {

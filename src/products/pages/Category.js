@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { dbService } from '../../firebase';
 import './Category.css';
 import CategoryList from '../components/CategoryList';
@@ -9,6 +9,22 @@ export default function Category() {
   const [filterProducts, setFilterProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selecteCategory, setSelecteCategory] = useState('All');
+
+  const onSearchFilter = useCallback(
+    (searchTerm) => {
+      if (searchTerm === 'initialize') {
+        setFilterProducts(loadedProducts);
+        return;
+      }
+      console.log('searchTerm', searchTerm);
+      const newArr = [...loadedProducts];
+      const filteredArr = newArr.filter((el) => {
+        return el.name.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+      setFilterProducts(filteredArr);
+    },
+    [loadedProducts]
+  );
 
   useEffect(() => {
     console.log('useEffect category');
@@ -61,14 +77,6 @@ export default function Category() {
     setFilterProducts(
       loadedProducts.filter((product) => product.category === name)
     );
-  };
-
-  const onSearchFilter = (searchTerm) => {
-    const newArr = [...loadedProducts];
-    const filteredArr = newArr.filter((el) => {
-      return el.name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setFilterProducts(filteredArr);
   };
 
   if (loading) {
