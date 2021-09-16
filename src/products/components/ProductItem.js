@@ -106,21 +106,23 @@ export default function ProductItem(props) {
             </p>
           </div>
           <h3 className='product_name'>{props.name}</h3>
-          <p className='product_price'>
-            {props.price
-              .toString()
-              .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
-            원
-          </p>
-          <button className='cart_btn' onClick={addCartHandler}>
-            <span>ADD TO CART</span>
-          </button>
-          <div className='basket_icon_btn'>
-            <ShoppingBasketIcon
-              className='basket_icon'
-              onClick={addCartHandler}
-              style={{ fontSize: '28px' }}
-            />
+          <div className='product_content-footer'>
+            <p className='product_price'>
+              {props.price
+                .toString()
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+              원
+            </p>
+            <button className='cart_btn' onClick={addCartHandler}>
+              <span>ADD TO CART</span>
+            </button>
+            <div className='basket_icon_btn'>
+              <ShoppingBasketIcon
+                className='basket_icon'
+                onClick={addCartHandler}
+                style={{ fontSize: '28px' }}
+              />
+            </div>
           </div>
         </div>
       </li>

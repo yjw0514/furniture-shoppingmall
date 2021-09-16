@@ -38,8 +38,17 @@ export default function Slider() {
             className={slideIndex === index + 1 ? 'slide active-anim' : 'slide'}
           >
             <img
+              className='slide_img'
               src={
                 process.env.PUBLIC_URL + `/image/sliderImg/img${index + 1}.jpg`
+              }
+              alt=''
+            />
+            <img
+              className='slide_img-mobile'
+              src={
+                process.env.PUBLIC_URL +
+                `/image/sliderImg/img_m_${index + 1}.jpg`
               }
               alt=''
             />
